@@ -1,0 +1,226 @@
+{
+  "_version": 1,
+  "_description": "Boot-log fault rules, per chipset platform. Edit this file to teach the detector new faults — no code change, no rebuild. Deleting or corrupting this file is safe: the detector falls back to its built-in tables.",
+  "_howto": {
+    "noise": "Regexes for lines that LOOK like errors but print on healthy units. Matched case-insensitively against each log line. Put vendor boot-chatter here.",
+    "faults": "Real hardware faults. First match wins, so order matters — put specific patterns above general ones.",
+    "fields": {
+      "pattern": "Python regex, matched case-insensitively against a single log line.",
+      "name": "Fault name shown in the report.",
+      "confidence": "0-100. The GUI shows >= 75 as CONFIRMED, 50-74 as 'also check', below 50 is counted but hidden.",
+      "severity": "critical | warning. Optional; defaults to critical at >= 90, else warning.",
+      "repair": "Optional list of repair steps shown under the fault."
+    },
+    "platform_keys": "common applies everywhere. qualcomm / mediatek / exynos / unisoc are merged on top when that platform is detected."
+  },
+
+  "common": {
+    "noise": [
+      "avc:\\s*denied",
+      "Could not find.*ISensorManager",
+      "Could not find.*for ctl\\.",
+      "binder:.*send failed reply",
+      "AudioError.*user count",
+      "octvm.*chown.*failed.*Permission",
+      "PVRSRVDeviceOpen.*Driver.*bad state",
+      "tz_vfs.*wait_for_completion",
+      "vdc.*volume.*abort_fuse"
+    ],
+    "faults": [
+      {
+        "pattern": "kernel\\s*panic|Kernel panic",
+        "name": "Kernel Panic",
+        "confidence": 95,
+        "repair": [
+          "Note the panic string — it names the failing subsystem",
+          "If it names a driver, reflash firmware before suspecting hardware",
+          "Repeated panics at the same address suggest RAM or storage"
+        ]
+      },
+      {
+        "pattern": "DRAM.*fail|DDR.*error|DDR_ABORT|NO_MEMORY_DEVICE_DETECTED|memory.*fail",
+        "name": "Memory/RAM Hardware Failure",
+        "confidence": 95,
+        "repair": [
+          "Check DDR rail voltages (VDDQ / VDD2) against the schematic",
+          "Reball or replace the RAM/SoC package if rails are good",
+          "Check for board flex damage near the SoC"
+        ]
+      },
+      {
+        "pattern": "pmic.*over.?current|OCP.*triggered",
+        "name": "PMIC Overcurrent",
+        "confidence": 95,
+        "repair": [
+          "Find the shorted rail with a thermal camera under low-voltage injection",
+          "Check for shorted capacitors on the flagged rail",
+          "Do not power the board at full voltage until the short is cleared"
+        ]
+      },
+      {
+        "pattern": "watchdog.*bite|wdt.*bark|HWT:",
+        "name": "Watchdog Hardware Timeout",
+        "confidence": 90
+      },
+      {
+        "pattern": "thermal.*shutdown|thermal.*critical",
+        "name": "Thermal Shutdown",
+        "confidence": 90,
+        "repair": [
+          "Check for a shorted component drawing excess current",
+          "Verify thermal pads and shield contact were refitted after any prior repair"
+        ]
+      },
+      {
+        "pattern": "UFS.*error|eMMC.*fail|mmc.*error",
+        "name": "Storage Hardware Error",
+        "confidence": 90
+      },
+      {
+        "pattern": "PLL.*lock.*fail|clock.*error",
+        "name": "Clock/PLL Failure",
+        "confidence": 85
+      },
+      {
+        "pattern": "\\[I2C\\].*(?:transfer error|I2C_ACKERR|fails,ret=)",
+        "name": "I2C Bus Error",
+        "confidence": 85,
+        "repair": [
+          "Identify the slave address in the log and trace it to the IC",
+          "Check SDA/SCL pull-ups and the slave's supply rail",
+          "A single dead slave can hang the whole bus"
+        ]
+      },
+      {
+        "pattern": "PD_HW_FAIL|pd_stop_algo.*HW_FAIL",
+        "name": "USB-C PD Hardware Failure",
+        "confidence": 85
+      },
+      {
+        "pattern": "charger.*fail|CHG.*error|charging.*fault",
+        "name": "Charging IC Failure",
+        "confidence": 85
+      },
+      {
+        "pattern": "panel.*fail|dsi.*error|lcm.*error",
+        "name": "Display Hardware Error",
+        "confidence": 80
+      },
+      {
+        "pattern": "modem.*crash|baseband.*fail|ccci.*error",
+        "name": "Modem/Baseband Error",
+        "confidence": 80
+      },
+      {
+        "pattern": "get_ibus.*failed",
+        "name": "Charging Current Read Failure",
+        "confidence": 80
+      },
+      {
+        "pattern": "NVRAM_FAIL|FG_DAEMON_CMD_SET_NVRAM_FAIL",
+        "name": "Battery NVRAM Data Error",
+        "confidence": 75
+      },
+      {
+        "pattern": "fg_error_calibration",
+        "name": "Fuel Gauge Calibration Error",
+        "confidence": 75
+      },
+      {
+        "pattern": "camera.*fail|cci.*error|sensor.*probe.*fail",
+        "name": "Camera Hardware Error",
+        "confidence": 75
+      },
+      {
+        "pattern": "SBC.*cert verify.*fail|PART.*cert chain.*fail",
+        "name": "Secure Boot Cert Failure",
+        "confidence": 70
+      },
+      {
+        "pattern": "SEC_POLICY.*reached the end",
+        "name": "Security Policy Error",
+        "confidence": 60
+      }
+    ]
+  },
+
+  "qualcomm": {
+    "noise": [
+      "Error Locate.*MiToken",
+      "Error Locate.*Protocol",
+      "GetDebugPolicyFlag",
+      "Error Get DebugPolicy",
+      "readDebugPolicy.*ScmSipSysCall",
+      "Could not get splash memory region",
+      "Unable to get FpSensor Config",
+      "Unable to read display cmdline",
+      "Vibrator protocol locating failed",
+      "SDC2 node not found in the IORT",
+      "Aborting Host Mode.*due to dead batt",
+      "BrightnessLevelControl.*Unsupported",
+      "VBRwDevice failed with",
+      "RWDeviceState: read_req err"
+    ],
+    "faults": [
+      {
+        "pattern": "FAULT\\s+UVLO|UVLO.*fault|under.voltage.lock",
+        "name": "Battery UVLO (Under-Voltage Lock-Out)",
+        "confidence": 95,
+        "repair": [
+          "Charge in fastboot mode (Vol-Down + Power) for 45-60 min — a booting phone burns more than the charger supplies",
+          "Replace the battery if old or swollen",
+          "Check battery connector pins for corrosion",
+          "Check the charging IC and PMIC power path"
+        ]
+      },
+      {
+        "pattern": "PL fatal error",
+        "name": "Preloader Fatal Error",
+        "confidence": 90
+      }
+    ]
+  },
+
+  "mediatek": {
+    "noise": [
+      "\\[PLFM\\].*not support",
+      "no ETB device",
+      "md_type.*not found"
+    ],
+    "faults": [
+      {
+        "pattern": "PL fatal error",
+        "name": "Preloader Fatal Error",
+        "confidence": 90
+      },
+      {
+        "pattern": "EMI.*calibration.*fail|emi_init.*fail",
+        "name": "EMI/DRAM Calibration Failure",
+        "confidence": 90,
+        "repair": [
+          "Reball or replace the DRAM package",
+          "Check DDR rails before assuming the die is bad"
+        ]
+      },
+      {
+        "pattern": "PMIC.*not.*found|pwrap.*init.*fail",
+        "name": "PMIC Communication Failure",
+        "confidence": 92,
+        "repair": [
+          "Check PWRAP/SPI lines between SoC and PMIC",
+          "Verify PMIC supply and the 32kHz clock"
+        ]
+      }
+    ]
+  },
+
+  "exynos": {
+    "noise": [],
+    "faults": []
+  },
+
+  "unisoc": {
+    "noise": [],
+    "faults": []
+  }
+}

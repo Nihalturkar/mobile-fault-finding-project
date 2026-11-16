@@ -1,0 +1,29 @@
+venv/
+__pycache__/
+.env
+*.pyc
+.idea/
+.vscode/
+*.db
+node_modules/
+dist/
+build/
+
+# Runtime generated logs
+adb_log.txt
+raw_logcat.txt
+raw_thermalservice.txt
+raw_battery.txt
+boot_log.txt
+battery_report.txt
+power_test_log.txt
+
+# Transcript outputs
+*_transcript.json
+*_transcript.txt
+demo_transcript.*
+
+# API keys & logs
+config/groq_api_key.txt
+config/ai_report_*.txt
+config/logs/

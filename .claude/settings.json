@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:mobile1tech.com)",
+      "WebFetch(domain:www.mobilecellphonerepairing.com)"
+    ]
+  }
+}

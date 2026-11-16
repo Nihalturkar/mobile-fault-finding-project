@@ -1,0 +1,801 @@
+{
+  "_comment": "Device signature database for the hardware auto-detection module. Each entry describes the identifiers that the microcontroller reads from a phone under test.",
+  "version": "1.0.0",
+  "devices": [
+    {
+      "device_name": "iPhone 15 Pro Max",
+      "manufacturer": "Apple",
+      "chipset": "A17 Pro",
+      "boot_rom_id": "APPLE_ROM_A17P_0x8130",
+      "ram_size": "8GB_LPDDR5",
+      "storage_type": "NAND_NVME_256",
+      "uart_response": "iBoot-10151.41.1",
+      "usb_pid_vid": "05AC:12A8",
+      "power_signature": {
+        "battery_rail": 3.81,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.75
+      }
+    },
+    {
+      "device_name": "iPhone 14 Pro",
+      "manufacturer": "Apple",
+      "chipset": "A16 Bionic",
+      "boot_rom_id": "APPLE_ROM_A16B_0x8120",
+      "ram_size": "6GB_LPDDR5",
+      "storage_type": "NAND_NVME_256",
+      "uart_response": "iBoot-9151.40.2",
+      "usb_pid_vid": "05AC:12A8",
+      "power_signature": {
+        "battery_rail": 3.83,
+        "3v3_rail": 3.31,
+        "vdd_core": 0.78
+      }
+    },
+    {
+      "device_name": "iPhone 13",
+      "manufacturer": "Apple",
+      "chipset": "A15 Bionic",
+      "boot_rom_id": "APPLE_ROM_A15B_0x8110",
+      "ram_size": "4GB_LPDDR4X",
+      "storage_type": "NAND_NVME_128",
+      "uart_response": "iBoot-7459.141.1",
+      "usb_pid_vid": "05AC:12A8",
+      "power_signature": {
+        "battery_rail": 3.83,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.80
+      }
+    },
+    {
+      "device_name": "iPhone 12",
+      "manufacturer": "Apple",
+      "chipset": "A14 Bionic",
+      "boot_rom_id": "APPLE_ROM_A14B_0x8101",
+      "ram_size": "4GB_LPDDR4X",
+      "storage_type": "NAND_NVME_64",
+      "uart_response": "iBoot-6723.120.36",
+      "usb_pid_vid": "05AC:12A8",
+      "power_signature": {
+        "battery_rail": 3.80,
+        "3v3_rail": 3.29,
+        "vdd_core": 0.82
+      }
+    },
+    {
+      "device_name": "iPhone 15",
+      "manufacturer": "Apple",
+      "chipset": "A16 Bionic",
+      "boot_rom_id": "APPLE_ROM_A16B_0x8121",
+      "ram_size": "6GB_LPDDR5",
+      "storage_type": "NAND_NVME_128",
+      "uart_response": "iBoot-10151.41.1",
+      "usb_pid_vid": "05AC:12A8",
+      "power_signature": {
+        "battery_rail": 3.82,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.78
+      }
+    },
+    {
+      "device_name": "Samsung Galaxy S24 Ultra",
+      "manufacturer": "Samsung",
+      "chipset": "Snapdragon 8 Gen 3",
+      "boot_rom_id": "QCOM_SDM8650_PBL_0xA0",
+      "ram_size": "12GB_LPDDR5X",
+      "storage_type": "UFS_4.0_256",
+      "uart_response": "QCOM_SAHARA_v2.6",
+      "usb_pid_vid": "04E8:6860",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.68
+      }
+    },
+    {
+      "device_name": "Samsung Galaxy S23 Ultra",
+      "manufacturer": "Samsung",
+      "chipset": "Snapdragon 8 Gen 2",
+      "boot_rom_id": "QCOM_SM8550_PBL_0x93",
+      "ram_size": "12GB_LPDDR5X",
+      "storage_type": "UFS_4.0_256",
+      "uart_response": "QCOM_SAHARA_v2.5",
+      "usb_pid_vid": "04E8:6860",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.31,
+        "vdd_core": 0.70
+      }
+    },
+    {
+      "device_name": "Samsung Galaxy S23",
+      "manufacturer": "Samsung",
+      "chipset": "Snapdragon 8 Gen 2",
+      "boot_rom_id": "QCOM_SM8550_PBL_0x90",
+      "ram_size": "8GB_LPDDR5X",
+      "storage_type": "UFS_4.0_128",
+      "uart_response": "QCOM_SAHARA_v2.5",
+      "usb_pid_vid": "04E8:6860",
+      "power_signature": {
+        "battery_rail": 3.88,
+        "3v3_rail": 3.31,
+        "vdd_core": 0.70
+      }
+    },
+    {
+      "device_name": "Samsung Galaxy S22 Ultra",
+      "manufacturer": "Samsung",
+      "chipset": "Exynos 2200",
+      "boot_rom_id": "SLSI_S5E9925_BL1_0x80",
+      "ram_size": "12GB_LPDDR5",
+      "storage_type": "UFS_3.1_256",
+      "uart_response": "SLSI_UART_BOOT_v3.1",
+      "usb_pid_vid": "04E8:6860",
+      "power_signature": {
+        "battery_rail": 4.35,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.72
+      }
+    },
+    {
+      "device_name": "Samsung Galaxy A55",
+      "manufacturer": "Samsung",
+      "chipset": "Exynos 1480",
+      "boot_rom_id": "SLSI_S5E8845_BL1_0x62",
+      "ram_size": "8GB_LPDDR5",
+      "storage_type": "UFS_2.2_128",
+      "uart_response": "SLSI_UART_BOOT_v3.0",
+      "usb_pid_vid": "04E8:6860",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.73
+      }
+    },
+    {
+      "device_name": "Samsung Galaxy A54",
+      "manufacturer": "Samsung",
+      "chipset": "Exynos 1380",
+      "boot_rom_id": "SLSI_S5E8835_BL1_0x60",
+      "ram_size": "8GB_LPDDR4X",
+      "storage_type": "UFS_2.2_128",
+      "uart_response": "SLSI_UART_BOOT_v2.8",
+      "usb_pid_vid": "04E8:6860",
+      "power_signature": {
+        "battery_rail": 4.35,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.75
+      }
+    },
+    {
+      "device_name": "Samsung Galaxy A34",
+      "manufacturer": "Samsung",
+      "chipset": "MediaTek Dimensity 1080",
+      "boot_rom_id": "MTK_MT6877V_BROM_0x45",
+      "ram_size": "8GB_LPDDR4X",
+      "storage_type": "UFS_2.2_128",
+      "uart_response": "MTK_BROM_HANDSHAKE_v5",
+      "usb_pid_vid": "04E8:6860",
+      "power_signature": {
+        "battery_rail": 4.35,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.75
+      }
+    },
+    {
+      "device_name": "Samsung Galaxy A15",
+      "manufacturer": "Samsung",
+      "chipset": "MediaTek Helio G99",
+      "boot_rom_id": "MTK_MT6789V_BROM_0x22",
+      "ram_size": "4GB_LPDDR4X",
+      "storage_type": "eMMC_5.1_128",
+      "uart_response": "MTK_BROM_HANDSHAKE_v4",
+      "usb_pid_vid": "04E8:6860",
+      "power_signature": {
+        "battery_rail": 4.35,
+        "3v3_rail": 3.29,
+        "vdd_core": 0.80
+      }
+    },
+    {
+      "device_name": "Samsung Galaxy A14",
+      "manufacturer": "Samsung",
+      "chipset": "MediaTek Helio G80",
+      "boot_rom_id": "MTK_MT6769V_BROM_0x20",
+      "ram_size": "4GB_LPDDR4X",
+      "storage_type": "eMMC_5.1_64",
+      "uart_response": "MTK_BROM_HANDSHAKE_v4",
+      "usb_pid_vid": "04E8:6860",
+      "power_signature": {
+        "battery_rail": 4.35,
+        "3v3_rail": 3.29,
+        "vdd_core": 0.82
+      }
+    },
+    {
+      "device_name": "Samsung Galaxy M35",
+      "manufacturer": "Samsung",
+      "chipset": "Exynos 1380",
+      "boot_rom_id": "SLSI_S5E8835_BL1_0x61",
+      "ram_size": "8GB_LPDDR4X",
+      "storage_type": "UFS_2.2_128",
+      "uart_response": "SLSI_UART_BOOT_v2.8",
+      "usb_pid_vid": "04E8:6860",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.75
+      }
+    },
+    {
+      "device_name": "Samsung Galaxy Z Fold 5",
+      "manufacturer": "Samsung",
+      "chipset": "Snapdragon 8 Gen 2",
+      "boot_rom_id": "QCOM_SM8550_PBL_0x94",
+      "ram_size": "12GB_LPDDR5X",
+      "storage_type": "UFS_4.0_256",
+      "uart_response": "QCOM_SAHARA_v2.5",
+      "usb_pid_vid": "04E8:6860",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.31,
+        "vdd_core": 0.70
+      }
+    },
+    {
+      "device_name": "Samsung Galaxy Z Flip 5",
+      "manufacturer": "Samsung",
+      "chipset": "Snapdragon 8 Gen 2",
+      "boot_rom_id": "QCOM_SM8550_PBL_0x91",
+      "ram_size": "8GB_LPDDR5X",
+      "storage_type": "UFS_4.0_256",
+      "uart_response": "QCOM_SAHARA_v2.5",
+      "usb_pid_vid": "04E8:6860",
+      "power_signature": {
+        "battery_rail": 3.86,
+        "3v3_rail": 3.31,
+        "vdd_core": 0.70
+      }
+    },
+    {
+      "device_name": "Samsung Galaxy S21 FE",
+      "manufacturer": "Samsung",
+      "chipset": "Snapdragon 888",
+      "boot_rom_id": "QCOM_SM8350_PBL_0x80",
+      "ram_size": "6GB_LPDDR5",
+      "storage_type": "UFS_3.1_128",
+      "uart_response": "QCOM_SAHARA_v2.2",
+      "usb_pid_vid": "04E8:6860",
+      "power_signature": {
+        "battery_rail": 4.35,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.75
+      }
+    },
+    {
+      "device_name": "Xiaomi 14",
+      "manufacturer": "Xiaomi",
+      "chipset": "Snapdragon 8 Gen 3",
+      "boot_rom_id": "QCOM_SDM8650_PBL_0xA3",
+      "ram_size": "12GB_LPDDR5X",
+      "storage_type": "UFS_4.0_256",
+      "uart_response": "QCOM_SAHARA_v2.6",
+      "usb_pid_vid": "2717:FF48",
+      "power_signature": {
+        "battery_rail": 4.52,
+        "3v3_rail": 3.31,
+        "vdd_core": 0.68
+      }
+    },
+    {
+      "device_name": "Xiaomi 14 Pro",
+      "manufacturer": "Xiaomi",
+      "chipset": "Snapdragon 8 Gen 3",
+      "boot_rom_id": "QCOM_SDM8650_PBL_0xA1",
+      "ram_size": "12GB_LPDDR5X",
+      "storage_type": "UFS_4.0_256",
+      "uart_response": "QCOM_SAHARA_v2.6",
+      "usb_pid_vid": "2717:FF48",
+      "power_signature": {
+        "battery_rail": 4.52,
+        "3v3_rail": 3.31,
+        "vdd_core": 0.68
+      }
+    },
+    {
+      "device_name": "Xiaomi 13 Pro",
+      "manufacturer": "Xiaomi",
+      "chipset": "Snapdragon 8 Gen 2",
+      "boot_rom_id": "QCOM_SM8550_PBL_0x95",
+      "ram_size": "12GB_LPDDR5X",
+      "storage_type": "UFS_4.0_256",
+      "uart_response": "QCOM_SAHARA_v2.5",
+      "usb_pid_vid": "2717:FF48",
+      "power_signature": {
+        "battery_rail": 4.52,
+        "3v3_rail": 3.31,
+        "vdd_core": 0.70
+      }
+    },
+    {
+      "device_name": "Xiaomi 13T",
+      "manufacturer": "Xiaomi",
+      "chipset": "MediaTek Dimensity 8200 Ultra",
+      "boot_rom_id": "MTK_MT6896_BROM_0x48",
+      "ram_size": "8GB_LPDDR5",
+      "storage_type": "UFS_3.1_256",
+      "uart_response": "MTK_BROM_HANDSHAKE_v5",
+      "usb_pid_vid": "2717:FF48",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.72
+      }
+    },
+    {
+      "device_name": "Xiaomi Redmi Note 13 Pro+",
+      "manufacturer": "Xiaomi",
+      "chipset": "MediaTek Dimensity 7200 Ultra",
+      "boot_rom_id": "MTK_MT6886_BROM_0x52",
+      "ram_size": "12GB_LPDDR4X",
+      "storage_type": "UFS_2.2_256",
+      "uart_response": "MTK_BROM_HANDSHAKE_v5",
+      "usb_pid_vid": "2717:FF48",
+      "power_signature": {
+        "battery_rail": 4.52,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.73
+      }
+    },
+    {
+      "device_name": "Xiaomi Redmi Note 13 Pro",
+      "manufacturer": "Xiaomi",
+      "chipset": "MediaTek Dimensity 7200",
+      "boot_rom_id": "MTK_MT6886_BROM_0x50",
+      "ram_size": "8GB_LPDDR4X",
+      "storage_type": "UFS_2.2_128",
+      "uart_response": "MTK_BROM_HANDSHAKE_v5",
+      "usb_pid_vid": "2717:FF48",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.75
+      }
+    },
+    {
+      "device_name": "Xiaomi Redmi Note 12 Pro",
+      "manufacturer": "Xiaomi",
+      "chipset": "MediaTek Dimensity 1080",
+      "boot_rom_id": "MTK_MT6877V_BROM_0x46",
+      "ram_size": "8GB_LPDDR4X",
+      "storage_type": "UFS_2.2_128",
+      "uart_response": "MTK_BROM_HANDSHAKE_v5",
+      "usb_pid_vid": "2717:FF48",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.75
+      }
+    },
+    {
+      "device_name": "Xiaomi Redmi Note 12",
+      "manufacturer": "Xiaomi",
+      "chipset": "Snapdragon 4 Gen 1",
+      "boot_rom_id": "QCOM_SM4375_PBL_0x30",
+      "ram_size": "4GB_LPDDR4X",
+      "storage_type": "UFS_2.2_64",
+      "uart_response": "QCOM_SAHARA_v2.1",
+      "usb_pid_vid": "2717:FF48",
+      "power_signature": {
+        "battery_rail": 4.35,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.80
+      }
+    },
+    {
+      "device_name": "Xiaomi Redmi Note 11",
+      "manufacturer": "Xiaomi",
+      "chipset": "Snapdragon 680",
+      "boot_rom_id": "QCOM_SM6225_PBL_0x28",
+      "ram_size": "6GB_LPDDR4X",
+      "storage_type": "UFS_2.2_128",
+      "uart_response": "QCOM_SAHARA_v2.0",
+      "usb_pid_vid": "2717:FF48",
+      "power_signature": {
+        "battery_rail": 4.35,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.80
+      }
+    },
+    {
+      "device_name": "Xiaomi POCO X6 Pro",
+      "manufacturer": "Xiaomi",
+      "chipset": "MediaTek Dimensity 8300 Ultra",
+      "boot_rom_id": "MTK_MT6897_BROM_0x55",
+      "ram_size": "8GB_LPDDR5",
+      "storage_type": "UFS_3.1_256",
+      "uart_response": "MTK_BROM_HANDSHAKE_v5",
+      "usb_pid_vid": "2717:FF48",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.72
+      }
+    },
+    {
+      "device_name": "Xiaomi POCO F6",
+      "manufacturer": "Xiaomi",
+      "chipset": "Snapdragon 8s Gen 3",
+      "boot_rom_id": "QCOM_SM8635_PBL_0x88",
+      "ram_size": "8GB_LPDDR5X",
+      "storage_type": "UFS_4.0_256",
+      "uart_response": "QCOM_SAHARA_v2.5",
+      "usb_pid_vid": "2717:FF48",
+      "power_signature": {
+        "battery_rail": 4.52,
+        "3v3_rail": 3.31,
+        "vdd_core": 0.70
+      }
+    },
+    {
+      "device_name": "Xiaomi Poco F5",
+      "manufacturer": "Xiaomi",
+      "chipset": "Snapdragon 7+ Gen 2",
+      "boot_rom_id": "QCOM_SM7475_PBL_0x70",
+      "ram_size": "8GB_LPDDR5",
+      "storage_type": "UFS_3.1_256",
+      "uart_response": "QCOM_SAHARA_v2.4",
+      "usb_pid_vid": "2717:FF48",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.72
+      }
+    },
+    {
+      "device_name": "Xiaomi Redmi 13C",
+      "manufacturer": "Xiaomi",
+      "chipset": "MediaTek Helio G85",
+      "boot_rom_id": "MTK_MT6769T_BROM_0x21",
+      "ram_size": "4GB_LPDDR4X",
+      "storage_type": "eMMC_5.1_128",
+      "uart_response": "MTK_BROM_HANDSHAKE_v4",
+      "usb_pid_vid": "2717:FF40",
+      "power_signature": {
+        "battery_rail": 4.35,
+        "3v3_rail": 3.29,
+        "vdd_core": 0.82
+      }
+    },
+    {
+      "device_name": "OnePlus 12",
+      "manufacturer": "OnePlus",
+      "chipset": "Snapdragon 8 Gen 3",
+      "boot_rom_id": "QCOM_SDM8650_PBL_0xA2",
+      "ram_size": "16GB_LPDDR5X",
+      "storage_type": "UFS_4.0_256",
+      "uart_response": "QCOM_SAHARA_v2.6",
+      "usb_pid_vid": "2A70:9011",
+      "power_signature": {
+        "battery_rail": 4.52,
+        "3v3_rail": 3.31,
+        "vdd_core": 0.68
+      }
+    },
+    {
+      "device_name": "OnePlus 11",
+      "manufacturer": "OnePlus",
+      "chipset": "Snapdragon 8 Gen 2",
+      "boot_rom_id": "QCOM_SM8550_PBL_0x92",
+      "ram_size": "16GB_LPDDR5X",
+      "storage_type": "UFS_4.0_256",
+      "uart_response": "QCOM_SAHARA_v2.5",
+      "usb_pid_vid": "2A70:9011",
+      "power_signature": {
+        "battery_rail": 4.52,
+        "3v3_rail": 3.31,
+        "vdd_core": 0.70
+      }
+    },
+    {
+      "device_name": "OnePlus 10 Pro",
+      "manufacturer": "OnePlus",
+      "chipset": "Snapdragon 8 Gen 1",
+      "boot_rom_id": "QCOM_SM8450_PBL_0x85",
+      "ram_size": "12GB_LPDDR5",
+      "storage_type": "UFS_3.1_256",
+      "uart_response": "QCOM_SAHARA_v2.4",
+      "usb_pid_vid": "2A70:9011",
+      "power_signature": {
+        "battery_rail": 4.52,
+        "3v3_rail": 3.31,
+        "vdd_core": 0.72
+      }
+    },
+    {
+      "device_name": "OnePlus 9R",
+      "manufacturer": "OnePlus",
+      "chipset": "Snapdragon 870",
+      "boot_rom_id": "QCOM_SM8250_PBL_0x78",
+      "ram_size": "8GB_LPDDR5",
+      "storage_type": "UFS_3.1_128",
+      "uart_response": "QCOM_SAHARA_v2.2",
+      "usb_pid_vid": "2A70:9011",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.75
+      }
+    },
+    {
+      "device_name": "OnePlus Nord CE 3",
+      "manufacturer": "OnePlus",
+      "chipset": "Snapdragon 782G",
+      "boot_rom_id": "QCOM_SM7325_PBL_0x55",
+      "ram_size": "8GB_LPDDR4X",
+      "storage_type": "UFS_3.1_128",
+      "uart_response": "QCOM_SAHARA_v2.3",
+      "usb_pid_vid": "2A70:9011",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.75
+      }
+    },
+    {
+      "device_name": "Vivo X100 Pro",
+      "manufacturer": "Vivo",
+      "chipset": "MediaTek Dimensity 9300",
+      "boot_rom_id": "MTK_MT6989_BROM_0x60",
+      "ram_size": "16GB_LPDDR5T",
+      "storage_type": "UFS_4.0_256",
+      "uart_response": "MTK_BROM_HANDSHAKE_v6",
+      "usb_pid_vid": "2D95:6003",
+      "power_signature": {
+        "battery_rail": 4.52,
+        "3v3_rail": 3.31,
+        "vdd_core": 0.68
+      }
+    },
+    {
+      "device_name": "Vivo V30",
+      "manufacturer": "Vivo",
+      "chipset": "Snapdragon 7 Gen 3",
+      "boot_rom_id": "QCOM_SM7550_PBL_0x72",
+      "ram_size": "8GB_LPDDR5",
+      "storage_type": "UFS_2.2_256",
+      "uart_response": "QCOM_SAHARA_v2.4",
+      "usb_pid_vid": "2D95:6003",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.73
+      }
+    },
+    {
+      "device_name": "Vivo Y36",
+      "manufacturer": "Vivo",
+      "chipset": "MediaTek Helio G99",
+      "boot_rom_id": "MTK_MT6789V_BROM_0x23",
+      "ram_size": "8GB_LPDDR4X",
+      "storage_type": "eMMC_5.1_128",
+      "uart_response": "MTK_BROM_HANDSHAKE_v4",
+      "usb_pid_vid": "2D95:6003",
+      "power_signature": {
+        "battery_rail": 4.35,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.80
+      }
+    },
+    {
+      "device_name": "Vivo T2x",
+      "manufacturer": "Vivo",
+      "chipset": "MediaTek Dimensity 6100+",
+      "boot_rom_id": "MTK_MT6833V_BROM_0x35",
+      "ram_size": "6GB_LPDDR4X",
+      "storage_type": "eMMC_5.1_128",
+      "uart_response": "MTK_BROM_HANDSHAKE_v4",
+      "usb_pid_vid": "2D95:6003",
+      "power_signature": {
+        "battery_rail": 4.35,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.80
+      }
+    },
+    {
+      "device_name": "OPPO Find X7 Ultra",
+      "manufacturer": "OPPO",
+      "chipset": "Snapdragon 8 Gen 3",
+      "boot_rom_id": "QCOM_SDM8650_PBL_0xA4",
+      "ram_size": "16GB_LPDDR5X",
+      "storage_type": "UFS_4.0_256",
+      "uart_response": "QCOM_SAHARA_v2.6",
+      "usb_pid_vid": "22D9:2765",
+      "power_signature": {
+        "battery_rail": 4.52,
+        "3v3_rail": 3.31,
+        "vdd_core": 0.68
+      }
+    },
+    {
+      "device_name": "OPPO Reno 11 Pro",
+      "manufacturer": "OPPO",
+      "chipset": "MediaTek Dimensity 8200",
+      "boot_rom_id": "MTK_MT6895_BROM_0x49",
+      "ram_size": "12GB_LPDDR5",
+      "storage_type": "UFS_3.1_256",
+      "uart_response": "MTK_BROM_HANDSHAKE_v5",
+      "usb_pid_vid": "22D9:2765",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.72
+      }
+    },
+    {
+      "device_name": "OPPO A78",
+      "manufacturer": "OPPO",
+      "chipset": "MediaTek Helio G99",
+      "boot_rom_id": "MTK_MT6789V_BROM_0x24",
+      "ram_size": "8GB_LPDDR4X",
+      "storage_type": "UFS_2.2_128",
+      "uart_response": "MTK_BROM_HANDSHAKE_v4",
+      "usb_pid_vid": "22D9:2765",
+      "power_signature": {
+        "battery_rail": 4.35,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.80
+      }
+    },
+    {
+      "device_name": "OPPO A18",
+      "manufacturer": "OPPO",
+      "chipset": "MediaTek Helio G85",
+      "boot_rom_id": "MTK_MT6769T_BROM_0x22",
+      "ram_size": "4GB_LPDDR4X",
+      "storage_type": "eMMC_5.1_128",
+      "uart_response": "MTK_BROM_HANDSHAKE_v4",
+      "usb_pid_vid": "22D9:2765",
+      "power_signature": {
+        "battery_rail": 4.35,
+        "3v3_rail": 3.29,
+        "vdd_core": 0.82
+      }
+    },
+    {
+      "device_name": "Realme 12 Pro+",
+      "manufacturer": "Realme",
+      "chipset": "Snapdragon 7s Gen 2",
+      "boot_rom_id": "QCOM_SM7435_PBL_0x68",
+      "ram_size": "8GB_LPDDR4X",
+      "storage_type": "UFS_3.1_256",
+      "uart_response": "QCOM_SAHARA_v2.3",
+      "usb_pid_vid": "2AE5:9024",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.75
+      }
+    },
+    {
+      "device_name": "Realme GT5 Pro",
+      "manufacturer": "Realme",
+      "chipset": "Snapdragon 8 Gen 3",
+      "boot_rom_id": "QCOM_SDM8650_PBL_0xA5",
+      "ram_size": "16GB_LPDDR5X",
+      "storage_type": "UFS_4.0_256",
+      "uart_response": "QCOM_SAHARA_v2.6",
+      "usb_pid_vid": "2AE5:9024",
+      "power_signature": {
+        "battery_rail": 4.52,
+        "3v3_rail": 3.31,
+        "vdd_core": 0.68
+      }
+    },
+    {
+      "device_name": "Realme C67",
+      "manufacturer": "Realme",
+      "chipset": "Snapdragon 685",
+      "boot_rom_id": "QCOM_SM6225_PBL_0x29",
+      "ram_size": "6GB_LPDDR4X",
+      "storage_type": "eMMC_5.1_128",
+      "uart_response": "QCOM_SAHARA_v2.0",
+      "usb_pid_vid": "2AE5:9024",
+      "power_signature": {
+        "battery_rail": 4.35,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.80
+      }
+    },
+    {
+      "device_name": "Nothing Phone 2a",
+      "manufacturer": "Nothing",
+      "chipset": "MediaTek Dimensity 7200 Pro",
+      "boot_rom_id": "MTK_MT6886_BROM_0x53",
+      "ram_size": "8GB_LPDDR4X",
+      "storage_type": "UFS_2.2_128",
+      "uart_response": "MTK_BROM_HANDSHAKE_v5",
+      "usb_pid_vid": "2E17:C013",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.75
+      }
+    },
+    {
+      "device_name": "Nothing Phone 1",
+      "manufacturer": "Nothing",
+      "chipset": "Snapdragon 778G+",
+      "boot_rom_id": "QCOM_SM7325_PBL_0x56",
+      "ram_size": "8GB_LPDDR5",
+      "storage_type": "UFS_3.1_128",
+      "uart_response": "QCOM_SAHARA_v2.3",
+      "usb_pid_vid": "2E17:C010",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.75
+      }
+    },
+    {
+      "device_name": "Google Pixel 8 Pro",
+      "manufacturer": "Google",
+      "chipset": "Tensor G3",
+      "boot_rom_id": "GOOG_GS301_BL1_0xC0",
+      "ram_size": "12GB_LPDDR5X",
+      "storage_type": "UFS_3.1_128",
+      "uart_response": "GOOG_FASTBOOT_v4.2",
+      "usb_pid_vid": "18D1:4EE7",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.31,
+        "vdd_core": 0.70
+      }
+    },
+    {
+      "device_name": "Google Pixel 8",
+      "manufacturer": "Google",
+      "chipset": "Tensor G3",
+      "boot_rom_id": "GOOG_GS301_BL1_0xC1",
+      "ram_size": "8GB_LPDDR5X",
+      "storage_type": "UFS_3.1_128",
+      "uart_response": "GOOG_FASTBOOT_v4.2",
+      "usb_pid_vid": "18D1:4EE7",
+      "power_signature": {
+        "battery_rail": 4.35,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.70
+      }
+    },
+    {
+      "device_name": "Google Pixel 7a",
+      "manufacturer": "Google",
+      "chipset": "Tensor G2",
+      "boot_rom_id": "GOOG_GS201_BL1_0xB0",
+      "ram_size": "8GB_LPDDR5",
+      "storage_type": "UFS_3.1_128",
+      "uart_response": "GOOG_FASTBOOT_v4.1",
+      "usb_pid_vid": "18D1:4EE7",
+      "power_signature": {
+        "battery_rail": 4.40,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.72
+      }
+    },
+    {
+      "device_name": "Google Pixel 6",
+      "manufacturer": "Google",
+      "chipset": "Tensor G1",
+      "boot_rom_id": "GOOG_GS101_BL1_0xA0",
+      "ram_size": "8GB_LPDDR5",
+      "storage_type": "UFS_3.1_128",
+      "uart_response": "GOOG_FASTBOOT_v4.0",
+      "usb_pid_vid": "18D1:4EE7",
+      "power_signature": {
+        "battery_rail": 4.35,
+        "3v3_rail": 3.30,
+        "vdd_core": 0.75
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "description": "Board flat-dump library for Schematic Diagnosis. Drop your REFOX / skilbypm flat-dump JSON exports into this folder — the tool auto-detects every *.json file. This index is documentation only.",
+  "formats_supported": [
+    "REBOX flat-dump (pin.netName + pin.diode)",
+    "skilbypm v1.0 (netTable/netIndex/components)"
+  ],
+  "boards": [
+    {
+      "id": "demo-example",
+      "file": "DEMO_Example_FlatDump.json",
+      "brand": "(demo)",
+      "model": "Mini Camera Section",
+      "format": "refox-flat-dump (synthetic)",
+      "notes": "Built-in synthetic demo board for trying Schematic Diagnosis — delete before production build."
+    }
+  ]
+}

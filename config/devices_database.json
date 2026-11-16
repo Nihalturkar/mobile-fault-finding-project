@@ -1,0 +1,5 @@
+{
+  "_info": "Mobile Repair Tool - Device Database",
+  "_note": "Devices are added via FTDI detection or manually by the technician.",
+  "devices": []
+}
