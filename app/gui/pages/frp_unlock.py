@@ -28,13 +28,13 @@ def render_frp_unlock(app):
 
     # ── Warning Card ────────────────────────────────────────────
     warn_card = ctk.CTkFrame(app.content, fg_color="#3d2e00", corner_radius=10,
-                              border_width=1, border_color="#ffa502")
+                              border_width=1, border_color="#fbbf24")
     warn_card.pack(fill="x", padx=20, pady=(0, 10))
     warn_inner = ctk.CTkFrame(warn_card, fg_color="transparent")
     warn_inner.pack(fill="x", padx=15, pady=10)
     ctk.CTkLabel(
         warn_inner, text="\u26a0\ufe0f  Authorized Technicians Only",
-        font=("Segoe UI", 14, "bold"), text_color="#ffa502",
+        font=("Segoe UI", 14, "bold"), text_color="#fbbf24",
     ).pack(anchor="w")
     ctk.CTkLabel(
         warn_inner,
@@ -96,12 +96,12 @@ def render_frp_unlock(app):
     # ── Color Tags Setup ────────────────────────────────────────
     def _setup_tags():
         tb = report_box._textbox
-        tb.tag_configure("ok", foreground="#2ed573")
-        tb.tag_configure("warning", foreground="#ffa502")
-        tb.tag_configure("fault", foreground="#e94560")
-        tb.tag_configure("info", foreground="#1e90ff")
-        tb.tag_configure("header", foreground="#e94560", font=("Consolas", 12, "bold"))
-        tb.tag_configure("dim", foreground="#8892b0")
+        tb.tag_configure("ok", foreground="#34d399")
+        tb.tag_configure("warning", foreground="#fbbf24")
+        tb.tag_configure("fault", foreground="#ec4899")
+        tb.tag_configure("info", foreground="#a855f7")
+        tb.tag_configure("header", foreground="#ec4899", font=("Consolas", 12, "bold"))
+        tb.tag_configure("dim", foreground="#9a93b5")
 
     _setup_tags()
 
@@ -340,7 +340,7 @@ def render_frp_unlock(app):
         frame = ctk.CTkFrame(parent, fg_color="transparent")
 
         warn_frp = ctk.CTkFrame(frame, fg_color="#3d1515", corner_radius=8,
-                                 border_width=1, border_color="#e94560")
+                                 border_width=1, border_color="#ec4899")
         warn_frp.pack(fill="x", pady=(5, 10))
         ctk.CTkLabel(
             warn_frp,
@@ -424,7 +424,7 @@ def render_frp_unlock(app):
 
         ctk.CTkButton(
             frame, text="Start FRP Removal", width=240, height=44,
-            fg_color="#e94560", hover_color="#c0392b",
+            fg_color="#ec4899", hover_color="#c0392b",
             font=("Segoe UI", 15, "bold"), corner_radius=10,
             command=start_frp_removal,
         ).pack(anchor="w", pady=(5, 0))
@@ -532,7 +532,7 @@ def render_frp_unlock(app):
 
         ctk.CTkButton(
             frame, text="Start Lock Removal", width=240, height=44,
-            fg_color="#e94560", hover_color="#c0392b",
+            fg_color="#ec4899", hover_color="#c0392b",
             font=("Segoe UI", 15, "bold"), corner_radius=10,
             command=start_lock_removal,
         ).pack(anchor="w", pady=(5, 0))

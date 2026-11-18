@@ -39,12 +39,12 @@ def render_adb_detect(app):
     def _setup_tags():
         """Setup color tags for the textbox."""
         tb = report_box._textbox  # Access internal tkinter Text widget
-        tb.tag_configure("ok", foreground="#2ed573")       # Green
-        tb.tag_configure("warning", foreground="#ffa502")   # Orange
-        tb.tag_configure("fault", foreground="#e94560")     # Red
-        tb.tag_configure("info", foreground="#1e90ff")      # Blue
-        tb.tag_configure("header", foreground="#e94560", font=("Consolas", 12, "bold"))
-        tb.tag_configure("dim", foreground="#8892b0")       # Grey
+        tb.tag_configure("ok", foreground="#34d399")       # Green
+        tb.tag_configure("warning", foreground="#fbbf24")   # Orange
+        tb.tag_configure("fault", foreground="#ec4899")     # Red
+        tb.tag_configure("info", foreground="#a855f7")      # Blue
+        tb.tag_configure("header", foreground="#ec4899", font=("Consolas", 12, "bold"))
+        tb.tag_configure("dim", foreground="#9a93b5")       # Grey
 
     def _get_tag(text):
         """Determine color tag based on line content."""
@@ -119,285 +119,33 @@ def render_adb_detect(app):
             _append_live_lines(lines)
 
         def run():
-            try:
-                from app.hardware.adb_detector import detect_via_adb, generate_full_report
+            # Report logic lives in app/hardware/scan_runners.py (shared with Jack).
+            from app.hardware.scan_runners import run_adb_scan
 
-                # Track what's been detected for live display
-                last_phase = {"msg": ""}
-
-                def cb(pct, msg):
-                    app.content.after(0, lambda: progress.set(pct))
+            def _progress(pct, msg):
+                app.content.after(0, lambda: progress.set(pct))
+                if msg:
                     app.content.after(0, lambda: msg_label.configure(text=msg))
 
-                    # Show each scan phase live as it happens
-                    if msg != last_phase["msg"]:
-                        last_phase["msg"] = msg
-                        icon = "🔍"
-                        msg_lower = msg.lower()
-                        if "ok" in msg_lower or "found" in msg_lower or "done" in msg_lower:
-                            icon = "✅"
-                        elif "error" in msg_lower or "fail" in msg_lower or "not found" in msg_lower:
-                            icon = "❌"
-                        elif "reading" in msg_lower or "scanning" in msg_lower or "checking" in msg_lower:
-                            icon = "🔍"
-                        elif "sampling" in msg_lower:
-                            icon = "📊"
-                        elif "running" in msg_lower or "ai" in msg_lower:
-                            icon = "🧠"
-                        _track_and_append(f"  {icon} {msg}")
-
-                # Show header
-                import datetime as _dt
-                header = [
-                    "=" * 72,
-                    "  MOOXY AI FAULT DETECTOR — ADB DETECTION",
-                    "=" * 72,
-                    f"  Date: {_dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
-                    "=" * 72,
-                    "",
-                    "═══ SCANNING DEVICE ═══",
-                    "",
-                ]
-                _track_and_append_lines(header)
-
-                result = detect_via_adb(callback=cb)
-                last_scan["result"] = result
-
-                if result.error:
-                    _track_and_append(f"")
-                    _track_and_append(f"  ❌ ERROR: {result.error}")
-                    _track_and_append(f"")
+            try:
+                res = run_adb_scan(emit=_track_and_append, progress=_progress)
+                last_scan["result"] = res.get("result")
+                if res.get("error"):
                     app.content.after(0, lambda: summary_label.configure(
-                        text=f"❌ {result.error[:80]}", text_color=colors["accent"]))
-                    app.content.after(0, lambda: progress.set(1.0))
-                    running["value"] = False
-                    return
-
-                # ══════════════════════════════════════════════
-                #  SMART REPORT — same format as UART
-                #  Confirmed fault → PROBLEM DETECTED
-                #  Possible → "Check kijiye"
-                #  No evidence → don't show
-                # ══════════════════════════════════════════════
-
-                # 1. DEVICE INFO (compact)
-                _track_and_append("")
-                device_line = f"  {result.brand} {result.model} | Android {result.android_version}"
-                if result.chipset:
-                    device_line += f" | {result.chipset}"
-                _track_and_append(device_line)
-
-                info_parts = []
-                if result.ram_total_kb:
-                    info_parts.append(f"RAM: {result.ram_total_kb // 1024}MB")
-                if result.storage_total_kb:
-                    info_parts.append(f"Storage: {result.storage_total_kb // (1024*1024)}GB free {result.storage_free_kb // (1024*1024)}GB")
-                if result.battery_level:
-                    info_parts.append(f"Battery: {result.battery_level}% ({result.battery_health})")
-                if info_parts:
-                    _track_and_append(f"  {' | '.join(info_parts)}")
-
-                # 2. CATEGORIZE DIAGNOSES
-                faults = [d for d in result.diagnoses if d.status == "FAULT"]
-                warnings = [d for d in result.diagnoses if d.status == "WARNING"]
-
-                # Also run fault analyzer for confidence scores
-                from app.hardware.fault_analyzer import analyze_adb_result
-                fault_report = analyze_adb_result(result)
-                confirmed = [f for f in fault_report.faults if f.confidence >= 75]
-                possible = [f for f in fault_report.faults if 50 <= f.confidence < 75]
-
-                # 3. CONFIRMED PROBLEMS
-                has_problems = bool(faults or confirmed)
-
-                if has_problems:
-                    _track_and_append("")
-                    _track_and_append("=" * 55)
-                    _track_and_append("  🔴 PROBLEM DETECTED")
-                    _track_and_append("=" * 55)
-
-                    # Show confirmed faults with repair steps
-                    shown = set()
-                    for f in confirmed:
-                        key = f.component + f.problem
-                        if key in shown:
-                            continue
-                        shown.add(key)
-                        _track_and_append("")
-                        _track_and_append(f"  Problem: {f.problem}")
-                        _track_and_append(f"  Component: {f.component} ({f.confidence}%)")
-                        if f.repair_steps:
-                            _track_and_append("  How to Fix:")
-                            for i, step in enumerate(f.repair_steps, 1):
-                                _track_and_append(f"    {i}. {step}")
-                        if f.parts_needed:
-                            _track_and_append(f"  Parts: {', '.join(f.parts_needed)}")
-
-                    # Show diagnosis faults that weren't in fault_report
-                    for d in faults:
-                        if d.component not in shown:
-                            _track_and_append(f"  🔴 {d.component}: {d.summary}")
-                            for fix in d.fixes[:2]:
-                                _track_and_append(f"     Fix: {fix}")
-
-                    _track_and_append("")
-                    _track_and_append("=" * 55)
+                        text=res.get("summary_text", ""), text_color=colors["accent"]))
                 else:
-                    _track_and_append("")
-                    _track_and_append("  ✅ No confirmed faults detected")
-
-                # 4. POSSIBLE ISSUES — "check kijiye"
-                if possible or warnings:
-                    _track_and_append("")
-                    _track_and_append("  ── Isse bhi check kijiye ──")
-                    shown_possible = set()
-                    for f in possible:
-                        key = f.component
-                        if key in shown_possible:
-                            continue
-                        shown_possible.add(key)
-                        _track_and_append(f"  ℹ️ {f.component}: {f.problem} ({f.confidence}%)")
-                    for d in warnings:
-                        if d.component not in shown_possible:
-                            _track_and_append(f"  ℹ️ {d.component}: {d.summary}")
-
-                # 5. DEVICE DATA (compact)
-                _track_and_append("")
-                _track_and_append("── Device Data ──")
-
-                # Battery
-                bat_parts = [f"Level:{result.battery_level}%", f"Health:{result.battery_health}", f"Temp:{result.battery_temp_c}C"]
-                if result.battery_wear_pct >= 0:
-                    bat_parts.append(f"Wear:{result.battery_wear_pct}%")
-                _track_and_append(f"  Battery: {' | '.join(bat_parts)}")
-
-                # Connectivity (compact)
-                conn_parts = []
-                if result.wifi_state:
-                    conn_parts.append(f"WiFi:{result.wifi_state}")
-                if result.sim_state:
-                    conn_parts.append(f"SIM:{result.sim_state}")
-                if result.bt_mac:
-                    conn_parts.append(f"BT:Connected")
-                if conn_parts:
-                    _track_and_append(f"  Connectivity: {' | '.join(conn_parts)}")
-
-                # Healthy components (one line)
-                oks = [d for d in result.diagnoses if d.status == "OK"]
-                if oks:
-                    ok_names = [d.component for d in oks]
-                    _track_and_append(f"  OK: {', '.join(ok_names)}")
-
-                # ── Phone Database Lookup ──
-                from app.gui.pages.hw_detect import _lookup_phone_db, _format_phone_db_section
-                _db_hit = _lookup_phone_db(
-                    brand=result.brand or "",
-                    chipset=result.chipset or "",
-                    model=f"{result.brand} {result.model}" if result.model else "",
-                )
-                if _db_hit:
-                    for line in _format_phone_db_section(*_db_hit):
-                        _track_and_append(line)
-
-                # Store full detailed report for file saving
-                ai_report = ""
-                full_detailed_report = generate_full_report(result)
-
-                # ── Final UI ──
-                app.content.after(0, lambda: progress.set(1.0))
-                app.content.after(0, lambda: msg_label.configure(
-                    text="Detection complete — full report above", text_color=colors["success"]))
-                app.content.after(0, lambda: summary_label.configure(
-                    text=f"✅ {result.brand} {result.model} | Android {result.android_version} | Battery: {result.battery_level}% {result.battery_health} | Faults: {len([d for d in result.diagnoses if d.status == 'FAULT'])}",
-                    text_color=colors["success"]))
-
-                # ── Save raw files ──
-                from app.gui.history_manager import get_unique_log_path
-                report_text = "\n".join(full_report["lines"])
-                adb_log_path = get_unique_log_path("adb_log")
-
-                try:
-                    with open(adb_log_path, "w", encoding="utf-8") as f:
-                        f.write(report_text)
-
-                    logcat_all = "\n".join(
-                        result.logcat_battery_events + result.logcat_display_events +
-                        result.logcat_touch_events + result.logcat_audio_events +
-                        result.logcat_camera_events + result.logcat_fingerprint_events +
-                        result.logcat_wifi_events + result.logcat_bluetooth_events +
-                        result.logcat_modem_events + result.logcat_sensors_events +
-                        result.logcat_crash_events + result.logcat_errors +
-                        result.logcat_hw_driver_lines
-                    )
-                    if logcat_all:
-                        logcat_path = get_unique_log_path("raw_logcat")
-                        with open(logcat_path, "w", encoding="utf-8") as f:
-                            f.write(f"=== Raw Logcat — {result.logcat_raw_lines} lines ===\n")
-                            f.write(f"=== Date: {__import__('datetime').datetime.now()} ===\n\n")
-                            f.write(logcat_all)
-
-                    if result.thermal_service_raw:
-                        thermal_path = get_unique_log_path("raw_thermalservice")
-                        with open(thermal_path, "w", encoding="utf-8") as f:
-                            f.write(f"=== Raw Thermalservice Dump ===\n")
-                            f.write(f"=== Date: {__import__('datetime').datetime.now()} ===\n\n")
-                            f.write(result.thermal_service_raw)
-
-                    if result.battery_sysfs or result.charger_sysfs:
-                        batt_path = get_unique_log_path("raw_battery")
-                        with open(batt_path, "w", encoding="utf-8") as f:
-                            f.write(f"=== Raw Battery/Charging Data ===\n")
-                            f.write(f"=== Date: {__import__('datetime').datetime.now()} ===\n\n")
-                            f.write("--- Battery sysfs ---\n")
-                            for k, v in result.battery_sysfs.items():
-                                f.write(f"{k}: {v}\n")
-                            f.write("\n--- Charger sysfs ---\n")
-                            for k, v in result.charger_sysfs.items():
-                                f.write(f"{k}: {v}\n")
-                            f.write(f"\n--- dumpsys battery ---\n")
-                            f.write(result.battery_dumpsys_raw)
-
-                    saved_name = adb_log_path.name
                     app.content.after(0, lambda: msg_label.configure(
-                        text=f"📁 Saved: {saved_name} + raw logs → config/logs/",
+                        text=res.get("saved_msg") or "Detection complete — full report above",
                         text_color=colors["success"]))
+                    app.content.after(0, lambda: summary_label.configure(
+                        text=res.get("summary_text", ""), text_color=colors["success"]))
+                try:                            # Section 7 — proactive summary
+                    if not res.get("error") and getattr(app, "proactive", None):
+                        app.proactive.on_scan_done("ADB Detect", res.get("device_name", ""),
+                                                   int(res.get("faults_count", 0) or 0))
                 except Exception:
                     pass
-
-                # ── Save to history ──
-                try:
-                    from app.gui.history_manager import add_detection
-
-                    faults = [d for d in result.diagnoses if d.status == "FAULT"]
-                    warnings = [d for d in result.diagnoses if d.status == "WARNING"]
-                    fault_names = [f"{d.component}: {d.summary}" for d in faults + warnings]
-
-                    add_detection(
-                        detection_type="ADB",
-                        device_name=f"{result.brand} {result.model}",
-                        summary=f"Android {result.android_version} | Chipset: {result.chipset} | Battery: {result.battery_level}% {result.battery_health}",
-                        faults_count=len(faults),
-                        faults_summary="; ".join(fault_names[:5]),
-                        report_file=str(adb_log_path),
-                        extra={
-                            "android_version": result.android_version,
-                            "battery_level": result.battery_level,
-                            "battery_health": result.battery_health,
-                            "warnings_count": len(warnings),
-                            "ok_count": len([d for d in result.diagnoses if d.status == "OK"]),
-                        }
-                    )
-                except Exception as e:
-                    print(f"[ADB Detect] History save error: {e}")
-
-                running["value"] = False
-
-            except Exception as e:
-                _track_and_append(f"")
-                _track_and_append(f"  ❌ ERROR: {str(e)}")
-                app.content.after(0, lambda: summary_label.configure(
-                    text=f"❌ {str(e)[:80]}", text_color=colors["accent"]))
-                app.content.after(0, lambda: progress.set(1.0))
+            finally:
                 running["value"] = False
 
         threading.Thread(target=run, daemon=True).start()

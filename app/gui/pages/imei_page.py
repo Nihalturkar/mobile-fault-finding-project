@@ -42,11 +42,11 @@ def render_imei_page(app):
 
     # ── Warning card (red) ────────────────────────────────────────
     warn_card = ctk.CTkFrame(app.content, fg_color="#3a1020", corner_radius=12,
-                              border_color="#e94560", border_width=1)
+                              border_color="#ec4899", border_width=1)
     warn_card.pack(fill="x", padx=20, pady=(0, 15))
     ctk.CTkLabel(
         warn_card, text="WARNING",
-        font=("Segoe UI", 14, "bold"), text_color="#e94560",
+        font=("Segoe UI", 14, "bold"), text_color="#ec4899",
     ).pack(anchor="w", padx=15, pady=(12, 2))
     ctk.CTkLabel(
         warn_card,
@@ -110,13 +110,13 @@ def render_imei_page(app):
     # ── Color tag setup ───────────────────────────────────────────
     def _setup_tags():
         tb = report_box._textbox
-        tb.tag_configure("ok",      foreground="#2ed573")
-        tb.tag_configure("warning", foreground="#ffa502")
-        tb.tag_configure("fault",   foreground="#e94560")
-        tb.tag_configure("info",    foreground="#1e90ff")
-        tb.tag_configure("header",  foreground="#e94560",
+        tb.tag_configure("ok",      foreground="#34d399")
+        tb.tag_configure("warning", foreground="#fbbf24")
+        tb.tag_configure("fault",   foreground="#ec4899")
+        tb.tag_configure("info",    foreground="#a855f7")
+        tb.tag_configure("header",  foreground="#ec4899",
                          font=("Consolas", 12, "bold"))
-        tb.tag_configure("dim",     foreground="#8892b0")
+        tb.tag_configure("dim",     foreground="#9a93b5")
 
     _setup_tags()
 

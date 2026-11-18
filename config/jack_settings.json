@@ -1,0 +1,26 @@
+{
+  "name": "Jack",
+  "language": "hinglish",
+  "provider_order": [
+    "groq",
+    "local"
+  ],
+  "groq_models": [
+    "openai/gpt-oss-120b",
+    "qwen/qwen3.8-27b",
+    "openai/gpt-oss-20b"
+  ],
+  "ollama_model": "llama3.1",
+  "tts_voice": "hi-IN-MadhurNeural",
+  "tts_rate": "+5%",
+  "voice_reply": true,
+  "wake_word_enabled": false,
+  "wake_word": "hey jack",
+  "stt_models": [
+    "whisper-large-v3-turbo",
+    "whisper-large-v3"
+  ],
+  "hotkey": "<Control-space>",
+  "max_history_messages": 16,
+  "proactive_enabled": true
+}

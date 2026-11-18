@@ -206,7 +206,7 @@ def render_history(app):
             "UART": colors["accent"],
             "ADB": colors["info"],
             "EDL": colors["warning"],
-            "JTAG": "#ffa502",
+            "JTAG": "#fbbf24",
             "Manual": colors["success"],
         }
         type_color = type_colors_map.get(det_type, colors["info"])

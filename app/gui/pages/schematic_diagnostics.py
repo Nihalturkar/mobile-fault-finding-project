@@ -268,8 +268,8 @@ def render_schematic_diagnostics(app):
         return {"OK": "✓", "ZERO": "✗", "LOW": "↘", "HIGH": "↗"}.get(s, "○")
 
     def _status_color(s: str) -> str:
-        return ({"OK": "#2ed573", "ZERO": "#ff4757", "LOW": "#ffa502",
-                 "HIGH": "#ff6b81"}.get(s) or colors["text_dim"])
+        return ({"OK": "#34d399", "ZERO": "#f43f5e", "LOW": "#fbbf24",
+                 "HIGH": "#c084fc"}.get(s) or colors["text_dim"])
 
     def _load_board():
         if not boards:

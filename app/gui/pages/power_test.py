@@ -224,7 +224,7 @@ def render_power_test(app):
         health = result.overall_health
         health_colors = {
             "GOOD": colors["success"],
-            "WARNING": "#ffa502",
+            "WARNING": "#fbbf24",
             "CRITICAL": colors["accent"],
             "INCOMPLETE": colors["info"],
             "NO CONNECTION": colors["accent"],

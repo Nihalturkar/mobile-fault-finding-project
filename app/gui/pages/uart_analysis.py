@@ -406,16 +406,16 @@ def render_uart_analysis(app):
     # ── Color tags setup ───────────────────────────────────────────────────
     def _setup_tags():
         tb = report_box._textbox
-        tb.tag_configure("ok", foreground="#2ed573")
-        tb.tag_configure("warning", foreground="#ffa502")
-        tb.tag_configure("fault", foreground="#e94560")
-        tb.tag_configure("info", foreground="#1e90ff")
-        tb.tag_configure("header", foreground="#e94560", font=("Consolas", 12, "bold"))
-        tb.tag_configure("dim", foreground="#8892b0")
-        tb.tag_configure("critical", foreground="#ff4757", font=("Consolas", 11, "bold"))
-        tb.tag_configure("high_sev", foreground="#ffa502", font=("Consolas", 11, "bold"))
+        tb.tag_configure("ok", foreground="#34d399")
+        tb.tag_configure("warning", foreground="#fbbf24")
+        tb.tag_configure("fault", foreground="#ec4899")
+        tb.tag_configure("info", foreground="#a855f7")
+        tb.tag_configure("header", foreground="#ec4899", font=("Consolas", 12, "bold"))
+        tb.tag_configure("dim", foreground="#9a93b5")
+        tb.tag_configure("critical", foreground="#f43f5e", font=("Consolas", 11, "bold"))
+        tb.tag_configure("high_sev", foreground="#fbbf24", font=("Consolas", 11, "bold"))
         tb.tag_configure("medium_sev", foreground="#eccc68")
-        tb.tag_configure("low_sev", foreground="#8892b0")
+        tb.tag_configure("low_sev", foreground="#9a93b5")
         tb.tag_configure("stage", foreground="#7bed9f", font=("Consolas", 11, "bold"))
         tb.tag_configure("component", foreground="#70a1ff", font=("Consolas", 11, "bold"))
         tb.tag_configure("repair", foreground="#5352ed", font=("Consolas", 11))
@@ -531,9 +531,9 @@ def render_uart_analysis(app):
     def _severity_color(severity):
         s = str(severity).lower()
         if s == "critical":
-            return "#ff4757"
+            return "#f43f5e"
         elif s == "high":
-            return "#ffa502"
+            return "#fbbf24"
         elif s == "medium":
             return "#eccc68"
         else:

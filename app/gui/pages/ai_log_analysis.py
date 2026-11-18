@@ -548,17 +548,17 @@ def render_ai_log_analysis(app):
 
     # Setup color tags
     tb = results_box._textbox
-    tb.tag_configure("title", foreground="#e94560", font=("Consolas", 14, "bold"))
-    tb.tag_configure("section", foreground="#1e90ff", font=("Consolas", 12, "bold"))
-    tb.tag_configure("subsection", foreground="#ffa502", font=("Consolas", 11, "bold"))
-    tb.tag_configure("ok", foreground="#2ed573")
-    tb.tag_configure("warning", foreground="#ffa502")
-    tb.tag_configure("error", foreground="#e94560")
-    tb.tag_configure("info", foreground="#1e90ff")
-    tb.tag_configure("dim", foreground="#8892b0")
+    tb.tag_configure("title", foreground="#ec4899", font=("Consolas", 14, "bold"))
+    tb.tag_configure("section", foreground="#a855f7", font=("Consolas", 12, "bold"))
+    tb.tag_configure("subsection", foreground="#fbbf24", font=("Consolas", 11, "bold"))
+    tb.tag_configure("ok", foreground="#34d399")
+    tb.tag_configure("warning", foreground="#fbbf24")
+    tb.tag_configure("error", foreground="#ec4899")
+    tb.tag_configure("info", foreground="#a855f7")
+    tb.tag_configure("dim", foreground="#9a93b5")
     tb.tag_configure("evidence", foreground="#bb86fc", font=("Consolas", 10, "italic"))
     tb.tag_configure("bold", font=("Consolas", 11, "bold"))
-    tb.tag_configure("step", foreground="#2ed573", font=("Consolas", 10))
+    tb.tag_configure("step", foreground="#34d399", font=("Consolas", 10))
 
     def _append(text, tag=None):
         results_box.configure(state="normal")

@@ -186,11 +186,11 @@ def render_repair_history(app):
     def _render_detection_card(parent, entry):
         det_type = entry.get("type", "?")
         type_colors = {
-            "UART": "#e94560",
-            "ADB": "#1e90ff",
-            "EDL": "#ff6b81",
-            "JTAG": "#ffa502",
-            "Manual": "#2ed573",
+            "UART": "#ec4899",
+            "ADB": "#a855f7",
+            "EDL": "#c084fc",
+            "JTAG": "#fbbf24",
+            "Manual": "#34d399",
         }
         type_color = type_colors.get(det_type, colors["info"])
 

@@ -340,7 +340,7 @@ def render_display_test(app):
                 h_color = colors["success"]
                 h_icon = "[OK]"
             elif any(k in health_lower for k in ["warning", "degraded", "fair"]):
-                h_color = colors.get("warning", "#ffa502")
+                h_color = colors.get("warning", "#fbbf24")
                 h_icon = "[!!]"
             else:
                 h_color = colors["accent"]

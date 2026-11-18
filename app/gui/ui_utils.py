@@ -52,12 +52,12 @@ def setup_report_tags(textbox, colors=None):
         colors: Optional dict of custom colors. Defaults are used if not provided.
     """
     default_colors = {
-        "ok": "#2ed573",
-        "warning": "#ffa502",
-        "fault": "#e94560",
-        "info": "#1e90ff",
-        "header": "#e94560",
-        "dim": "#8892b0",
+        "ok": "#34d399",
+        "warning": "#fbbf24",
+        "fault": "#ec4899",
+        "info": "#a855f7",
+        "header": "#ec4899",
+        "dim": "#9a93b5",
     }
     if colors:
         default_colors.update(colors)
@@ -177,7 +177,7 @@ def copy_report_to_clipboard(app, report_box, status_label=None, colors=None):
         if status_label and colors:
             status_label.configure(
                 text="Report copied to clipboard!",
-                text_color=colors.get("success", "#2ed573"),
+                text_color=colors.get("success", "#34d399"),
             )
     except Exception:
         pass
@@ -207,7 +207,7 @@ def save_report_to_file(app, report_box, default_prefix="report",
             if status_label and colors:
                 status_label.configure(
                     text=f"Saved to: {path}",
-                    text_color=colors.get("success", "#2ed573"),
+                    text_color=colors.get("success", "#34d399"),
                 )
     except Exception:
         pass

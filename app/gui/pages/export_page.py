@@ -187,7 +187,7 @@ def render_export(app):
 
     ctk.CTkButton(
         btn_row, text="Export PDF", width=180, height=46,
-        fg_color=colors["accent"], hover_color="#ff6b81",
+        fg_color=colors["accent"], hover_color="#c084fc",
         font=("Segoe UI", 15, "bold"), corner_radius=10,
         command=lambda: _do_export("pdf"),
     ).pack(side="left", padx=(0, 15))

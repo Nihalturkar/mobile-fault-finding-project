@@ -29,7 +29,7 @@ def render_firmware_flash(app):
 
     # ── Warning card ──
     warn_card = ctk.CTkFrame(app.content, fg_color="#3a1010", corner_radius=12,
-                              border_color="#e94560", border_width=2)
+                              border_color="#ec4899", border_width=2)
     warn_card.pack(fill="x", padx=20, pady=(0, 15))
     ctk.CTkLabel(
         warn_card,
@@ -240,7 +240,7 @@ def render_firmware_flash(app):
             edl_partition_rows[:] = [r for r in edl_partition_rows if r["frame"].winfo_exists()]
 
         ctk.CTkButton(row_frame, text="X", width=30, height=30,
-                      fg_color="#e94560", hover_color="#ff4444",
+                      fg_color="#ec4899", hover_color="#ff4444",
                       font=("Segoe UI", 10, "bold"), command=_remove_row).pack(side="left")
 
         edl_partition_rows.append({"frame": row_frame, "name": name_var, "path": path_var})
@@ -440,7 +440,7 @@ def render_firmware_flash(app):
             fb_partition_rows[:] = [r for r in fb_partition_rows if r["frame"].winfo_exists()]
 
         ctk.CTkButton(row_frame, text="X", width=30, height=30,
-                      fg_color="#e94560", hover_color="#ff4444",
+                      fg_color="#ec4899", hover_color="#ff4444",
                       font=("Segoe UI", 10, "bold"), command=_remove_fb_row).pack(side="left")
 
         fb_partition_rows.append({"frame": row_frame, "name": name_var, "path": path_var})
@@ -642,11 +642,11 @@ def render_firmware_flash(app):
     # Color tags setup
     def _setup_tags():
         tb = report_box._textbox
-        tb.tag_configure("ok", foreground="#2ed573")
-        tb.tag_configure("warning", foreground="#ffa502")
-        tb.tag_configure("fault", foreground="#e94560")
-        tb.tag_configure("info", foreground="#1e90ff")
-        tb.tag_configure("header", foreground="#e94560", font=("Consolas", 12, "bold"))
+        tb.tag_configure("ok", foreground="#34d399")
+        tb.tag_configure("warning", foreground="#fbbf24")
+        tb.tag_configure("fault", foreground="#ec4899")
+        tb.tag_configure("info", foreground="#a855f7")
+        tb.tag_configure("header", foreground="#ec4899", font=("Consolas", 12, "bold"))
 
     _setup_tags()
 

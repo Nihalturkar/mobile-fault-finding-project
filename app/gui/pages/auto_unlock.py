@@ -48,7 +48,7 @@ def render_auto_unlock(app):
     # Monitor toggle button
     monitor_btn = ctk.CTkButton(
         title_frame, text="\u25cf Start USB Monitor", width=180, height=36,
-        fg_color="#1e90ff", hover_color="#3742fa",
+        fg_color="#a855f7", hover_color="#3742fa",
         font=("Segoe UI", 13, "bold"), corner_radius=8,
     )
     monitor_btn.pack(side="right", padx=(10, 0))
@@ -74,7 +74,7 @@ def render_auto_unlock(app):
 
     conn_indicator = ctk.CTkLabel(
         row1, text="\u25cf", font=("Segoe UI", 20),
-        text_color="#e94560",  # red = disconnected
+        text_color="#ec4899",  # red = disconnected
     )
     conn_indicator.pack(side="left", padx=(0, 8))
 
@@ -115,22 +115,22 @@ def render_auto_unlock(app):
         def _do():
             try:
                 if info.mode == DeviceMode.NONE:
-                    conn_indicator.configure(text_color="#e94560")
+                    conn_indicator.configure(text_color="#ec4899")
                     conn_label.configure(text="No Device Connected")
                     mode_badge.configure(text="", fg_color=colors["bg_light"])
                     for key in detail_labels:
                         detail_labels[key].configure(text="—")
                     return
 
-                conn_indicator.configure(text_color="#2ed573")
+                conn_indicator.configure(text_color="#34d399")
                 conn_label.configure(text="Device Connected")
 
                 mode_colors = {
-                    DeviceMode.ADB_NORMAL: ("#2ed573", "ADB Normal"),
-                    DeviceMode.ADB_RECOVERY: ("#ffa502", "Recovery"),
-                    DeviceMode.ADB_SIDELOAD: ("#ffa502", "Sideload"),
-                    DeviceMode.ADB_UNAUTHORIZED: ("#e94560", "Unauthorized"),
-                    DeviceMode.FASTBOOT: ("#1e90ff", "Fastboot"),
+                    DeviceMode.ADB_NORMAL: ("#34d399", "ADB Normal"),
+                    DeviceMode.ADB_RECOVERY: ("#fbbf24", "Recovery"),
+                    DeviceMode.ADB_SIDELOAD: ("#fbbf24", "Sideload"),
+                    DeviceMode.ADB_UNAUTHORIZED: ("#ec4899", "Unauthorized"),
+                    DeviceMode.FASTBOOT: ("#a855f7", "Fastboot"),
                     DeviceMode.EDL_9008: ("#9b59b6", "EDL 9008"),
                 }
                 mc, mt = mode_colors.get(info.mode, ("#888", "Unknown"))
@@ -141,15 +141,15 @@ def render_auto_unlock(app):
                 detail_labels["Android"].configure(text=info.android_version or "—")
                 detail_labels["Root"].configure(
                     text="Yes" if info.has_root else "No",
-                    text_color="#2ed573" if info.has_root else colors["text"],
+                    text_color="#34d399" if info.has_root else colors["text"],
                 )
                 detail_labels["FRP"].configure(
                     text="Enabled" if info.frp_enabled else "Clean",
-                    text_color="#e94560" if info.frp_enabled else "#2ed573",
+                    text_color="#ec4899" if info.frp_enabled else "#34d399",
                 )
                 detail_labels["Lock"].configure(
                     text=info.lock_type.title() if info.screen_locked else "None",
-                    text_color="#e94560" if info.screen_locked else "#2ed573",
+                    text_color="#ec4899" if info.screen_locked else "#34d399",
                 )
             except Exception:
                 pass
@@ -168,7 +168,7 @@ def render_auto_unlock(app):
     main_btn = ctk.CTkButton(
         action_inner, text="\u26a1 ONE-CLICK AUTO UNLOCK",
         width=320, height=55,
-        fg_color="#e94560", hover_color="#c0392b",
+        fg_color="#ec4899", hover_color="#c0392b",
         font=("Segoe UI", 18, "bold"), corner_radius=12,
     )
     main_btn.pack(pady=(0, 12))
@@ -178,10 +178,10 @@ def render_auto_unlock(app):
     sec_row.pack(fill="x")
 
     btn_configs = [
-        ("\U0001f4f1 ADB Unlock", "#2ed573", "#27ae60"),
-        ("\u26a1 Fastboot Unlock", "#1e90ff", "#2980b9"),
+        ("\U0001f4f1 ADB Unlock", "#34d399", "#27ae60"),
+        ("\u26a1 Fastboot Unlock", "#a855f7", "#2980b9"),
         ("\U0001f534 EDL Flash", "#9b59b6", "#8e44ad"),
-        ("\U0001f504 Detect Device", "#ffa502", "#e67e22"),
+        ("\U0001f504 Detect Device", "#fbbf24", "#e67e22"),
         ("\u23f9 Stop", "#666", "#555"),
     ]
 
@@ -216,7 +216,7 @@ def render_auto_unlock(app):
     # ── Log Output ──────────────────────────────────────────────
     log_box = ctk.CTkTextbox(
         app.content, fg_color=colors["bg_dark"],
-        text_color="#2ed573", font=("Consolas", 11),
+        text_color="#34d399", font=("Consolas", 11),
         border_color=colors["border"], border_width=1,
         height=350, wrap="none",
     )
@@ -224,13 +224,13 @@ def render_auto_unlock(app):
 
     # Color tags
     tb = log_box._textbox
-    tb.tag_configure("info", foreground="#1e90ff")
-    tb.tag_configure("success", foreground="#2ed573")
-    tb.tag_configure("warning", foreground="#ffa502")
-    tb.tag_configure("error", foreground="#e94560")
+    tb.tag_configure("info", foreground="#a855f7")
+    tb.tag_configure("success", foreground="#34d399")
+    tb.tag_configure("warning", foreground="#fbbf24")
+    tb.tag_configure("error", foreground="#ec4899")
     tb.tag_configure("step", foreground="#9b59b6")
-    tb.tag_configure("header", foreground="#e94560", font=("Consolas", 12, "bold"))
-    tb.tag_configure("dim", foreground="#8892b0")
+    tb.tag_configure("header", foreground="#ec4899", font=("Consolas", 12, "bold"))
+    tb.tag_configure("dim", foreground="#9a93b5")
 
     def _write_initial():
         log_box.insert("1.0",
@@ -534,13 +534,13 @@ def render_auto_unlock(app):
             if state["monitor_stop"]:
                 state["monitor_stop"].set()
             state["monitoring"] = False
-            monitor_btn.configure(text="\u25cf Start USB Monitor", fg_color="#1e90ff")
+            monitor_btn.configure(text="\u25cf Start USB Monitor", fg_color="#a855f7")
             _log("USB Monitor stopped", "info")
             _set_status("USB Monitor stopped", colors["text_dim"])
         else:
             # Start monitoring
             state["monitoring"] = True
-            monitor_btn.configure(text="\u25a0 Stop USB Monitor", fg_color="#e94560")
+            monitor_btn.configure(text="\u25a0 Stop USB Monitor", fg_color="#ec4899")
             _log("USB Monitor started — waiting for device...", "info")
             _set_status("USB Monitor active — connect a device", colors["info"])
 

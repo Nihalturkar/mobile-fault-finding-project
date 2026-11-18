@@ -148,11 +148,11 @@ def render_thermal_test(app):
 
     def _setup_zones_tags():
         tb = zones_textbox._textbox
-        tb.tag_configure("temp_ok", foreground="#2ed573")
-        tb.tag_configure("temp_warm", foreground="#ffa502")
+        tb.tag_configure("temp_ok", foreground="#34d399")
+        tb.tag_configure("temp_warm", foreground="#fbbf24")
         tb.tag_configure("temp_hot", foreground="#ff6348")
-        tb.tag_configure("temp_critical", foreground="#e94560")
-        tb.tag_configure("zone_header", foreground="#1e90ff", font=("Consolas", 10, "bold"))
+        tb.tag_configure("temp_critical", foreground="#ec4899")
+        tb.tag_configure("zone_header", foreground="#a855f7", font=("Consolas", 10, "bold"))
 
     _setup_zones_tags()
     ctk.CTkFrame(zones_card, fg_color="transparent", height=8).pack()
@@ -187,12 +187,12 @@ def render_thermal_test(app):
     # ── Color tags for report textbox ──
     def _setup_tags():
         tb = report_box._textbox
-        tb.tag_configure("ok", foreground="#2ed573")
-        tb.tag_configure("warning", foreground="#ffa502")
-        tb.tag_configure("fault", foreground="#e94560")
-        tb.tag_configure("info", foreground="#1e90ff")
-        tb.tag_configure("header", foreground="#e94560", font=("Consolas", 12, "bold"))
-        tb.tag_configure("dim", foreground="#8892b0")
+        tb.tag_configure("ok", foreground="#34d399")
+        tb.tag_configure("warning", foreground="#fbbf24")
+        tb.tag_configure("fault", foreground="#ec4899")
+        tb.tag_configure("info", foreground="#a855f7")
+        tb.tag_configure("header", foreground="#ec4899", font=("Consolas", 12, "bold"))
+        tb.tag_configure("dim", foreground="#9a93b5")
 
     def _get_tag(text):
         t = text.lower()
@@ -251,13 +251,13 @@ def render_thermal_test(app):
         except (ValueError, TypeError):
             return colors["text_dim"]
         if t < 40.0:
-            return "#2ed573"   # green  — ok
+            return "#34d399"   # green  — ok
         elif t < 50.0:
-            return "#ffa502"   # yellow — warm
+            return "#fbbf24"   # yellow — warm
         elif t < 60.0:
             return "#ff6348"   # orange — hot
         else:
-            return "#e94560"   # red    — critical
+            return "#ec4899"   # red    — critical
 
     def _temp_ok(temp_c):
         """Return True if temperature is within safe range (< 50 C)."""

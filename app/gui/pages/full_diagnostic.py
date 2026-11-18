@@ -404,13 +404,13 @@ def render_full_diagnostic(app):
     # Color tags
     def _setup_tags():
         tb = report_box._textbox
-        tb.tag_configure("ok", foreground="#2ed573")
-        tb.tag_configure("warning", foreground="#ffa502")
-        tb.tag_configure("fault", foreground="#e94560")
-        tb.tag_configure("info", foreground="#1e90ff")
-        tb.tag_configure("header", foreground="#e94560", font=("Consolas", 12, "bold"))
-        tb.tag_configure("dim", foreground="#8892b0")
-        tb.tag_configure("section", foreground="#1e90ff", font=("Consolas", 13, "bold"))
+        tb.tag_configure("ok", foreground="#34d399")
+        tb.tag_configure("warning", foreground="#fbbf24")
+        tb.tag_configure("fault", foreground="#ec4899")
+        tb.tag_configure("info", foreground="#a855f7")
+        tb.tag_configure("header", foreground="#ec4899", font=("Consolas", 12, "bold"))
+        tb.tag_configure("dim", foreground="#9a93b5")
+        tb.tag_configure("section", foreground="#a855f7", font=("Consolas", 13, "bold"))
 
     _setup_tags()
 

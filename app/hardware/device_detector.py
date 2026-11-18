@@ -29,6 +29,8 @@ DEFAULT_SIGNATURES_PATH = _CONFIG_DIR / "device_signatures.json"
 DEFAULT_PORT = "COM12"
 DEFAULT_BAUD = 115200
 SERIAL_TIMEOUT = 1.0
+MTK_BROM_HANDOFF = b"Jump to BL"   # last BROM line before preloader takes over
+MTK_PRELOADER_BAUD = 921600         # MediaTek preloader / LK UART baud
 
 
 @dataclass
@@ -281,24 +283,45 @@ class DeviceAutoDetector:
         fallback_bauds = [b for b in common_bauds if b != primary_baud]
 
         global_start = time.time()
+        self._mtk_baud_switched = False
 
         # ── Phase 1: capture at the primary baud rate ──
+        # MediaTek BROM talks at 115200, then the preloader switches to 921600
+        # right after "Jump to BL". Switch the open port's baud the moment that
+        # marker arrives (no reopen / buffer reset, so preloader bytes are kept).
         try:
             self._close_serial()
             if self._open_serial(primary_baud):
-                all_data[primary_baud] = b""
+                current_baud = primary_baud
+                all_data[current_baud] = b""
                 phase_start = time.time()
                 while time.time() - phase_start < duration:
                     if self._serial.in_waiting > 0:
                         chunk = self._serial.read(self._serial.in_waiting)
-                        all_data[primary_baud] += chunk
+                        all_data[current_baud] += chunk
+                        buf = all_data[current_baud]
+                        marker = buf.find(MTK_BROM_HANDOFF)
+                        if (current_baud == 115200 and not self._mtk_baud_switched
+                                and marker != -1):
+                            # Drop bytes after the marker: they are preloader
+                            # output mis-read at 115200.
+                            all_data[current_baud] = buf[:marker + len(MTK_BROM_HANDOFF)] + b"\n"
+                            self._serial.baudrate = MTK_PRELOADER_BAUD
+                            current_baud = MTK_PRELOADER_BAUD
+                            all_data[current_baud] = b""
+                            self._mtk_baud_switched = True
                     if callback:
                         elapsed = time.time() - global_start
                         total_bytes = sum(len(d) for d in all_data.values())
-                        callback(min(elapsed, duration), total_bytes, primary_baud)
-                    time.sleep(0.05)
+                        callback(min(elapsed, duration), total_bytes, current_baud)
+                    time.sleep(0.02)
         except Exception:
             pass
+
+        if self._mtk_baud_switched:
+            # Full boot captured across both rates; no fallback probing needed.
+            self._close_serial()
+            return all_data
 
         # ── Phase 2: check if data looks readable ──
         primary_data = all_data.get(primary_baud, b"")
@@ -1834,16 +1857,19 @@ class DeviceAutoDetector:
             results["pmic_registers"] = pmic_regs
 
         # ── Voltage Rail Analysis ──
+        # "latch VCORE 400000 uV(0x0)" is the PMIC value latched at the
+        # PREVIOUS reset (0x0 = register default), not the running voltage.
+        # The voltage the preloader actually sets is "vcore = 800000 uV".
+        # Set values win; latch values are kept separately for reference and
+        # never raise a low-voltage fault.
         voltage_rails = {}
+        for m in re.finditer(r"(?<![\w_])(v\w+)\s*=\s*(\d+)\s*uV", text):
+            voltage_rails[m.group(1).upper()] = int(m.group(2))
+        latched_rails = {}
         for m in re.finditer(r"latch\s+(V\w+)\s+(\d+)\s*uV", text):
-            rail_name = m.group(1)
-            rail_uv = int(m.group(2))
-            voltage_rails[rail_name] = rail_uv
-        # Also capture set voltages from MT6357
-        for m in re.finditer(r"(v\w+)\s*=\s*(\d+)\s*uV", text):
-            rail_name = m.group(1).upper()
-            if rail_name not in voltage_rails:
-                voltage_rails[rail_name] = int(m.group(2))
+            latched_rails[m.group(1).upper()] = int(m.group(2))
+        if latched_rails:
+            results["voltage_rails_latched"] = latched_rails
 
         if voltage_rails:
             results["voltage_rails"] = voltage_rails
@@ -3095,7 +3121,12 @@ class DeviceAutoDetector:
                 best_baud = baud
 
         # Use the best baud's data; fall back to concatenating all if only one
-        if best_baud is not None and best_pct > 15:
+        if getattr(self, "_mtk_baud_switched", False):
+            # BROM log (115200) followed by preloader log (921600)
+            raw_data = baud_data.get(115200, b"") + baud_data.get(MTK_PRELOADER_BAUD, b"")
+            result.uart_log.append(
+                f"  MediaTek: switched 115200 → {MTK_PRELOADER_BAUD} after 'Jump to BL'")
+        elif best_baud is not None and best_pct > 15:
             raw_data = baud_data[best_baud]
             result.uart_log.append(f"  Using baud {best_baud} data ({best_pct:.0f}% readable)")
         else:
