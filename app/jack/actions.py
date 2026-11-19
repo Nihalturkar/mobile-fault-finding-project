@@ -315,6 +315,16 @@ def build_action_tools() -> ToolRegistry:
         label="Last scan report padh raha hoon",
     ))
     reg.add(Tool(
+        name="get_deep_info",
+        description="Get DEEP device details over ADB (phone must be booted with USB debugging ON): IMEI, SIM/network, "
+                    "bootloader lock + root + verified-boot state, display panel/resolution/refresh, RAM size, and a "
+                    "BATTERY + STORAGE HEALTH verdict (battery wear %, charge cycles; UFS/eMMC life left, pre-EOL). "
+                    "Use when Boss wants full specs, battery/storage health, 'is phone ki poori detail', or replace-or-not.",
+        parameters=_obj({}, []),
+        handler=lambda: __import__("app.hardware.deep_info", fromlist=["collect_deep_info"]).collect_deep_info(),
+        label="Deep device info nikal raha hoon (ADB)",
+    ))
+    reg.add(Tool(
         name="read_uart_live",
         description="Listen to the UART adapter for a few seconds to see whether the phone is sending boot/kernel "
                     "logs right now (read-only). Useful to check wiring or whether the phone is alive.",

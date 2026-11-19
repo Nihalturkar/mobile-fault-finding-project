@@ -45,21 +45,25 @@ class MobileRepairTool(ctk.CTk):
         self.filtered_devices = self.devices.copy()
         self.current_device = None
 
-        # Color scheme — "Royal Violet" (deep indigo-black + violet + magenta)
+        # Color scheme — "Gunmetal Console" (slate blue-grey backdrop + violet core + cyan HUD)
         self.colors = {
-            "bg_dark": "#0b0d1a",
-            "bg_medium": "#10121f",
-            "bg_light": "#1b1f38",
-            "bg_card": "#151830",
-            "accent": "#a855f7",        # violet — primary buttons
+            "bg_dark": "#202c34",       # dark slate — main content backdrop
+            "bg_medium": "#27343c",     # panel (sidebar / topbar / statusbar) — a touch lighter
+            "bg_light": "#31404a",      # raised control / input — lightest
+            "bg_card": "#25323a",       # card
+            "accent": "#a855f7",        # violet — primary buttons (brand core)
             "accent_hover": "#c084fc",
             "success": "#34d399",
             "warning": "#fbbf24",
             "info": "#818cf8",          # indigo
             "secondary": "#ec4899",     # magenta
             "text": "#ffffff",
-            "text_dim": "#9a93b5",
-            "border": "#262a45"
+            "text_dim": "#c4ccd6",      # light slate-grey — readable on the slate backdrop
+            "border": "#3d4d57",        # hairline on slate
+            # ── robotics HUD accents (used by the Neural-core chrome) ──
+            "hud": "#22d3ee",           # cyan — scan/HUD lines
+            "hud_dim": "#0e7490",       # deep cyan
+            "grid": "#3b4b55",          # faint grid on slate
         }
 
         self.configure(fg_color=self.colors["bg_dark"])
@@ -79,6 +83,12 @@ class MobileRepairTool(ctk.CTk):
 
         # Show dashboard by default
         self.show_dashboard()
+
+        # Power-on sequence — robotics boot animation (plays once; click/key to skip)
+        try:
+            self.after(80, self._play_boot_sequence)
+        except Exception:
+            pass
 
     def load_database(self):
         """Load devices from JSON database"""
@@ -212,10 +222,11 @@ class MobileRepairTool(ctk.CTk):
         self._nav_meta = [None] * n
         self._nav_headers = []
         for title, items in groups:
-            hdr = ctk.CTkLabel(self.nav_scroll, text=title, font=("Segoe UI", 10, "bold"),
-                               text_color=self._mix(C["text_dim"], C["bg_medium"], 0.25), height=18, anchor="w")
+            disp = f"◢ {title}"
+            hdr = ctk.CTkLabel(self.nav_scroll, text=disp, font=("Consolas", 10, "bold"),
+                               text_color=self._mix(C["hud"], C["text_dim"], 0.55), height=18, anchor="w")
             hdr.pack(fill="x", padx=14, pady=(10, 2))
-            self._nav_headers.append((hdr, title))
+            self._nav_headers.append((hdr, disp))
             for idx, icon, label, command in items:
                 row = ctk.CTkFrame(self.nav_scroll, fg_color="transparent", height=38)
                 row.pack(fill="x", padx=(2, 4), pady=1)
@@ -282,6 +293,15 @@ class MobileRepairTool(ctk.CTk):
         a = self._phase * 2.2
         c.create_arc(3, 3, 31, 31, start=math.degrees(a) % 360, extent=70, style="arc",
                      outline=self._mix(bg, core, 0.8), width=2)
+        # cyan HUD counter-ring + tick marks (robotics scanner feel)
+        hud = self._mix(bg, C["hud"], 0.55)
+        c.create_arc(5, 5, 29, 29, start=-math.degrees(a) * 0.7 % 360, extent=55, style="arc",
+                     outline=hud, width=1)
+        for k in range(8):
+            ta = math.radians(self._phase * 20 + k * 45)
+            r1, r2 = 15, 13
+            c.create_line(17 + r1 * math.cos(ta), 17 + r1 * math.sin(ta),
+                          17 + r2 * math.cos(ta), 17 + r2 * math.sin(ta), fill=hud, width=1)
         r = 5.5 + p * 1.2
         c.create_oval(17 - r, 17 - r, 17 + r, 17 + r, fill=self._mix(core, "#ffffff", 0.6), outline="")
 
@@ -298,6 +318,34 @@ class MobileRepairTool(ctk.CTk):
         # Stop Scan pulses while a scan is running
         if self._scan_running:
             self.stop_btn.configure(fg_color=self._mix(C["accent"], "#d8b4fe", 0.45 * p))
+
+        # sidebar right edge glows cyan (a live 'bus line')
+        try:
+            self._sidebar_edge.configure(fg_color=self._mix(C["border"], C["hud"], 0.25 + 0.5 * p))
+        except Exception:
+            pass
+
+        # active nav item: accent bar breathes violet → cyan (neon)
+        try:
+            idx = self._active_nav
+            if 0 <= idx < len(self._nav_bars) and self._nav_bars[idx] is not None:
+                self._nav_bars[idx].configure(fg_color=self._mix(C["accent"], C["hud"], 0.3 + 0.55 * p))
+        except Exception:
+            pass
+
+        # topbar ECG strip beats fast while a detection/scan is running
+        if getattr(self, "_hud_strip", None) is not None:
+            try:
+                self._hud_strip.active = self._scan_running
+            except Exception:
+                pass
+
+        # animated system tag in the topbar (if built)
+        if getattr(self, "_sys_dot", None) is not None:
+            try:
+                self._sys_dot.configure(text_color=self._mix(C["bg_medium"], C["success"], 0.4 + 0.6 * p))
+            except Exception:
+                pass
 
         self.after(60, self._sidebar_tick)
 
@@ -393,6 +441,24 @@ class MobileRepairTool(ctk.CTk):
         )
         search_btn.pack(side="left", padx=(0, 20), pady=11)
 
+        # ── robotics system tag (right of topbar) ──
+        sys_tag = ctk.CTkFrame(self.topbar, fg_color="transparent")
+        sys_tag.pack(side="right", padx=18)
+        self._sys_dot = ctk.CTkLabel(sys_tag, text="●", font=("Consolas", 13),
+                                     text_color=self.colors["success"], width=14)
+        self._sys_dot.pack(side="left")
+        ctk.CTkLabel(sys_tag, text="NEURAL DIAGNOSTIC CONSOLE", font=("Consolas", 11, "bold"),
+                     text_color=self.colors["hud"]).pack(side="left", padx=(4, 0))
+
+        # ── live HUD diagnostic strip — shown on every page, under the topbar ──
+        try:
+            from app.gui.pages.jack_page import HudBand
+            self._hud_strip = HudBand(self.main_area, bg=self.colors["bg_dark"],
+                                      accent=self.colors["hud"], label="SYSTEM BUS")
+            self._hud_strip.canvas.pack(fill="x", padx=16, pady=(4, 0))
+        except Exception as e:
+            print(f"[UI] HUD strip skipped: {e}")
+
         # Content frame (this is where pages are loaded)
         self.content = ctk.CTkScrollableFrame(
             self.main_area, fg_color=self.colors["bg_dark"],
@@ -406,20 +472,144 @@ class MobileRepairTool(ctk.CTk):
         self.statusbar.pack(side="bottom", fill="x")
         self.statusbar.pack_propagate(False)
 
+        ctk.CTkLabel(self.statusbar, text="◢", font=("Consolas", 11, "bold"),
+                     text_color=self.colors["hud"]).pack(side="left", padx=(15, 4))
         self.status_label = ctk.CTkLabel(
-            self.statusbar, text=f"Ready • {len(self.devices)} devices loaded",
-            font=("Segoe UI", 11), text_color=self.colors["text_dim"]
+            self.statusbar, text=f"READY · {len(self.devices)} devices loaded",
+            font=("Consolas", 11), text_color=self.colors["text_dim"]
         )
-        self.status_label.pack(side="left", padx=15)
+        self.status_label.pack(side="left")
 
         self.connection_label = ctk.CTkLabel(
-            self.statusbar, text="⚡ Hardware: Not Connected",
-            font=("Segoe UI", 11), text_color=self.colors["warning"]
+            self.statusbar, text="⚡ HARDWARE: NOT CONNECTED",
+            font=("Consolas", 11, "bold"), text_color=self.colors["warning"]
         )
         self.connection_label.pack(side="right", padx=15)
 
         # Auto-check connections every 5 seconds
         self._check_connections()
+
+    def _play_boot_sequence(self):
+        """One-time 'Neural Core' power-on overlay. Click / any key to skip."""
+        import tkinter as tk, math, time
+        C = self.colors
+        try:
+            ov = tk.Canvas(self, bg=C["bg_dark"], highlightthickness=0, bd=0)
+            ov.place(relx=0, rely=0, relwidth=1, relheight=1)
+            # NOTE: on a tk.Canvas, lift()/tkraise() are aliased to tag_raise (an item op),
+            # so use the low-level Tk 'raise' to stack the widget above its siblings.
+            try:
+                ov.tk.call("raise", ov._w)
+            except Exception:
+                pass
+            ov.focus_set()
+        except Exception:
+            return
+        done = {"v": False, "sched": False}
+
+        def finish(_e=None):
+            if done["v"]:
+                return
+            done["v"] = True
+            try:
+                ov.destroy()
+            except Exception:
+                pass
+
+        ov.bind("<Button-1>", finish)
+        ov.bind("<Key>", finish)
+
+        t0 = time.time()
+        DUR = 2.3
+        logs = [
+            (0.06, "◢ BOOTING NEURAL FAULT ENGINE …"),
+            (0.26, "  loading device database … %d phones" % len(self.devices)),
+            (0.46, "  calibrating diagnostic bus … OK"),
+            (0.64, "  arming UART / ADB / EDL probes … OK"),
+            (0.82, "  neural core sync … 100%"),
+        ]
+
+        def frame():
+            if done["v"]:
+                return
+            try:
+                if not ov.winfo_exists():
+                    return
+            except Exception:
+                return
+            w, h = self.winfo_width(), self.winfo_height()
+            if w <= 2:
+                w = self.winfo_screenwidth()
+            if h <= 2:
+                h = self.winfo_screenheight()
+            el = time.time() - t0
+            t = min(1.0, el / DUR)
+            ph = el * 3.2
+            ease = 1 - (1 - t) ** 3
+            ov.delete("all")
+            cx, cy = w / 2, h / 2 - 50
+
+            # sweeping scan-line across the whole screen
+            sy = (el * 320) % h
+            ov.create_line(0, sy, w, sy, fill=self._mix(C["bg_dark"], C["hud"], 0.1))
+
+            # converging rings (settle inward as it powers up)
+            for i in range(6):
+                rr = (250 - i * 28) * (1.0 - 0.55 * ease) + (64 - i * 7)
+                ov.create_oval(cx - rr, cy - rr, cx + rr, cy + rr,
+                               outline=self._mix(C["bg_dark"], C["hud"], 0.09 + i * 0.05), width=1)
+            # rotating hexagon
+            R = 88
+            pts = []
+            for k in range(6):
+                a = ph * 0.6 + math.radians(60 * k)
+                pts += [cx + R * math.cos(a), cy + R * math.sin(a)]
+            ov.create_polygon(*pts, outline=self._mix(C["bg_dark"], C["hud"], 0.55), fill="", width=2)
+            # counter-spinning violet arcs
+            for k in range(3):
+                ov.create_arc(cx - 68, cy - 68, cx + 68, cy + 68,
+                              start=(-ph * 45 + k * 120) % 360, extent=48, style="arc",
+                              outline=self._mix(C["bg_dark"], C["accent"], 0.75), width=2)
+            # pulsing core
+            pr = 24 + 6 * math.sin(ph * 2)
+            ov.create_oval(cx - pr, cy - pr, cx + pr, cy + pr,
+                           fill=self._mix(C["accent"], "#ffffff", 0.22), outline=self._mix(C["accent"], "#ffffff", 0.5))
+            ov.create_oval(cx - pr * 0.45, cy - pr * 0.45, cx + pr * 0.45, cy + pr * 0.45, fill="#ffffff", outline="")
+
+            # title
+            ov.create_text(cx, cy + 128, text="M O O X Y", fill="#ffffff", font=("Segoe UI", 32, "bold"))
+            ov.create_text(cx, cy + 162, text="NEURAL FAULT ENGINE",
+                           fill=self._mix(C["bg_dark"], C["hud"], 0.9), font=("Consolas", 13, "bold"))
+
+            # boot log block
+            lx, ly = cx - 210, cy + 200
+            for thr, line in logs:
+                if t >= thr:
+                    ov.create_text(lx, ly, anchor="w", text=line,
+                                   fill=self._mix(C["bg_dark"], C["hud"], 0.6), font=("Consolas", 11))
+                    ly += 20
+
+            # progress bar
+            bw, by = 380, cy + 310
+            bx = cx - bw / 2
+            ov.create_rectangle(bx, by, bx + bw, by + 6, outline=self._mix(C["bg_dark"], C["hud"], 0.3), width=1)
+            ov.create_rectangle(bx, by, bx + bw * t, by + 6, fill=C["hud"], outline="")
+            if t >= 1.0:
+                blink = int(el * 3) % 2 == 0
+                ov.create_text(cx, by + 24, text="◢ NEURAL CORE ONLINE" + ("  ▮" if blink else ""),
+                               fill=self._mix(C["bg_dark"], C["success"], 0.95), font=("Consolas", 12, "bold"))
+                if not done["sched"]:
+                    done["sched"] = True
+                    self.after(550, finish)
+            else:
+                ov.create_text(cx, by + 24, text=f"{int(t * 100):3d}%   INITIALISING",
+                               fill=self._mix(C["bg_dark"], C["hud"], 0.7), font=("Consolas", 11))
+                ov.create_text(cx, h - 26, text="click / press any key to skip",
+                               fill=self._mix(C["bg_dark"], C["text_dim"], 0.6), font=("Consolas", 9))
+
+            ov.after(33, frame)
+
+        frame()
 
     def _stop_scan(self):
         """Stop any running scan/detection."""

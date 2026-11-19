@@ -1,0 +1,2026 @@
+{
+  "_info": "Mooxy AI — Phone Model Database for Repair Diagnostics",
+  "_version": "1.1",
+  "_description": "Maps phone models to chipset, IC data, common faults, test points, and repair info. Sourced from teardowns, schematics, and technician experience.",
+  "_total_devices": 198,
+  "devices": {
+    "samsung": {
+      "Galaxy S24 Ultra": {
+        "codename": "e3q",
+        "chipset": "SM8650",
+        "chipset_name": "Snapdragon 8 Gen 3",
+        "pmic": "PM8650+PMK8650",
+        "charging_ic": "MAX77705F",
+        "wifi_bt": "WCN7850",
+        "audio_codec": "CS35L45 x2",
+        "nfc": "SN220U",
+        "display": "Dynamic AMOLED 2X 6.8\"",
+        "battery": "5000mAh",
+        "charging_speed": "45W wired + 15W wireless",
+        "usb": "USB-C 3.2",
+        "edl_mode": "test_point",
+        "common_faults": [
+          "Screen burn-in",
+          "S-Pen connectivity loss",
+          "Overheating under heavy load",
+          "Camera glass crack"
+        ],
+        "test_point": "Near SoC, under shield can B",
+        "fastboot_key": "Volume Down + Power (with cable)"
+      },
+      "Galaxy S24+": {
+        "codename": "e2q",
+        "chipset": "SM8650",
+        "chipset_name": "Snapdragon 8 Gen 3",
+        "pmic": "PM8650",
+        "display": "Dynamic AMOLED 2X 6.7\"",
+        "battery": "4900mAh",
+        "charging_speed": "45W",
+        "common_faults": [
+          "Display green line",
+          "WiFi disconnection",
+          "Battery drain"
+        ]
+      },
+      "Galaxy S24": {
+        "codename": "e1q",
+        "chipset": "SM8650",
+        "chipset_name": "Snapdragon 8 Gen 3",
+        "display": "Dynamic AMOLED 2X 6.2\"",
+        "battery": "4000mAh",
+        "charging_speed": "25W"
+      },
+      "Galaxy S23 Ultra": {
+        "codename": "dm3q",
+        "chipset": "SM8550",
+        "chipset_name": "Snapdragon 8 Gen 2",
+        "pmic": "PM8550VE+PM8550VS+PMK8550",
+        "charging_ic": "MAX77705C+PCA9481UK",
+        "wifi_bt": "WCN7851",
+        "audio_codec": "CS35L42 x2",
+        "haptic": "CS40L26",
+        "nfc": "SN220U",
+        "uwb": "SR200T",
+        "display": "Dynamic AMOLED 2X 6.8\"",
+        "battery": "5000mAh",
+        "charging_speed": "45W+15W wireless",
+        "common_faults": [
+          "Green line on display",
+          "Camera blur",
+          "S-Pen lag",
+          "Overheating"
+        ]
+      },
+      "Galaxy S23": {
+        "codename": "dm1q",
+        "chipset": "SM8550",
+        "chipset_name": "Snapdragon 8 Gen 2",
+        "display": "Dynamic AMOLED 2X 6.1\"",
+        "battery": "3900mAh"
+      },
+      "Galaxy S22 Ultra": {
+        "codename": "b0q",
+        "chipset": "SM8450",
+        "chipset_name": "Snapdragon 8 Gen 1",
+        "pmic": "PM8450+PM8350",
+        "display": "Dynamic AMOLED 2X 6.8\"",
+        "battery": "5000mAh",
+        "common_faults": [
+          "Overheating (8 Gen 1)",
+          "Display green line",
+          "GPS issues",
+          "Camera fog"
+        ]
+      },
+      "Galaxy S22": {
+        "codename": "r0q",
+        "chipset": "SM8450",
+        "chipset_name": "Snapdragon 8 Gen 1",
+        "display": "Dynamic AMOLED 2X 6.1\"",
+        "battery": "3700mAh"
+      },
+      "Galaxy S21 Ultra": {
+        "codename": "o1q",
+        "chipset": "SM8350",
+        "chipset_name": "Snapdragon 888",
+        "display": "Dynamic AMOLED 2X 6.8\"",
+        "battery": "5000mAh",
+        "common_faults": [
+          "Camera processing lag",
+          "S-Pen compatibility",
+          "Display crack at corners"
+        ]
+      },
+      "Galaxy S21 FE": {
+        "codename": "r9q",
+        "chipset": "SM8350",
+        "chipset_name": "Snapdragon 888",
+        "display": "Dynamic AMOLED 2X 6.4\"",
+        "battery": "4500mAh"
+      },
+      "Galaxy S20 FE": {
+        "codename": "r8q",
+        "chipset": "SM8250",
+        "chipset_name": "Snapdragon 865",
+        "display": "Super AMOLED 6.5\"",
+        "battery": "4500mAh",
+        "common_faults": [
+          "Touch screen ghost touches",
+          "Green tint display",
+          "Proximity sensor issues"
+        ]
+      },
+      "Galaxy A55": {
+        "codename": "a55x",
+        "chipset": "Exynos1480",
+        "chipset_name": "Exynos 1480",
+        "display": "Super AMOLED 6.6\"",
+        "battery": "5000mAh",
+        "charging_speed": "25W",
+        "common_faults": [
+          "Slow charging",
+          "WiFi drops"
+        ]
+      },
+      "Galaxy A54": {
+        "codename": "a54x",
+        "chipset": "Exynos1380",
+        "chipset_name": "Exynos 1380",
+        "display": "Super AMOLED 6.4\"",
+        "battery": "5000mAh",
+        "charging_speed": "25W",
+        "common_faults": [
+          "Fingerprint slow",
+          "Display flicker in low brightness"
+        ]
+      },
+      "Galaxy A53": {
+        "codename": "a53x",
+        "chipset": "Exynos1280",
+        "chipset_name": "Exynos 1280",
+        "display": "Super AMOLED 6.5\"",
+        "battery": "5000mAh"
+      },
+      "Galaxy A35": {
+        "codename": "a35x",
+        "chipset": "Exynos1380",
+        "chipset_name": "Exynos 1380",
+        "display": "Super AMOLED 6.6\"",
+        "battery": "5000mAh"
+      },
+      "Galaxy A34": {
+        "codename": "a34x",
+        "chipset": "MT6877",
+        "chipset_name": "Dimensity 1080",
+        "display": "Super AMOLED 6.6\"",
+        "battery": "5000mAh"
+      },
+      "Galaxy A25": {
+        "codename": "a25x",
+        "chipset": "Exynos1280",
+        "chipset_name": "Exynos 1280",
+        "display": "Super AMOLED 6.5\"",
+        "battery": "5000mAh"
+      },
+      "Galaxy A15": {
+        "codename": "a15",
+        "chipset": "MT6789",
+        "chipset_name": "Helio G99",
+        "display": "Super AMOLED 6.5\"",
+        "battery": "5000mAh",
+        "common_faults": [
+          "Slow performance",
+          "Camera quality poor in low light"
+        ],
+        "pmic": "MT6366",
+        "edl_mode": "not_applicable_mtk_brom",
+        "charging_speed": "25W wired",
+        "variant_note": "A15 4G = Helio G99 (MT6789); A15 5G = Dimensity 6100+ (MT6835)"
+      },
+      "Galaxy A14": {
+        "codename": "a14x",
+        "chipset": "Exynos850",
+        "chipset_name": "Exynos 850",
+        "display": "PLS LCD 6.6\"",
+        "battery": "5000mAh"
+      },
+      "Galaxy A06": {
+        "codename": "a06",
+        "chipset": "MT6769",
+        "chipset_name": "Helio G85",
+        "display": "PLS LCD 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "25W",
+        "common_faults": [
+          "Slow performance",
+          "Low RAM lag"
+        ]
+      },
+      "Galaxy A05s": {
+        "codename": "a05s",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 680",
+        "display": "PLS LCD 6.7\"",
+        "battery": "5000mAh"
+      },
+      "Galaxy A04e": {
+        "codename": "a04e",
+        "chipset": "MT6765",
+        "chipset_name": "Helio P35",
+        "display": "PLS LCD 6.5\"",
+        "battery": "5000mAh",
+        "common_faults": [
+          "Slow charging",
+          "Touchscreen unresponsive in corners"
+        ]
+      },
+      "Galaxy M55": {
+        "codename": "m55x",
+        "chipset": "SM8250",
+        "chipset_name": "Snapdragon 7 Gen 1",
+        "display": "Super AMOLED 6.7\"",
+        "battery": "5000mAh"
+      },
+      "Galaxy M35": {
+        "codename": "m35x",
+        "chipset": "Exynos1380",
+        "chipset_name": "Exynos 1380",
+        "display": "Super AMOLED 6.6\"",
+        "battery": "6000mAh"
+      },
+      "Galaxy M34": {
+        "codename": "m34x",
+        "chipset": "Exynos1280",
+        "chipset_name": "Exynos 1280",
+        "display": "Super AMOLED 6.5\"",
+        "battery": "6000mAh",
+        "charging_speed": "25W",
+        "common_faults": [
+          "Battery drain on mobile data",
+          "Heating during charging"
+        ]
+      },
+      "Galaxy M15": {
+        "codename": "m15x",
+        "chipset": "MT6835",
+        "chipset_name": "Dimensity 6100+",
+        "display": "Super AMOLED 6.5\"",
+        "battery": "6000mAh"
+      },
+      "Galaxy M14": {
+        "codename": "m14x",
+        "chipset": "Exynos1330",
+        "chipset_name": "Exynos 1330",
+        "display": "PLS LCD 6.6\"",
+        "battery": "6000mAh",
+        "charging_speed": "25W",
+        "common_faults": [
+          "Display quality poor",
+          "Slow charging despite 6000mAh"
+        ]
+      },
+      "Galaxy F55": {
+        "codename": "f55",
+        "chipset": "SM8250",
+        "chipset_name": "Snapdragon 7 Gen 1",
+        "display": "Super AMOLED 6.7\"",
+        "battery": "5000mAh"
+      },
+      "Galaxy F15": {
+        "codename": "f15",
+        "chipset": "Exynos1330",
+        "chipset_name": "Exynos 1330",
+        "display": "Super AMOLED 6.5\"",
+        "battery": "6000mAh",
+        "charging_speed": "25W",
+        "common_faults": [
+          "Slow charging",
+          "Fingerprint sensor lag"
+        ]
+      },
+      "Galaxy Z Fold 5": {
+        "codename": "q5q",
+        "chipset": "SM8550",
+        "chipset_name": "Snapdragon 8 Gen 2",
+        "display": "Dynamic AMOLED 2X 7.6\"+6.2\"",
+        "battery": "4400mAh",
+        "common_faults": [
+          "Inner display crease",
+          "Hinge dust ingress",
+          "Inner screen protector peeling"
+        ]
+      },
+      "Galaxy Z Flip 5": {
+        "codename": "b5q",
+        "chipset": "SM8550",
+        "chipset_name": "Snapdragon 8 Gen 2",
+        "display": "Dynamic AMOLED 2X 6.7\"+3.4\"",
+        "battery": "3700mAh",
+        "common_faults": [
+          "Screen crease",
+          "Hinge wobble",
+          "Battery drain"
+        ]
+      },
+      "Galaxy Tab S9": {
+        "codename": "gts9",
+        "chipset": "SM8550",
+        "chipset_name": "Snapdragon 8 Gen 2",
+        "display": "Dynamic AMOLED 2X 11\"",
+        "battery": "8400mAh",
+        "charging_speed": "45W",
+        "common_faults": [
+          "S-Pen lag",
+          "Display ghosting",
+          "Charging port loose"
+        ]
+      },
+      "Galaxy Tab A9": {
+        "codename": "gta9",
+        "chipset": "MT6789",
+        "chipset_name": "Helio G99",
+        "display": "TFT LCD 8.7\"",
+        "battery": "5100mAh",
+        "charging_speed": "15W",
+        "common_faults": [
+          "Slow performance",
+          "WiFi range poor"
+        ]
+      }
+    },
+    "xiaomi_redmi_poco": {
+      "Xiaomi 14 Ultra": {
+        "codename": "aurora",
+        "chipset": "SM8650",
+        "chipset_name": "Snapdragon 8 Gen 3",
+        "display": "LTPO AMOLED 6.73\"",
+        "battery": "5300mAh",
+        "charging_speed": "90W+50W wireless",
+        "common_faults": [
+          "Camera module expensive",
+          "Overheating gaming"
+        ]
+      },
+      "Xiaomi 14": {
+        "codename": "houji",
+        "chipset": "SM8650",
+        "chipset_name": "Snapdragon 8 Gen 3",
+        "display": "LTPO AMOLED 6.36\"",
+        "battery": "4610mAh",
+        "charging_speed": "90W"
+      },
+      "Xiaomi 13 Pro": {
+        "codename": "nuwa",
+        "chipset": "SM8550",
+        "chipset_name": "Snapdragon 8 Gen 2",
+        "display": "LTPO AMOLED 6.73\"",
+        "battery": "4820mAh",
+        "charging_speed": "120W+50W wireless"
+      },
+      "Xiaomi 13": {
+        "codename": "fuxi",
+        "chipset": "SM8550",
+        "chipset_name": "Snapdragon 8 Gen 2",
+        "display": "AMOLED 6.36\"",
+        "battery": "4500mAh"
+      },
+      "Xiaomi 12 Pro": {
+        "codename": "zeus",
+        "chipset": "SM8450",
+        "chipset_name": "Snapdragon 8 Gen 1",
+        "display": "LTPO AMOLED 6.73\"",
+        "battery": "4600mAh",
+        "charging_speed": "120W+50W wireless",
+        "common_faults": [
+          "Overheating (8 Gen 1)",
+          "Battery degradation from fast charging"
+        ]
+      },
+      "Xiaomi 11T Pro": {
+        "codename": "vili",
+        "chipset": "SM8350",
+        "chipset_name": "Snapdragon 888",
+        "display": "AMOLED 6.67\"",
+        "battery": "5000mAh",
+        "charging_speed": "120W"
+      },
+      "Xiaomi 11 Lite 5G NE": {
+        "codename": "lisa",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 778G",
+        "display": "AMOLED 6.55\"",
+        "battery": "4250mAh",
+        "charging_speed": "33W"
+      },
+      "Redmi Note 13 Pro+": {
+        "codename": "zircon",
+        "chipset": "MT6886",
+        "chipset_name": "Dimensity 7200 Ultra",
+        "display": "AMOLED 6.67\"",
+        "battery": "5000mAh",
+        "charging_speed": "120W",
+        "common_faults": [
+          "Charging port wear (120W)",
+          "Display under-screen light bleed"
+        ]
+      },
+      "Redmi Note 13 Pro": {
+        "codename": "sapphire",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 7s Gen 2",
+        "display": "AMOLED 6.67\"",
+        "battery": "5100mAh",
+        "charging_speed": "67W"
+      },
+      "Redmi Note 13": {
+        "codename": "sapphiren",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 685",
+        "display": "AMOLED 6.67\"",
+        "battery": "5000mAh",
+        "charging_speed": "33W"
+      },
+      "Redmi Note 12 Pro+": {
+        "codename": "ruby",
+        "chipset": "MT6877",
+        "chipset_name": "Dimensity 1080",
+        "display": "AMOLED 6.67\"",
+        "battery": "5000mAh",
+        "charging_speed": "120W",
+        "common_faults": [
+          "Display burn-in",
+          "Charging IC overheat"
+        ]
+      },
+      "Redmi Note 12 Pro": {
+        "codename": "sweet",
+        "chipset": "MT6877",
+        "chipset_name": "Dimensity 1080",
+        "display": "AMOLED 6.67\"",
+        "battery": "5000mAh",
+        "charging_speed": "67W"
+      },
+      "Redmi Note 12": {
+        "codename": "tapas",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 685",
+        "display": "AMOLED 6.67\"",
+        "battery": "5000mAh"
+      },
+      "Redmi Note 11 Pro+": {
+        "codename": "pissarro",
+        "chipset": "MT6877",
+        "chipset_name": "Dimensity 920",
+        "display": "AMOLED 6.67\"",
+        "battery": "4500mAh",
+        "charging_speed": "67W"
+      },
+      "Redmi Note 11 Pro": {
+        "codename": "viva",
+        "chipset": "MT6781",
+        "chipset_name": "Helio G96",
+        "display": "AMOLED 6.67\"",
+        "battery": "5000mAh",
+        "charging_speed": "67W",
+        "common_faults": [
+          "Motherboard failure",
+          "Touch issues after drop"
+        ]
+      },
+      "Redmi Note 11": {
+        "codename": "spes",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 680",
+        "display": "AMOLED 6.43\"",
+        "battery": "5000mAh"
+      },
+      "Redmi Note 10 Pro": {
+        "codename": "sweet",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 732G",
+        "display": "AMOLED 6.67\"",
+        "battery": "5020mAh",
+        "common_faults": [
+          "Display green tint",
+          "Ghost touch",
+          "Proximity sensor"
+        ]
+      },
+      "Redmi Note 10": {
+        "codename": "mojito",
+        "chipset": "SM6150",
+        "chipset_name": "Snapdragon 678",
+        "display": "AMOLED 6.43\"",
+        "battery": "5000mAh"
+      },
+      "Redmi 13C": {
+        "codename": "gale",
+        "chipset": "MT6769",
+        "chipset_name": "Helio G85",
+        "display": "IPS LCD 6.74\"",
+        "battery": "5000mAh",
+        "common_faults": [
+          "Slow performance",
+          "Camera lag"
+        ]
+      },
+      "Redmi 12": {
+        "codename": "fire",
+        "chipset": "MT6769",
+        "chipset_name": "Helio G88",
+        "display": "AMOLED 6.79\"",
+        "battery": "5000mAh"
+      },
+      "Redmi A3": {
+        "codename": "earth",
+        "chipset": "MT6765",
+        "chipset_name": "Helio G36",
+        "display": "IPS LCD 6.71\"",
+        "battery": "5000mAh"
+      },
+      "POCO X6 Pro": {
+        "codename": "duchesse",
+        "chipset": "MT6897",
+        "chipset_name": "Dimensity 8300 Ultra",
+        "display": "AMOLED 6.67\"",
+        "battery": "5000mAh",
+        "charging_speed": "67W"
+      },
+      "POCO X6": {
+        "codename": "garnet",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 7s Gen 2",
+        "display": "AMOLED 6.67\"",
+        "battery": "5100mAh"
+      },
+      "POCO X5 Pro": {
+        "codename": "redwood",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 778G",
+        "display": "AMOLED 6.67\"",
+        "battery": "5000mAh"
+      },
+      "POCO F6": {
+        "codename": "peridot",
+        "chipset": "SM8635",
+        "chipset_name": "Snapdragon 8s Gen 3",
+        "display": "AMOLED 6.67\"",
+        "battery": "5000mAh",
+        "charging_speed": "90W"
+      },
+      "POCO F5": {
+        "codename": "marble",
+        "chipset": "SM7475",
+        "chipset_name": "Snapdragon 7+ Gen 2",
+        "display": "AMOLED 6.67\"",
+        "battery": "5000mAh",
+        "charging_speed": "67W"
+      },
+      "POCO M6 Pro": {
+        "codename": "meteor",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 4 Gen 2 AE",
+        "display": "AMOLED 6.67\"",
+        "battery": "5000mAh"
+      },
+      "POCO C65": {
+        "codename": "ice",
+        "chipset": "MT6769",
+        "chipset_name": "Helio G85",
+        "display": "IPS LCD 6.74\"",
+        "battery": "5000mAh"
+      }
+    },
+    "oneplus": {
+      "OnePlus 12": {
+        "codename": "waffle",
+        "chipset": "SM8650",
+        "chipset_name": "Snapdragon 8 Gen 3",
+        "pmic": "PM8650",
+        "display": "LTPO AMOLED 6.82\"",
+        "battery": "5400mAh",
+        "charging_speed": "100W+50W wireless",
+        "common_faults": [
+          "Display green tint at low brightness",
+          "WiFi 7 connectivity issues"
+        ]
+      },
+      "OnePlus 12R": {
+        "codename": "aston",
+        "chipset": "SM8550",
+        "chipset_name": "Snapdragon 8 Gen 2",
+        "display": "LTPO AMOLED 6.78\"",
+        "battery": "5500mAh",
+        "charging_speed": "100W"
+      },
+      "OnePlus 11": {
+        "codename": "salami",
+        "chipset": "SM8550",
+        "chipset_name": "Snapdragon 8 Gen 2",
+        "display": "LTPO AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "100W"
+      },
+      "OnePlus 11R": {
+        "codename": "billie",
+        "chipset": "SM8475",
+        "chipset_name": "Snapdragon 8+ Gen 1",
+        "display": "AMOLED 6.74\"",
+        "battery": "5000mAh",
+        "charging_speed": "100W"
+      },
+      "OnePlus 10 Pro": {
+        "codename": "negroni",
+        "chipset": "SM8450",
+        "chipset_name": "Snapdragon 8 Gen 1",
+        "display": "LTPO AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "80W+50W wireless",
+        "common_faults": [
+          "Overheating (8 Gen 1)",
+          "Green line display",
+          "Camera quality inconsistent"
+        ]
+      },
+      "OnePlus 10T": {
+        "codename": "ovaltine",
+        "chipset": "SM8475",
+        "chipset_name": "Snapdragon 8+ Gen 1",
+        "display": "AMOLED 6.7\"",
+        "battery": "4800mAh",
+        "charging_speed": "150W"
+      },
+      "OnePlus 10R": {
+        "codename": "pickle",
+        "chipset": "MT6895",
+        "chipset_name": "Dimensity 8100 Max",
+        "display": "AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "150W"
+      },
+      "OnePlus 9 Pro": {
+        "codename": "lemonadep",
+        "chipset": "SM8350",
+        "chipset_name": "Snapdragon 888",
+        "display": "LTPO AMOLED 6.7\"",
+        "battery": "4500mAh",
+        "charging_speed": "65W+50W wireless",
+        "common_faults": [
+          "Overheating",
+          "Display green tint",
+          "Battery degradation"
+        ]
+      },
+      "OnePlus 9": {
+        "codename": "lemonade",
+        "chipset": "SM8350",
+        "chipset_name": "Snapdragon 888",
+        "display": "AMOLED 6.55\"",
+        "battery": "4500mAh",
+        "charging_speed": "65W"
+      },
+      "OnePlus 9R": {
+        "codename": "lemonades",
+        "chipset": "SM8250",
+        "chipset_name": "Snapdragon 870",
+        "pmic": "PM8150+PM8250",
+        "display": "AMOLED 6.55\" 120Hz",
+        "battery": "4500mAh",
+        "charging_speed": "65W Warp Charge",
+        "usb": "USB-C 2.0",
+        "edl_mode": "test_point",
+        "test_point": "Near CPU, short TP pad to GND with cable connected while phone is OFF",
+        "fastboot_key": "Volume Down + Power",
+        "recovery_key": "Volume Down + Power (release at OnePlus logo, hold Volume Down)",
+        "common_faults": [
+          "FRP lock after reset",
+          "Display green line after drop",
+          "Charging port loose after prolonged use",
+          "WiFi disconnection",
+          "Proximity sensor issues during calls"
+        ]
+      },
+      "OnePlus 9RT": {
+        "codename": "martini",
+        "chipset": "SM8350",
+        "chipset_name": "Snapdragon 888",
+        "display": "AMOLED 6.62\"",
+        "battery": "4500mAh",
+        "charging_speed": "65W"
+      },
+      "OnePlus Nord 4": {
+        "codename": "aston",
+        "chipset": "SM7475",
+        "chipset_name": "Snapdragon 7+ Gen 3",
+        "display": "AMOLED 6.74\"",
+        "battery": "5500mAh",
+        "charging_speed": "100W"
+      },
+      "OnePlus Nord 3": {
+        "codename": "larry",
+        "chipset": "MT6983",
+        "chipset_name": "Dimensity 9000",
+        "display": "AMOLED 6.74\"",
+        "battery": "5000mAh",
+        "charging_speed": "80W"
+      },
+      "OnePlus Nord CE 4": {
+        "codename": "wine",
+        "chipset": "SM7475",
+        "chipset_name": "Snapdragon 7 Gen 3",
+        "display": "AMOLED 6.67\"",
+        "battery": "5500mAh",
+        "charging_speed": "100W"
+      },
+      "OnePlus Nord CE 3 Lite": {
+        "codename": "oscar",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 695",
+        "display": "IPS LCD 6.72\"",
+        "battery": "5000mAh",
+        "charging_speed": "67W"
+      },
+      "OnePlus Nord CE 2 Lite": {
+        "codename": "kevin",
+        "chipset": "SM6375",
+        "chipset_name": "Snapdragon 695",
+        "display": "IPS LCD 6.59\"",
+        "battery": "5000mAh",
+        "charging_speed": "33W",
+        "common_faults": [
+          "Display crack prone",
+          "Charging speed drops over time"
+        ]
+      }
+    },
+    "realme": {
+      "Realme GT 5 Pro": {
+        "codename": "bigfoot",
+        "chipset": "SM8650",
+        "chipset_name": "Snapdragon 8 Gen 3",
+        "display": "LTPO AMOLED 6.78\"",
+        "battery": "5400mAh",
+        "charging_speed": "100W",
+        "common_faults": [
+          "Overheating under sustained load",
+          "Display green tint at low brightness"
+        ]
+      },
+      "Realme GT Neo 5": {
+        "codename": "void",
+        "chipset": "SM8475",
+        "chipset_name": "Snapdragon 8+ Gen 1",
+        "display": "AMOLED 6.74\"",
+        "battery": "4600mAh",
+        "charging_speed": "240W",
+        "common_faults": [
+          "Charging port wear from 240W",
+          "Battery degradation from fast charging",
+          "Overheating"
+        ]
+      },
+      "Realme GT Neo 3": {
+        "codename": "RE879AL",
+        "chipset": "MT6895",
+        "chipset_name": "Dimensity 8100",
+        "display": "AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "150W",
+        "common_faults": [
+          "Charging port wear",
+          "Battery cycle degradation",
+          "Display burn-in"
+        ]
+      },
+      "Realme GT 2 Pro": {
+        "codename": "RMX3301",
+        "chipset": "SM8450",
+        "chipset_name": "Snapdragon 8 Gen 1",
+        "display": "LTPO AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "65W",
+        "common_faults": [
+          "Overheating (8 Gen 1)",
+          "Paper display scratch prone",
+          "GPS lock slow"
+        ]
+      },
+      "Realme 12 Pro+": {
+        "codename": "lagan",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 7s Gen 2",
+        "display": "AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "67W"
+      },
+      "Realme 12 Pro": {
+        "codename": "elish",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 6 Gen 1",
+        "display": "AMOLED 6.7\"",
+        "battery": "5000mAh"
+      },
+      "Realme 11 Pro+": {
+        "codename": "RMX3741",
+        "chipset": "MT6877",
+        "chipset_name": "Dimensity 7050",
+        "display": "AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "100W"
+      },
+      "Realme 11 Pro": {
+        "codename": "RMX3771",
+        "chipset": "MT6877",
+        "chipset_name": "Dimensity 7050",
+        "display": "AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "67W"
+      },
+      "Realme 10 Pro+": {
+        "codename": "RMX3686",
+        "chipset": "MT6877",
+        "chipset_name": "Dimensity 1080",
+        "display": "AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "67W",
+        "common_faults": [
+          "Display curve prone to cracks",
+          "Fingerprint sensor slow"
+        ]
+      },
+      "Realme 10 Pro": {
+        "codename": "RMX3663",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 695",
+        "display": "IPS LCD 6.72\"",
+        "battery": "5000mAh",
+        "charging_speed": "33W"
+      },
+      "Realme 9 Pro+": {
+        "codename": "RMX3393",
+        "chipset": "MT6877",
+        "chipset_name": "Dimensity 920",
+        "display": "AMOLED 6.4\"",
+        "battery": "4500mAh",
+        "charging_speed": "60W",
+        "common_faults": [
+          "Heart rate sensor inaccurate",
+          "Display color shift"
+        ]
+      },
+      "Realme 9 Pro": {
+        "codename": "RMX3472",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 695",
+        "display": "IPS LCD 6.6\"",
+        "battery": "5000mAh",
+        "charging_speed": "33W"
+      },
+      "Realme Narzo 60 Pro": {
+        "codename": "nashc",
+        "chipset": "MT6877",
+        "chipset_name": "Dimensity 7050",
+        "display": "AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "67W"
+      },
+      "Realme Narzo 60": {
+        "codename": "nash",
+        "chipset": "MT6833",
+        "chipset_name": "Dimensity 6020",
+        "display": "AMOLED 6.4\"",
+        "battery": "5000mAh"
+      },
+      "Realme C67": {
+        "codename": "RMX3890",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 685",
+        "display": "IPS LCD 6.72\"",
+        "battery": "5000mAh",
+        "common_faults": [
+          "Slow performance",
+          "Camera lag in low light"
+        ]
+      },
+      "Realme C55": {
+        "codename": "RMX3710",
+        "chipset": "MT6769",
+        "chipset_name": "Helio G88",
+        "display": "IPS LCD 6.72\"",
+        "battery": "5000mAh",
+        "common_faults": [
+          "Mini Capsule gimmick drain",
+          "Heating during gaming"
+        ]
+      },
+      "Realme C53": {
+        "codename": "RMX3760",
+        "chipset": "T612",
+        "chipset_name": "Unisoc T612",
+        "display": "IPS LCD 6.74\"",
+        "battery": "5000mAh",
+        "charging_speed": "33W",
+        "common_faults": [
+          "Slow performance",
+          "Camera quality poor"
+        ]
+      },
+      "Realme C35": {
+        "codename": "RMX3511",
+        "chipset": "T616",
+        "chipset_name": "Unisoc T616",
+        "display": "IPS LCD 6.6\"",
+        "battery": "5000mAh",
+        "charging_speed": "18W"
+      },
+      "Realme C33": {
+        "codename": "RMX3624",
+        "chipset": "T612",
+        "chipset_name": "Unisoc T612",
+        "display": "IPS LCD 6.5\"",
+        "battery": "5000mAh",
+        "common_faults": [
+          "Slow charging",
+          "WiFi range limited"
+        ]
+      },
+      "Realme C31": {
+        "codename": "RMX3501",
+        "chipset": "T612",
+        "chipset_name": "Unisoc T612",
+        "display": "IPS LCD 6.5\"",
+        "battery": "5000mAh"
+      }
+    },
+    "vivo": {
+      "Vivo X100 Pro": {
+        "codename": "V2324",
+        "chipset": "MT6855",
+        "chipset_name": "Dimensity 9300",
+        "pmic": "MT6373",
+        "display": "LTPO AMOLED 6.78\"",
+        "battery": "5400mAh",
+        "charging_speed": "100W",
+        "common_faults": [
+          "Camera module overheating during video",
+          "Display burn-in risk"
+        ]
+      },
+      "Vivo X100": {
+        "codename": "V2310",
+        "chipset": "MT6855",
+        "chipset_name": "Dimensity 9300",
+        "display": "LTPO AMOLED 6.78\"",
+        "battery": "5000mAh",
+        "charging_speed": "120W"
+      },
+      "Vivo X90 Pro": {
+        "codename": "V2242A",
+        "chipset": "MT6985",
+        "chipset_name": "Dimensity 9200",
+        "display": "AMOLED 6.78\"",
+        "battery": "4870mAh",
+        "charging_speed": "120W",
+        "common_faults": [
+          "Overheating during prolonged camera use",
+          "Display green tint"
+        ]
+      },
+      "Vivo X80 Pro": {
+        "codename": "V2185A",
+        "chipset": "SM8450",
+        "chipset_name": "Snapdragon 8 Gen 1",
+        "display": "LTPO AMOLED 6.78\"",
+        "battery": "4700mAh",
+        "charging_speed": "80W+50W wireless",
+        "common_faults": [
+          "Overheating (8 Gen 1)",
+          "Gimbal camera stabilizer failure",
+          "Battery drain"
+        ]
+      },
+      "Vivo V40": {
+        "codename": "V2432",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 7 Gen 3",
+        "display": "AMOLED 6.78\"",
+        "battery": "5500mAh",
+        "charging_speed": "80W"
+      },
+      "Vivo V30 Pro": {
+        "codename": "V2311",
+        "chipset": "MT6896",
+        "chipset_name": "Dimensity 8200",
+        "display": "AMOLED 6.78\"",
+        "battery": "5000mAh",
+        "charging_speed": "80W",
+        "common_faults": [
+          "Heating during video recording",
+          "Fingerprint sensor slow in humidity"
+        ]
+      },
+      "Vivo V30": {
+        "codename": "V2318",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 7 Gen 3",
+        "display": "AMOLED 6.78\"",
+        "battery": "5000mAh",
+        "charging_speed": "80W"
+      },
+      "Vivo V29": {
+        "codename": "V2250",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 778G",
+        "display": "AMOLED 6.78\"",
+        "battery": "4600mAh",
+        "charging_speed": "80W",
+        "common_faults": [
+          "Aura light ring LED failure",
+          "Display flex cable issue"
+        ]
+      },
+      "Vivo V27": {
+        "codename": "V2249",
+        "chipset": "MT6886",
+        "chipset_name": "Dimensity 7200",
+        "display": "AMOLED 6.78\"",
+        "battery": "4600mAh",
+        "charging_speed": "66W"
+      },
+      "Vivo V25 Pro": {
+        "codename": "V2158",
+        "chipset": "MT6893",
+        "chipset_name": "Dimensity 1300",
+        "display": "AMOLED 6.56\"",
+        "battery": "4830mAh",
+        "charging_speed": "66W",
+        "common_faults": [
+          "Color-changing back panel discoloration over time",
+          "Camera processing slow"
+        ]
+      },
+      "Vivo T3 Ultra": {
+        "codename": "V2426",
+        "chipset": "MT6985",
+        "chipset_name": "Dimensity 9200+",
+        "display": "AMOLED 6.78\"",
+        "battery": "5500mAh",
+        "charging_speed": "80W"
+      },
+      "Vivo T3x": {
+        "codename": "V2414",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 6 Gen 1",
+        "display": "AMOLED 6.72\"",
+        "battery": "6000mAh"
+      },
+      "Vivo T2x": {
+        "codename": "V2338A",
+        "chipset": "MT6833",
+        "chipset_name": "Dimensity 6020",
+        "display": "IPS LCD 6.58\"",
+        "battery": "6000mAh",
+        "charging_speed": "44W",
+        "common_faults": [
+          "LCD quality poor viewing angles",
+          "Slow fingerprint"
+        ]
+      },
+      "Vivo T1": {
+        "codename": "V2153",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 778G",
+        "display": "AMOLED 6.44\"",
+        "battery": "4700mAh",
+        "charging_speed": "66W"
+      },
+      "Vivo Y200": {
+        "codename": "V2418",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 4 Gen 2",
+        "display": "AMOLED 6.67\"",
+        "battery": "5000mAh"
+      },
+      "Vivo Y100": {
+        "codename": "V2338",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 685",
+        "display": "AMOLED 6.67\"",
+        "battery": "5000mAh"
+      },
+      "Vivo Y36": {
+        "codename": "V2248",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 680",
+        "display": "IPS LCD 6.64\"",
+        "battery": "5000mAh",
+        "charging_speed": "44W",
+        "common_faults": [
+          "Slow performance",
+          "Camera quality mediocre"
+        ]
+      },
+      "Vivo Y27": {
+        "codename": "V2249A",
+        "chipset": "MT6769",
+        "chipset_name": "Helio G85",
+        "display": "IPS LCD 6.64\"",
+        "battery": "5000mAh",
+        "charging_speed": "44W"
+      },
+      "Vivo Y22": {
+        "codename": "V2207",
+        "chipset": "MT6769",
+        "chipset_name": "Helio G85",
+        "display": "IPS LCD 6.55\"",
+        "battery": "5000mAh",
+        "charging_speed": "18W",
+        "common_faults": [
+          "Slow charging",
+          "Lag in multitasking"
+        ]
+      },
+      "Vivo Y21": {
+        "codename": "V2111",
+        "chipset": "MT6765",
+        "chipset_name": "Helio P35",
+        "display": "IPS LCD 6.51\"",
+        "battery": "5000mAh",
+        "charging_speed": "18W",
+        "common_faults": [
+          "Very slow performance",
+          "Camera lag"
+        ]
+      },
+      "Vivo Y17s": {
+        "codename": "V2310A",
+        "chipset": "MT6769",
+        "chipset_name": "Helio G85",
+        "display": "IPS LCD 6.56\"",
+        "battery": "5000mAh",
+        "charging_speed": "15W"
+      },
+      "Vivo Y16": {
+        "codename": "V2204",
+        "chipset": "MT6765",
+        "chipset_name": "Helio P35",
+        "display": "IPS LCD 6.51\"",
+        "battery": "5000mAh",
+        "charging_speed": "10W",
+        "common_faults": [
+          "Extremely slow charging",
+          "Performance lag",
+          "Low storage issues"
+        ]
+      },
+      "iQOO 12": {
+        "codename": "I2211",
+        "chipset": "SM8650",
+        "chipset_name": "Snapdragon 8 Gen 3",
+        "display": "LTPO AMOLED 6.78\"",
+        "battery": "5000mAh",
+        "charging_speed": "120W",
+        "common_faults": [
+          "Overheating during gaming",
+          "Display burn-in at max brightness"
+        ]
+      },
+      "iQOO 11": {
+        "codename": "I2126",
+        "chipset": "SM8550",
+        "chipset_name": "Snapdragon 8 Gen 2",
+        "display": "LTPO AMOLED 6.78\"",
+        "battery": "5000mAh",
+        "charging_speed": "120W",
+        "common_faults": [
+          "Display green tint",
+          "Touch response delay in games"
+        ]
+      },
+      "iQOO Neo 9 Pro": {
+        "codename": "I2216",
+        "chipset": "MT6855",
+        "chipset_name": "Dimensity 9300",
+        "display": "AMOLED 6.78\"",
+        "battery": "5160mAh",
+        "charging_speed": "120W"
+      },
+      "iQOO Neo 7": {
+        "codename": "I2214",
+        "chipset": "MT6896",
+        "chipset_name": "Dimensity 8200",
+        "display": "AMOLED 6.78\"",
+        "battery": "5000mAh",
+        "charging_speed": "120W",
+        "common_faults": [
+          "Heating under sustained gaming",
+          "Display PWM flicker at low brightness"
+        ]
+      },
+      "iQOO Z9": {
+        "codename": "I2211Z",
+        "chipset": "MT6886",
+        "chipset_name": "Dimensity 7200",
+        "display": "AMOLED 6.67\"",
+        "battery": "5000mAh",
+        "charging_speed": "44W"
+      },
+      "iQOO Z9x": {
+        "codename": "I2213",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 6 Gen 1",
+        "display": "IPS LCD 6.72\"",
+        "battery": "6000mAh"
+      },
+      "iQOO Z7": {
+        "codename": "I2202",
+        "chipset": "MT6877",
+        "chipset_name": "Dimensity 920",
+        "display": "AMOLED 6.38\"",
+        "battery": "4500mAh",
+        "charging_speed": "66W",
+        "common_faults": [
+          "Small display size complaints",
+          "Heating during charging"
+        ]
+      }
+    },
+    "oppo": {
+      "OPPO Find X7 Ultra": {
+        "codename": "PHZ110",
+        "chipset": "SM8650",
+        "chipset_name": "Snapdragon 8 Gen 3",
+        "pmic": "PM8650",
+        "display": "LTPO AMOLED 6.82\"",
+        "battery": "5000mAh",
+        "charging_speed": "100W+50W wireless",
+        "common_faults": [
+          "Camera module very expensive to replace",
+          "Overheating under sustained load"
+        ]
+      },
+      "OPPO Find X6 Pro": {
+        "codename": "PGEM10",
+        "chipset": "MT6985",
+        "chipset_name": "Dimensity 9200",
+        "display": "LTPO AMOLED 6.82\"",
+        "battery": "5000mAh",
+        "charging_speed": "100W+50W wireless",
+        "common_faults": [
+          "Periscope lens alignment issues",
+          "Display burn-in"
+        ]
+      },
+      "OPPO Find X5 Pro": {
+        "codename": "PEEM00",
+        "chipset": "SM8450",
+        "chipset_name": "Snapdragon 8 Gen 1",
+        "display": "LTPO AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "80W+50W wireless",
+        "common_faults": [
+          "Overheating (8 Gen 1)",
+          "Ceramic back crack on drop",
+          "Battery drain"
+        ]
+      },
+      "OPPO Reno 12 Pro": {
+        "codename": "CPH2611",
+        "chipset": "MT6878",
+        "chipset_name": "Dimensity 7300 Energy",
+        "display": "AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "80W"
+      },
+      "OPPO Reno 12": {
+        "codename": "CPH2609",
+        "chipset": "MT6878",
+        "chipset_name": "Dimensity 7300 Energy",
+        "display": "AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "80W"
+      },
+      "OPPO Reno 11 Pro": {
+        "codename": "CPH2587",
+        "chipset": "MT6896",
+        "chipset_name": "Dimensity 8200",
+        "display": "AMOLED 6.7\"",
+        "battery": "4600mAh",
+        "charging_speed": "67W"
+      },
+      "OPPO Reno 11": {
+        "codename": "CPH2583",
+        "chipset": "MT6877",
+        "chipset_name": "Dimensity 7050",
+        "display": "AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "67W"
+      },
+      "OPPO Reno 10 Pro+": {
+        "codename": "CPH2525",
+        "chipset": "SM8475",
+        "chipset_name": "Snapdragon 8+ Gen 1",
+        "display": "AMOLED 6.74\"",
+        "battery": "4700mAh",
+        "charging_speed": "100W",
+        "common_faults": [
+          "Periscope camera focus issues",
+          "Heating during video recording"
+        ]
+      },
+      "OPPO Reno 10": {
+        "codename": "CPH2531",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 778G",
+        "display": "AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "67W"
+      },
+      "OPPO Reno 8 Pro": {
+        "codename": "CPH2357",
+        "chipset": "MT6895",
+        "chipset_name": "Dimensity 8100 Max",
+        "display": "AMOLED 6.7\"",
+        "battery": "4500mAh",
+        "charging_speed": "80W",
+        "common_faults": [
+          "MariSilicon chip overheating",
+          "Battery drain from NPU"
+        ]
+      },
+      "OPPO Reno 8": {
+        "codename": "CPH2359",
+        "chipset": "MT6893",
+        "chipset_name": "Dimensity 1300",
+        "display": "AMOLED 6.43\"",
+        "battery": "4500mAh",
+        "charging_speed": "80W"
+      },
+      "OPPO Reno 7 Pro": {
+        "codename": "CPH2293",
+        "chipset": "MT6893",
+        "chipset_name": "Dimensity 1200 Max",
+        "display": "AMOLED 6.55\"",
+        "battery": "4500mAh",
+        "charging_speed": "65W",
+        "common_faults": [
+          "Orbit Light LED ring failure",
+          "WiFi disconnection"
+        ]
+      },
+      "OPPO Reno 7": {
+        "codename": "CPH2363",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 680",
+        "display": "AMOLED 6.43\"",
+        "battery": "4500mAh",
+        "charging_speed": "33W"
+      },
+      "OPPO A98": {
+        "codename": "CPH2529",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 680",
+        "display": "IPS LCD 6.72\"",
+        "battery": "5000mAh",
+        "charging_speed": "67W",
+        "common_faults": [
+          "LCD quality poor in sunlight",
+          "Slow fingerprint"
+        ]
+      },
+      "OPPO A78": {
+        "codename": "CPH2565",
+        "chipset": "MT6789",
+        "chipset_name": "Helio G99",
+        "display": "AMOLED 6.43\"",
+        "battery": "5000mAh",
+        "charging_speed": "67W"
+      },
+      "OPPO A80": {
+        "codename": "CPH2633",
+        "chipset": "MT6855",
+        "chipset_name": "Dimensity 7025",
+        "display": "IPS LCD 6.67\"",
+        "battery": "5100mAh"
+      },
+      "OPPO A60": {
+        "codename": "CPH2613",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 680",
+        "display": "IPS LCD 6.67\"",
+        "battery": "5000mAh"
+      },
+      "OPPO A58": {
+        "codename": "CPH2577",
+        "chipset": "MT6769",
+        "chipset_name": "Helio G85",
+        "display": "IPS LCD 6.72\"",
+        "battery": "5000mAh",
+        "charging_speed": "33W",
+        "common_faults": [
+          "Slow performance",
+          "Camera lag"
+        ]
+      },
+      "OPPO A38": {
+        "codename": "CPH2579",
+        "chipset": "MT6769",
+        "chipset_name": "Helio G85",
+        "display": "IPS LCD 6.56\"",
+        "battery": "5000mAh",
+        "charging_speed": "33W"
+      },
+      "OPPO A18": {
+        "codename": "CPH2591",
+        "chipset": "MT6769",
+        "chipset_name": "Helio G85",
+        "display": "IPS LCD 6.56\"",
+        "battery": "5000mAh",
+        "charging_speed": "10W",
+        "common_faults": [
+          "Very slow charging",
+          "Performance lag with updates"
+        ]
+      },
+      "OPPO A17": {
+        "codename": "CPH2477",
+        "chipset": "MT6765",
+        "chipset_name": "Helio P35",
+        "display": "IPS LCD 6.56\"",
+        "battery": "5000mAh",
+        "charging_speed": "10W",
+        "common_faults": [
+          "Extremely slow charging",
+          "Low RAM lag",
+          "Camera quality poor"
+        ]
+      },
+      "OPPO F27 Pro+": {
+        "codename": "CPH2639",
+        "chipset": "MT6877",
+        "chipset_name": "Dimensity 7050",
+        "display": "AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "67W"
+      },
+      "OPPO K12x": {
+        "codename": "CPH2637",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 695",
+        "display": "IPS LCD 6.67\"",
+        "battery": "5100mAh"
+      }
+    },
+    "motorola": {
+      "Motorola Edge 50 Ultra": {
+        "codename": "hanzo",
+        "chipset": "SM8650",
+        "chipset_name": "Snapdragon 8s Gen 3",
+        "display": "LTPO pOLED 6.7\"",
+        "battery": "4500mAh",
+        "charging_speed": "125W+50W wireless"
+      },
+      "Motorola Edge 50 Pro": {
+        "codename": "lethe",
+        "chipset": "SM8475",
+        "chipset_name": "Snapdragon 7 Gen 3",
+        "display": "pOLED 6.7\"",
+        "battery": "4500mAh",
+        "charging_speed": "125W",
+        "common_faults": [
+          "Fast charging IC stress",
+          "Display flex cable failure"
+        ]
+      },
+      "Motorola Edge 50 Fusion": {
+        "codename": "hera",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 7s Gen 2",
+        "display": "pOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "68W"
+      },
+      "Motorola Edge 40 Pro": {
+        "codename": "rtwo",
+        "chipset": "SM8550",
+        "chipset_name": "Snapdragon 8 Gen 2",
+        "display": "pOLED 6.67\"",
+        "battery": "4600mAh",
+        "charging_speed": "125W+15W wireless",
+        "common_faults": [
+          "Overheating during wireless charging",
+          "Curved display accidental touches"
+        ]
+      },
+      "Moto G85": {
+        "codename": "turan",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 6s Gen 3",
+        "display": "pOLED 6.67\"",
+        "battery": "5000mAh"
+      },
+      "Moto G84": {
+        "codename": "bronco",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 695",
+        "display": "pOLED 6.55\"",
+        "battery": "5000mAh",
+        "charging_speed": "33W",
+        "common_faults": [
+          "Slow charging",
+          "GPS lock delay"
+        ]
+      },
+      "Moto G73": {
+        "codename": "devonf",
+        "chipset": "MT6855",
+        "chipset_name": "Dimensity 930",
+        "display": "IPS LCD 6.5\"",
+        "battery": "5000mAh",
+        "charging_speed": "30W",
+        "common_faults": [
+          "LCD quality poor viewing angles",
+          "WiFi 5GHz range weak"
+        ]
+      },
+      "Moto G64": {
+        "codename": "aion",
+        "chipset": "MT6855",
+        "chipset_name": "Dimensity 7025",
+        "display": "IPS LCD 6.5\"",
+        "battery": "6000mAh"
+      },
+      "Moto G54": {
+        "codename": "cancunf",
+        "chipset": "MT6855",
+        "chipset_name": "Dimensity 7020",
+        "display": "IPS LCD 6.5\"",
+        "battery": "5000mAh",
+        "charging_speed": "33W",
+        "common_faults": [
+          "Slow fingerprint sensor",
+          "Bluetooth audio delay"
+        ]
+      },
+      "Moto G34": {
+        "codename": "fogos",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 695",
+        "display": "IPS LCD 6.5\"",
+        "battery": "5000mAh",
+        "common_faults": [
+          "Slow performance",
+          "Camera quality poor in low light"
+        ]
+      },
+      "Moto G04": {
+        "codename": "titan",
+        "chipset": "T606",
+        "chipset_name": "Unisoc T606",
+        "display": "IPS LCD 6.6\"",
+        "battery": "5000mAh"
+      }
+    },
+    "nothing": {
+      "Nothing Phone (2a) Plus": {
+        "codename": "pacman_pro",
+        "chipset": "MT6878",
+        "chipset_name": "Dimensity 7350 Pro",
+        "display": "AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "50W"
+      },
+      "Nothing Phone (2a)": {
+        "codename": "pacman",
+        "chipset": "MT6886",
+        "chipset_name": "Dimensity 7200 Pro",
+        "display": "AMOLED 6.7\"",
+        "battery": "5000mAh",
+        "charging_speed": "45W",
+        "common_faults": [
+          "Glyph LED malfunction",
+          "Display green tint"
+        ]
+      },
+      "Nothing Phone (2)": {
+        "codename": "pong",
+        "chipset": "SM8475",
+        "chipset_name": "Snapdragon 8+ Gen 1",
+        "display": "LTPO OLED 6.7\"",
+        "battery": "4700mAh",
+        "charging_speed": "45W+15W wireless",
+        "common_faults": [
+          "Green tint display",
+          "WiFi drops",
+          "Overheating under load"
+        ]
+      },
+      "Nothing Phone (1)": {
+        "codename": "spacewar",
+        "chipset": "SM7325",
+        "chipset_name": "Snapdragon 778G+",
+        "display": "OLED 6.55\"",
+        "battery": "4500mAh",
+        "charging_speed": "33W+15W wireless",
+        "common_faults": [
+          "Display green tint",
+          "Glyph LED issues",
+          "Overheating"
+        ]
+      }
+    },
+    "google": {
+      "Pixel 9 Pro XL": {
+        "codename": "komodo",
+        "chipset": "Tensor G4",
+        "chipset_name": "Google Tensor G4",
+        "display": "LTPO OLED 6.8\"",
+        "battery": "5060mAh",
+        "charging_speed": "37W+23W wireless",
+        "edl_mode": "not_supported",
+        "fastboot_key": "Volume Down + Power"
+      },
+      "Pixel 9 Pro": {
+        "codename": "caiman",
+        "chipset": "Tensor G4",
+        "chipset_name": "Google Tensor G4",
+        "display": "LTPO OLED 6.3\"",
+        "battery": "4720mAh"
+      },
+      "Pixel 9": {
+        "codename": "tokay",
+        "chipset": "Tensor G4",
+        "chipset_name": "Google Tensor G4",
+        "display": "OLED 6.3\"",
+        "battery": "4700mAh"
+      },
+      "Pixel 8 Pro": {
+        "codename": "husky",
+        "chipset": "Tensor G3",
+        "chipset_name": "Google Tensor G3",
+        "display": "LTPO OLED 6.7\"",
+        "battery": "5050mAh",
+        "common_faults": [
+          "Overheating",
+          "Camera processing slow",
+          "Display flicker"
+        ]
+      },
+      "Pixel 8": {
+        "codename": "shiba",
+        "chipset": "Tensor G3",
+        "chipset_name": "Google Tensor G3",
+        "display": "OLED 6.2\"",
+        "battery": "4575mAh"
+      },
+      "Pixel 8a": {
+        "codename": "akita",
+        "chipset": "Tensor G3",
+        "chipset_name": "Google Tensor G3",
+        "display": "OLED 6.1\"",
+        "battery": "4492mAh"
+      },
+      "Pixel 7 Pro": {
+        "codename": "cheetah",
+        "chipset": "Tensor G2",
+        "chipset_name": "Google Tensor G2",
+        "display": "LTPO OLED 6.7\"",
+        "battery": "5000mAh",
+        "common_faults": [
+          "Display bubbling",
+          "Modem overheating",
+          "Network drops"
+        ]
+      },
+      "Pixel 7a": {
+        "codename": "lynx",
+        "chipset": "Tensor G2",
+        "chipset_name": "Google Tensor G2",
+        "display": "OLED 6.1\"",
+        "battery": "4385mAh"
+      },
+      "Pixel 6a": {
+        "codename": "bluejay",
+        "chipset": "Tensor",
+        "chipset_name": "Google Tensor",
+        "display": "OLED 6.1\"",
+        "battery": "4410mAh",
+        "common_faults": [
+          "Fingerprint slow",
+          "Overheating",
+          "Battery drain"
+        ]
+      }
+    },
+    "apple_iphone": {
+      "iPhone 16 Pro Max": {
+        "codename": "D93",
+        "chipset": "A18 Pro",
+        "display": "LTPO OLED 6.9\"",
+        "battery": "4685mAh",
+        "charging_speed": "27W+25W MagSafe",
+        "common_faults": [
+          "Camera control button issue",
+          "Battery drain with AI features"
+        ]
+      },
+      "iPhone 16 Pro": {
+        "codename": "D83",
+        "chipset": "A18 Pro",
+        "display": "LTPO OLED 6.3\"",
+        "battery": "3582mAh"
+      },
+      "iPhone 16": {
+        "codename": "D47",
+        "chipset": "A18",
+        "display": "OLED 6.1\"",
+        "battery": "3561mAh"
+      },
+      "iPhone 15 Pro Max": {
+        "codename": "D84",
+        "chipset": "A17 Pro",
+        "display": "LTPO OLED 6.7\"",
+        "battery": "4441mAh",
+        "common_faults": [
+          "Overheating at launch (fixed via update)",
+          "Titanium frame scratches",
+          "Action button stuck"
+        ]
+      },
+      "iPhone 15 Pro": {
+        "codename": "D83",
+        "chipset": "A17 Pro",
+        "display": "LTPO OLED 6.1\"",
+        "battery": "3274mAh"
+      },
+      "iPhone 15": {
+        "codename": "D37",
+        "chipset": "A16",
+        "display": "OLED 6.1\"",
+        "battery": "3349mAh",
+        "common_faults": [
+          "Image persistence on display",
+          "USB-C port lint accumulation"
+        ]
+      },
+      "iPhone 14 Pro Max": {
+        "codename": "D74",
+        "chipset": "A16",
+        "display": "LTPO OLED 6.7\"",
+        "battery": "4323mAh",
+        "common_faults": [
+          "Dynamic Island touch issues",
+          "Camera shake in 3rd party apps"
+        ]
+      },
+      "iPhone 14 Pro": {
+        "codename": "D73",
+        "chipset": "A16",
+        "display": "LTPO OLED 6.1\"",
+        "battery": "3200mAh"
+      },
+      "iPhone 14": {
+        "codename": "D27",
+        "chipset": "A15",
+        "display": "OLED 6.1\"",
+        "battery": "3279mAh",
+        "common_faults": [
+          "Battery health degradation faster than expected",
+          "SIM tray stuck (US eSIM-only model has no tray)"
+        ]
+      },
+      "iPhone 13 Pro Max": {
+        "codename": "D64",
+        "chipset": "A15",
+        "display": "LTPO OLED 6.7\"",
+        "battery": "4352mAh"
+      },
+      "iPhone 13": {
+        "codename": "D17",
+        "chipset": "A15",
+        "display": "OLED 6.1\"",
+        "battery": "3227mAh",
+        "common_faults": [
+          "Face ID failure after screen repair (paired component)",
+          "Microphone noise cancellation failure"
+        ]
+      },
+      "iPhone 12": {
+        "codename": "D53G",
+        "chipset": "A14",
+        "display": "OLED 6.1\"",
+        "battery": "2815mAh",
+        "common_faults": [
+          "Face ID failure after screen repair",
+          "Battery drain",
+          "Green tint display"
+        ]
+      },
+      "iPhone 11": {
+        "codename": "N104",
+        "chipset": "A13",
+        "display": "LCD 6.1\"",
+        "battery": "3110mAh",
+        "common_faults": [
+          "Display green tint",
+          "No service issue",
+          "Face ID failure"
+        ]
+      },
+      "iPhone SE (2022)": {
+        "codename": "D49",
+        "chipset": "A15",
+        "display": "LCD 4.7\"",
+        "battery": "2018mAh",
+        "common_faults": [
+          "Small battery drains fast",
+          "Home button Touch ID failure after repair"
+        ]
+      }
+    },
+    "tecno_infinix_itel": {
+      "Tecno Spark 20 Pro+": {
+        "codename": "KJ7n",
+        "chipset": "MT6789",
+        "chipset_name": "Helio G99",
+        "display": "AMOLED 6.78\"",
+        "battery": "5000mAh"
+      },
+      "Tecno Camon 30 Pro": {
+        "codename": "CL8n",
+        "chipset": "MT6896",
+        "chipset_name": "Dimensity 8200",
+        "display": "AMOLED 6.78\"",
+        "battery": "5000mAh"
+      },
+      "Tecno Pova 6 Pro": {
+        "codename": "LI8",
+        "chipset": "MT6835",
+        "chipset_name": "Dimensity 6300",
+        "display": "AMOLED 6.78\"",
+        "battery": "6000mAh"
+      },
+      "Infinix Note 40 Pro": {
+        "codename": "X6851",
+        "chipset": "MT6855",
+        "chipset_name": "Dimensity 7020",
+        "display": "AMOLED 6.78\"",
+        "battery": "5000mAh",
+        "charging_speed": "100W"
+      },
+      "Infinix Hot 40 Pro": {
+        "codename": "X6837",
+        "chipset": "MT6789",
+        "chipset_name": "Helio G99",
+        "display": "IPS LCD 6.78\"",
+        "battery": "5000mAh"
+      },
+      "Infinix Smart 8": {
+        "codename": "X6525",
+        "chipset": "T606",
+        "chipset_name": "Unisoc T606",
+        "display": "IPS LCD 6.6\"",
+        "battery": "5000mAh"
+      },
+      "itel P55+": {
+        "codename": "P662LN",
+        "chipset": "T606",
+        "chipset_name": "Unisoc T606",
+        "display": "IPS LCD 6.6\"",
+        "battery": "7000mAh"
+      },
+      "itel S24": {
+        "codename": "S665LN",
+        "chipset": "T606",
+        "chipset_name": "Unisoc T616",
+        "display": "AMOLED 6.6\"",
+        "battery": "5000mAh"
+      }
+    },
+    "nokia_lava_micromax": {
+      "Nokia G42": {
+        "codename": "PHR110",
+        "chipset": "SM6225",
+        "chipset_name": "Snapdragon 480+",
+        "display": "IPS LCD 6.56\"",
+        "battery": "5000mAh"
+      },
+      "Nokia G21": {
+        "codename": "GNR110",
+        "chipset": "T606",
+        "chipset_name": "Unisoc T606",
+        "display": "IPS LCD 6.5\"",
+        "battery": "5050mAh"
+      },
+      "Lava Blaze Pro 5G": {
+        "codename": "LZX503",
+        "chipset": "MT6833",
+        "chipset_name": "Dimensity 6020",
+        "display": "IPS LCD 6.78\"",
+        "battery": "5000mAh"
+      },
+      "Lava Storm 5G": {
+        "codename": "LXX503",
+        "chipset": "MT6833",
+        "chipset_name": "Dimensity 6080",
+        "display": "IPS LCD 6.78\"",
+        "battery": "5000mAh"
+      }
+    }
+  },
+  "edl_test_points": {
+    "_description": "EDL mode test point locations for Qualcomm devices. Short the test point to GND while connecting USB cable (phone OFF).",
+    "oneplus": {
+      "OnePlus 9R": "Near SoC area on motherboard. Remove back cover → locate TP pad near main processor → short to ground with tweezer while plugging USB. Phone must be OFF.",
+      "OnePlus 9": "Near SoC, similar location to 9R. Test point under EMI shield near CPU.",
+      "OnePlus 9 Pro": "Near SoC, under EMI shield can B.",
+      "OnePlus 8T": "TP near battery connector area.",
+      "OnePlus 8": "Near SoC area, under main shield.",
+      "OnePlus Nord": "Near SoC on back of motherboard."
+    },
+    "xiaomi": {
+      "general": "Most Xiaomi Qualcomm devices: TP near SoC or eMMC/UFS. Check specific model on XDA/GSM forum.",
+      "Redmi Note 10 Pro": "Near UFS chip, test point pad visible after removing back cover and shields.",
+      "POCO F3": "Near SoC area under EMI shield."
+    },
+    "samsung": {
+      "general": "Samsung Qualcomm variants: TP usually near CPU under EMI shield. Samsung Exynos devices do NOT have Qualcomm EDL mode — use Odin/Download mode instead.",
+      "download_mode_key": "Volume Down + Power (with USB cable connected)"
+    },
+    "realme_oppo": {
+      "general": "Realme/OPPO Qualcomm devices: TP near SoC. MediaTek devices use MTK bypass (BROM) instead of EDL.",
+      "mtk_brom_mode": "For MediaTek devices: Short boot pin to GND during power on. Tool: SP Flash Tool or MTK Auth Bypass.",
+      "Realme GT 2 Pro": "Qualcomm SM8450. TP near SoC under EMI shield, accessible after removing back panel and mid-frame shield.",
+      "OPPO Find X5 Pro": "Qualcomm SM8450. TP pad near CPU area under main EMI shield.",
+      "OPPO Reno 10 Pro+": "Qualcomm SM8475. TP near SoC, remove back cover and EMI can."
+    },
+    "vivo": {
+      "general": "Vivo Qualcomm devices: TP near SoC area. Most Vivo phones use MediaTek, so use SP Flash Tool / MTK BROM bypass instead.",
+      "mtk_brom_mode": "For MediaTek Vivo devices: Short boot pin to GND during power on. Use SP Flash Tool with MTK Auth Bypass.",
+      "Vivo X80 Pro": "Qualcomm SM8450. TP near SoC under EMI shield. Remove back panel and shields to access.",
+      "Vivo T1": "Qualcomm SM7325. TP near SoC area, accessible after removing back cover."
+    },
+    "motorola": {
+      "general": "Motorola Qualcomm devices: TP near SoC. Many Moto G series use test point near CPU under EMI shield. Motorola also supports bootloader unlock via official site.",
+      "Motorola Edge 50 Pro": "Qualcomm SM8475. TP near SoC under EMI shield. Remove back panel to access.",
+      "Motorola Edge 40 Pro": "Qualcomm SM8550. TP near SoC area under main shield.",
+      "Moto G34": "Qualcomm SM6225. TP near SoC, accessible after removing back panel and shields.",
+      "Moto G84": "Qualcomm SM6225. TP near SoC area. Remove back cover and locate pad near processor."
+    }
+  },
+  "brand_specific_tools": {
+    "samsung": {
+      "flash_tool": "Odin (Samsung official)",
+      "download_mode_key": "Volume Down + Power (with cable)",
+      "frp_bypass_notes": "Samsung FRP requires Samsung account or Google account. Knox may prevent bypass on newer devices."
+    },
+    "xiaomi": {
+      "flash_tool": "MiFlash Tool / SP Flash Tool (MTK)",
+      "edl_tool": "QFIL / MiFlash (Qualcomm)",
+      "fastboot_key": "Volume Down + Power",
+      "recovery_key": "Volume Up + Power",
+      "frp_bypass_notes": "Xiaomi has Mi Account lock in addition to Google FRP. Both need to be removed."
+    },
+    "oneplus": {
+      "flash_tool": "MSM Download Tool (EDL) / Fastboot",
+      "edl_tool": "MSM Download Tool (Qualcomm specific)",
+      "fastboot_key": "Volume Down + Power",
+      "recovery_key": "Volume Down + Power (release at logo, keep Vol Down)",
+      "frp_bypass_notes": "OnePlus allows bootloader unlock via developer options. MSM Tool flashes full firmware and removes all locks."
+    },
+    "realme_oppo": {
+      "flash_tool": "MSM Download Tool (Qualcomm) / SP Flash Tool (MTK)",
+      "fastboot_key": "Volume Down + Power",
+      "recovery_key": "Volume Down + Power",
+      "frp_bypass_notes": "ColorOS FRP can be bypassed via fastboot or EDL flash."
+    },
+    "vivo": {
+      "flash_tool": "QFIL (Qualcomm) / SP Flash Tool (MTK)",
+      "fastboot_key": "Volume Down + Power",
+      "recovery_key": "Volume Up + Power (for some models)",
+      "frp_bypass_notes": "Vivo/iQOO FRP requires full firmware flash in most cases."
+    },
+    "motorola": {
+      "flash_tool": "Rescue & Smart Assistant (official) / Fastboot",
+      "fastboot_key": "Volume Down + Power",
+      "frp_bypass_notes": "Motorola allows bootloader unlock via official website."
+    },
+    "google": {
+      "flash_tool": "Android Flash Tool (web) / Fastboot",
+      "fastboot_key": "Volume Down + Power",
+      "frp_bypass_notes": "Pixel FRP requires original Google account. Factory image flash via fastboot removes FRP."
+    },
+    "nothing": {
+      "flash_tool": "Fastboot / Nothing official flash tool",
+      "fastboot_key": "Volume Down + Power",
+      "recovery_key": "Volume Down + Power (release at logo)",
+      "frp_bypass_notes": "Nothing allows bootloader unlock via developer options. Fastboot flash removes locks."
+    }
+  },
+  "repair_difficulty_guide": {
+    "easy": "Screen replacement, battery swap, charging port change, speaker/mic replacement",
+    "medium": "Charging IC replacement, backlight IC repair, FPC connector replacement, basic reball",
+    "hard": "CPU/SoC reball, WiFi/BT IC replacement, RF IC repair, modem reball",
+    "expert": "DRAM voltage regulator (fan53526/MT6691ZXP), NAND/UFS reball, baseband repair, board-level micro-soldering"
+  }
+}

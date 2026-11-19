@@ -42,6 +42,12 @@ STATE_COLORS = {          # orb core colour per state
     "error": "#f43f5e",
 }
 
+# ── futuristic HUD palette (robotics / diagnostic console feel) ──────────────
+HUD_CYAN = "#22d3ee"      # scan sweep + reticle glow
+HUD_SCAN = "#38bdf8"      # moving data ticks
+HUD_GRID = "#45555f"      # faint grid lines (tuned for the slate backdrop)
+HUD_HOT  = "#f472b6"      # magenta hot accent
+
 
 # ── helpers ────────────────────────────────────────────────────────────────
 
@@ -208,7 +214,12 @@ def _ensure_voice(app):
 # ── animated orb ───────────────────────────────────────────────────────────
 
 class JackOrb:
-    """A pulsing 'arc reactor' style orb drawn on a tk.Canvas."""
+    """Robotics 'Neural Fault Core' — a scanning AI reactor drawn on a tk.Canvas.
+
+    Layers (back→front): plasma glow · rotating hex lattice · radar sweep ·
+    targeting reticle + corner brackets · data-tick ring · voice equaliser /
+    thinking arcs · hexagonal core · vertical scan-line.
+    """
 
     BARS = 36
 
@@ -229,6 +240,13 @@ class JackOrb:
     def set_state(self, state: str):
         self.state = state if state in STATE_COLORS else "idle"
 
+    def _poly(self, cx, cy, r, sides, rot):
+        pts = []
+        for k in range(sides):
+            a = rot + 2 * math.pi * k / sides
+            pts += [cx + r * math.cos(a), cy + r * math.sin(a)]
+        return pts
+
     def _tick(self):
         try:
             if not self.canvas.winfo_exists():
@@ -241,10 +259,13 @@ class JackOrb:
         # colour glides to the new state's colour instead of jumping
         self._col = _blend(self._col, STATE_COLORS[self.state], 0.15)
         core = self._col
+        # cyan HUD furniture tints toward the active colour in alarm states
+        hud_base = HUD_CYAN if self.state not in ("error",) else HUD_HOT
         speed = {"idle": 0.05, "thinking": 0.16, "tool": 0.2, "speaking": 0.28,
                  "listening": 0.22, "error": 0.08}[self.state]
         self.phase += speed
         pulse = (math.sin(self.phase) + 1) / 2          # 0..1
+        scanning = self.state in ("idle", "thinking", "tool", "listening")
 
         # audio level: real mic level while listening, synthetic voice while speaking
         if self.state == "listening":
@@ -255,26 +276,63 @@ class JackOrb:
             target = 0.0
         self._lvl += (target - self._lvl) * 0.35
 
-        # soft glow
+        # ── plasma glow ──
         for i in range(7, 0, -1):
             r = 24 + i * 5 + pulse * 3 + self._lvl * 8
             col = _blend(self.bg, core, 0.06 + (7 - i) * 0.05 * (0.6 + 0.4 * pulse))
             c.create_oval(cx - r, cy - r, cx + r, cy + r, fill=col, outline="")
 
-        # outer HUD ring with ticks, slowly rotating
         R = ORB_SIZE / 2 - 4
-        hud = _blend(self.bg, core, 0.55 if self.hover else 0.35)
+        hud = _blend(self.bg, hud_base, 0.6 if self.hover else 0.4)
+        hud_dim = _blend(self.bg, hud_base, 0.22)
         rot = self.phase * 6
-        for k in range(4):
-            c.create_arc(cx - R, cy - R, cx + R, cy + R, start=rot + k * 90 + 8, extent=60,
-                         style="arc", outline=hud, width=2)
-        for k in range(24):
-            a = math.radians(-rot * 0.6 + k * 15)
-            r1, r2 = R - 7, R - (11 if k % 6 == 0 else 9)
-            c.create_line(cx + r1 * math.cos(a), cy + r1 * math.sin(a),
-                          cx + r2 * math.cos(a), cy + r2 * math.sin(a), fill=hud, width=1)
 
-        # equalizer bars around the core (voice), or spinning arcs (thinking / tool)
+        # ── rotating hex lattice (two counter-spinning hexagons) ──
+        c.create_polygon(*self._poly(cx, cy, R - 2, 6, math.radians(rot)),
+                         outline=hud_dim, fill="", width=1)
+        c.create_polygon(*self._poly(cx, cy, R - 10, 6, math.radians(-rot * 0.7 + 30)),
+                         outline=hud_dim, fill="", width=1)
+
+        # ── radar sweep: a fan of fading lines, bright leading edge (the 'scan') ──
+        if scanning:
+            sweep = self.phase * 2.2
+            Rs = R - 6
+            for j in range(16):
+                a = sweep - j * 0.055
+                t = j / 16
+                col = _blend(core if j == 0 else hud_base, self.bg, 0.25 + 0.72 * t)
+                c.create_line(cx, cy, cx + Rs * math.cos(a), cy + Rs * math.sin(a),
+                              fill=col, width=2 if j < 2 else 1)
+            # bright blip where the sweep crosses the rim
+            bx, by = cx + Rs * math.cos(sweep), cy + Rs * math.sin(sweep)
+            c.create_oval(bx - 3, by - 3, bx + 3, by + 3,
+                          fill=_blend(core, "#ffffff", 0.5), outline="")
+
+        # ── outer arc segments + tick ring ──
+        for k in range(4):
+            c.create_arc(cx - R, cy - R, cx + R, cy + R, start=rot + k * 90 + 8, extent=58,
+                         style="arc", outline=hud, width=2)
+        for k in range(36):
+            a = math.radians(-rot * 0.6 + k * 10)
+            r1, r2 = R - 6, R - (11 if k % 3 == 0 else 8)
+            c.create_line(cx + r1 * math.cos(a), cy + r1 * math.sin(a),
+                          cx + r2 * math.cos(a), cy + r2 * math.sin(a),
+                          fill=hud if k % 3 == 0 else hud_dim, width=1)
+
+        # ── targeting reticle: cardinal ticks with a centre gap ──
+        for ang in (0, 90, 180, 270):
+            a = math.radians(ang)
+            c.create_line(cx + 30 * math.cos(a), cy + 30 * math.sin(a),
+                          cx + 44 * math.cos(a), cy + 44 * math.sin(a), fill=hud, width=1)
+        # ── corner brackets around a central targeting box (breathes with pulse) ──
+        bs = 30 + pulse * 2
+        br = 7
+        for sx, sy in ((-1, -1), (1, -1), (-1, 1), (1, 1)):
+            x, y = cx + sx * bs, cy + sy * bs
+            c.create_line(x, y, x - sx * br, y, fill=_blend(hud_base, "#ffffff", 0.2), width=2)
+            c.create_line(x, y, x, y - sy * br, fill=_blend(hud_base, "#ffffff", 0.2), width=2)
+
+        # ── voice equaliser (mic/speak) or thinking arcs + orbiting data motes ──
         if self._lvl > 0.02:
             base = 34
             for k in range(self.BARS):
@@ -291,25 +349,143 @@ class JackOrb:
                 for off in (0, 180):
                     c.create_arc(cx - rad, cy - rad, cx + rad, cy + rad, start=start + off, extent=extent,
                                  style="arc", outline=_blend(core, "#ffffff", 0.35), width=w)
-            # orbiting particles
             for k in range(3):
                 a = self.phase * (0.9 + k * 0.35) + k * 2.1
                 pr = 38 + 6 * math.sin(self.phase + k)
                 px, py = cx + pr * math.cos(a), cy + pr * math.sin(a)
                 c.create_oval(px - 2.5, py - 2.5, px + 2.5, py + 2.5, fill="#ffffff", outline="")
-        else:
-            c.create_oval(cx - 48, cy - 48, cx + 48, cy + 48, outline=_blend(self.bg, core, 0.5), width=1)
 
-        # core
-        r = 21 + pulse * 3 + self._lvl * 5
-        c.create_oval(cx - r, cy - r, cx + r, cy + r, fill=_blend(core, "#ffffff", 0.25), outline="")
-        r2 = r * 0.55
-        c.create_oval(cx - r2, cy - r2, cx + r2, cy + r2, fill=_blend(core, "#ffffff", 0.75), outline="")
+        # ── hexagonal core with bright nucleus ──
+        r = 20 + pulse * 3 + self._lvl * 5
+        c.create_polygon(*self._poly(cx, cy, r + 3, 6, math.radians(rot * 2)),
+                         outline=_blend(core, "#ffffff", 0.4), fill="", width=1)
+        c.create_polygon(*self._poly(cx, cy, r, 6, math.radians(-rot * 1.5)),
+                         fill=_blend(core, "#ffffff", 0.22), outline=_blend(core, "#ffffff", 0.55), width=1)
+        r2 = r * 0.5
+        c.create_oval(cx - r2, cy - r2, cx + r2, cy + r2, fill=_blend(core, "#ffffff", 0.78), outline="")
+
+        # ── vertical scan-line crossing the core (that 'reading you' sweep) ──
+        if scanning:
+            sy = cy + (r + 6) * math.sin(self.phase * 1.3)
+            c.create_line(cx - r, sy, cx + r, sy, fill=_blend(hud_base, "#ffffff", 0.35), width=1)
+
         if self.hover and self.state == "speaking":
-            c.create_text(cx, cy + 52, text="click = chup", fill=_blend(core, "#ffffff", 0.6),
+            c.create_text(cx, cy + 56, text="click = chup", fill=_blend(core, "#ffffff", 0.6),
                           font=("Segoe UI", 8))
 
         c.after(40, self._tick)
+
+
+# ── animated HUD diagnostic band ────────────────────────────────────────────
+
+def _ecg_sample(u: float) -> float:
+    """One heartbeat as a function of phase u∈[0,1): P wave · QRS spike · T wave.
+    Returns a signed amplitude (R peak ≈ +1.0, S dip ≈ -0.28)."""
+    def g(centre, width, amp):
+        d = (u - centre) / width
+        return amp * math.exp(-d * d)
+    return (g(0.12, 0.022, 0.12) + g(0.23, 0.010, -0.10) + g(0.26, 0.0095, 1.0)
+            + g(0.29, 0.011, -0.28) + g(0.46, 0.035, 0.22))
+
+
+class HudBand:
+    """A live ECG-style diagnostic monitor strip. A pen sweeps left→right drawing
+    a heartbeat trace with a blank gap ahead of it — like a cardiac monitor.
+
+    `active` (set True while a detection/scan runs) makes it beat faster, brighter
+    and taller; idle it ticks over as a slow, dim resting rhythm.
+    """
+
+    def __init__(self, parent, bg: str, accent: str = HUD_CYAN, label: str = "NEURAL FAULT ENGINE"):
+        self.bg = bg
+        self.accent = accent
+        self.label = label
+        self.active = False
+        self.phase = 0.0        # blink/clock
+        self.beat = 0.0         # ECG beat phase (advances per sample column)
+        self.buf = []           # per-column y samples (the trace memory)
+        self.cur = 0            # pen column
+        self._cols = 0
+        self.canvas = tk.Canvas(parent, height=30, bg=bg, highlightthickness=0, bd=0)
+        self._tick()
+
+    def _tick(self):
+        try:
+            if not self.canvas.winfo_exists():
+                return
+        except Exception:
+            return
+        c = self.canvas
+        c.delete("all")
+        w = self.canvas.winfo_width()
+        if w <= 2:                       # not laid out yet — skip a frame, keep polling
+            c.after(60, self._tick)
+            return
+        h = 30
+        mid = h / 2
+        self.phase += 0.12
+        acc = self.accent
+        active = self.active
+
+        # ── left status tag ──
+        c.create_text(14, mid, anchor="w", text=f"◢ {self.label}",
+                      fill=_blend(self.bg, acc, 0.85 if active else 0.6),
+                      font=("Consolas", 10, "bold"))
+        tag_w = 190
+        blink = 0.4 + 0.6 * ((math.sin(self.phase * (2.4 if active else 1.2)) + 1) / 2)
+        st_col = "#34d399" if active else acc
+        c.create_oval(tag_w, mid - 3, tag_w + 6, mid + 3,
+                      fill=_blend(self.bg, st_col, blink), outline="")
+        c.create_text(tag_w + 12, mid, anchor="w",
+                      text="SCANNING" if active else "MONITOR",
+                      fill=_blend(self.bg, st_col, 0.85 if active else 0.5),
+                      font=("Consolas", 9, "bold"))
+
+        x0 = tag_w + 78
+        trace_w = max(20, w - 10 - x0)
+        step = 2                                     # px per sample column
+        cols = int(trace_w // step)
+        if cols != self._cols:                       # (re)size the trace memory
+            self._cols = cols
+            self.buf = [mid] * cols
+            self.cur = min(self.cur, cols - 1)
+
+        # ── faint ECG-paper grid ──
+        for gx in range(0, cols, 11):
+            c.create_line(x0 + gx * step, 4, x0 + gx * step, h - 4, fill=HUD_GRID, width=1)
+        c.create_line(x0, mid, x0 + cols * step, mid, fill=_blend(self.bg, acc, 0.16), width=1)
+
+        # ── advance the pen, writing new heartbeat samples into the buffer ──
+        amp = (mid - 3) if active else (mid - 3) * 0.42     # spike height
+        beat_speed = 0.0135 if active else 0.0052           # faster beats when scanning
+        adv = 3 if active else 1                             # pen speed (cols/frame)
+        for _ in range(adv):
+            self.beat = (self.beat + beat_speed) % 1.0
+            self.buf[self.cur] = mid - _ecg_sample(self.beat) * amp
+            self.cur = (self.cur + 1) % cols
+
+        gap = 5                                             # blank window just ahead of the pen
+        line = _blend(self.bg, acc, 0.9 if active else 0.55)
+        glow = _blend(self.bg, acc, 0.35 if active else 0.22)
+        prev = None
+        for i in range(cols):
+            if (i - self.cur) % cols < gap:                 # the moving erase gap
+                prev = None
+                continue
+            x, y = x0 + i * step, self.buf[i]
+            if prev:
+                c.create_line(prev[0], prev[1], x, y, fill=glow, width=3)   # neon underglow
+                c.create_line(prev[0], prev[1], x, y, fill=line, width=1)   # bright trace
+            prev = (x, y)
+
+        # ── bright pen head ──
+        px = x0 + ((self.cur - 1) % cols) * step
+        py = self.buf[(self.cur - 1) % cols]
+        c.create_line(px, 3, px, h - 3, fill=_blend(acc, "#ffffff", 0.25), width=1)
+        c.create_oval(px - 2.5, py - 2.5, px + 2.5, py + 2.5,
+                      fill=_blend(acc, "#ffffff", 0.6), outline="")
+
+        c.after(45 if active else 60, self._tick)
 
 
 # ── page ───────────────────────────────────────────────────────────────────
@@ -333,9 +509,14 @@ def render_jack_page(app):
 
     title_box = ctk.CTkFrame(header, fg_color="transparent")
     title_box.pack(side="left", fill="y", pady=16)
-    ctk.CTkLabel(title_box, text="J A C K", font=("Segoe UI", 30, "bold"),
-                 text_color=colors["text"]).pack(anchor="w")
-    ctk.CTkLabel(title_box, text="Mooxy AI repair assistant", font=("Segoe UI", 13),
+    name_row = ctk.CTkFrame(title_box, fg_color="transparent")
+    name_row.pack(anchor="w")
+    ctk.CTkLabel(name_row, text="J A C K", font=("Segoe UI", 30, "bold"),
+                 text_color=colors["text"]).pack(side="left")
+    ctk.CTkLabel(name_row, text="  NEURAL CORE v2", font=("Consolas", 10, "bold"),
+                 text_color=HUD_CYAN, fg_color=_blend(colors["bg_medium"], HUD_CYAN, 0.12),
+                 corner_radius=6, padx=7, pady=2).pack(side="left", padx=(10, 0), pady=(8, 0))
+    ctk.CTkLabel(title_box, text="Mooxy AI · fault-detection assistant", font=("Segoe UI", 13),
                  text_color=colors["text_dim"]).pack(anchor="w")
     status_lbl = ctk.CTkLabel(title_box, text="● Starting…", font=("Segoe UI", 13, "bold"),
                               text_color=colors["info"])
@@ -351,6 +532,10 @@ def render_jack_page(app):
     device_lbl.pack(anchor="e")
     btn_row = ctk.CTkFrame(right, fg_color="transparent")
     btn_row.pack(anchor="e", pady=(10, 0))
+
+    # ── HUD diagnostic band (live 'engine running' strip under the header) ──
+    hud_band = HudBand(page, bg=colors["bg_dark"], accent=HUD_CYAN)
+    hud_band.canvas.pack(fill="x", padx=22, pady=(0, 4))
 
     # ── chat area ──
     chat = ctk.CTkScrollableFrame(page, fg_color=colors["bg_dark"],
@@ -532,15 +717,22 @@ def render_jack_page(app):
         clear_hero()
         row = ctk.CTkFrame(chat, fg_color="transparent")
         row.pack(fill="x", pady=7)
-        if not is_user:                       # avatar
-            av = tk.Canvas(row, width=34, height=34, bg=colors["bg_dark"], highlightthickness=0)
-            av.create_oval(2, 2, 32, 32, fill=_blend(colors["bg_dark"], "#a855f7", 0.35), outline="#a855f7")
-            av.create_oval(11, 11, 23, 23, fill="#d8c7ff", outline="")
+        if not is_user:                       # hex robot-core avatar
+            av = tk.Canvas(row, width=36, height=36, bg=colors["bg_dark"], highlightthickness=0)
+            hx = 18
+            poly = []
+            for k in range(6):
+                a = math.radians(60 * k - 30)
+                poly += [hx + 15 * math.cos(a), hx + 15 * math.sin(a)]
+            av.create_polygon(*poly, fill=_blend(colors["bg_dark"], "#a855f7", 0.3),
+                              outline=HUD_CYAN, width=1)
+            av.create_oval(12, 12, 24, 24, fill="#d8c7ff", outline="")
+            av.create_oval(15, 15, 21, 21, fill="#ffffff", outline="")
             av.pack(side="left", anchor="n", padx=(4, 6), pady=4)
         bubble = ctk.CTkFrame(row, corner_radius=16,
                               fg_color=colors["accent"] if is_user else colors["bg_card"],
                               border_width=0 if is_user else 1,
-                              border_color=_blend(colors["bg_card"], "#a855f7", 0.35))
+                              border_color=_blend(colors["bg_card"], HUD_CYAN, 0.4))
         bubble.pack(side="right" if is_user else "left", padx=(120, 6) if is_user else (0, 70))
 
         if is_user:
@@ -644,6 +836,10 @@ def render_jack_page(app):
 
     def set_busy(busy: bool):
         state["busy"] = busy
+        try:
+            hud_band.active = busy          # ECG monitor speeds up while Jack works
+        except Exception:
+            pass
         if not alive():
             return
         send_btn.configure(state="disabled" if busy else "normal")
@@ -673,15 +869,20 @@ def render_jack_page(app):
         row = ctk.CTkFrame(chat, fg_color="transparent")
         row.pack(fill="x", pady=6)
         box = ctk.CTkFrame(row, corner_radius=14, fg_color=colors["bg_card"],
-                           border_width=1, border_color=colors["warning"])
+                           border_width=1, border_color=HUD_CYAN)
         box.pack(fill="x", padx=(6, 40))
         head = ctk.CTkFrame(box, fg_color="transparent")
         head.pack(fill="x", padx=14, pady=(10, 4))
-        ctk.CTkLabel(head, text=f"📟 {title}", font=("Segoe UI", 13, "bold"),
+        from app.gui.ui_utils import RadarSweep
+        radar = RadarSweep(head, bg=colors["bg_card"], accent=HUD_CYAN, size=26)
+        radar.canvas.pack(side="left", padx=(0, 8))
+        ctk.CTkLabel(head, text=f"◢ DIAGNOSTIC STREAM", font=("Consolas", 12, "bold"),
+                     text_color=HUD_CYAN).pack(side="left")
+        ctk.CTkLabel(head, text=f"  {title}", font=("Segoe UI", 12, "bold"),
                      text_color=colors["warning"]).pack(side="left")
-        line_count = ctk.CTkLabel(head, text="0 lines", font=("Segoe UI", 11), text_color=colors["text_dim"])
+        line_count = ctk.CTkLabel(head, text="0 lines", font=("Consolas", 11), text_color=colors["text_dim"])
         line_count.pack(side="right")
-        bar = ctk.CTkProgressBar(box, height=10, progress_color=colors["warning"], fg_color=colors["bg_light"])
+        bar = ctk.CTkProgressBar(box, height=10, progress_color=HUD_CYAN, fg_color=colors["bg_light"])
         bar.set(0)
         bar.pack(fill="x", padx=14, pady=(2, 2))
         msg = ctk.CTkLabel(box, text="Starting…", font=("Segoe UI", 11), text_color=colors["text_dim"])
@@ -696,7 +897,8 @@ def render_jack_page(app):
         t.tag_configure("info", foreground="#a855f7")
         t.tag_configure("header", foreground="#ec4899", font=("Consolas", 12, "bold"))
         scroll_bottom()
-        return {"tb": tb, "bar": bar, "msg": msg, "count": line_count, "box": box, "n": 0, "queue": []}
+        return {"tb": tb, "bar": bar, "msg": msg, "count": line_count, "box": box,
+                "radar": radar, "n": 0, "queue": []}
 
     def scan_flush(log):
         """Append queued lines in one batch (keeps the UI smooth on big reports)."""
@@ -815,6 +1017,10 @@ def render_jack_page(app):
             if log:
                 drain()
                 log["box"].configure(border_color=colors["border"])
+                try:
+                    log["radar"].active = False      # scan done — radar drops to idle spin
+                except Exception:
+                    pass
             act["row"], act["lbl"] = add_activity_bubble()
             set_status("Report samajh raha hoon…", "thinking")
 
@@ -829,7 +1035,8 @@ def render_jack_page(app):
         def worker():
             try:
                 reply = job(on_event)
-                meta = f"{reply.provider} • {reply.seconds}s"
+                _prov = "AI" if str(reply.provider).lower() == "groq" else reply.provider
+                meta = f"{_prov} • {reply.seconds}s"
                 if reply.tools_used:
                     meta += f" • {len(reply.tools_used)} tools"
                 msg = {"role": "jack", "text": reply.text, "meta": meta, "speech": reply.speech}
@@ -918,8 +1125,8 @@ def render_jack_page(app):
         clear_hero()
         wrap = ctk.CTkFrame(chat, fg_color="transparent")
         wrap.pack(fill="x", padx=(44, 20), pady=(4, 10))
-        ctk.CTkLabel(wrap, text="MAIN KYA KAR SAKTA HOON", font=("Segoe UI", 11, "bold"),
-                     text_color=colors["text_dim"]).pack(anchor="w", pady=(0, 6))
+        ctk.CTkLabel(wrap, text="◢ DIAGNOSTIC MODULES", font=("Consolas", 11, "bold"),
+                     text_color=HUD_CYAN).pack(anchor="w", pady=(0, 6))
         grid = ctk.CTkFrame(wrap, fg_color="transparent")
         grid.pack(fill="x")
         for i, (icon, title, sub, cmd) in enumerate(HERO_CARDS):
@@ -936,7 +1143,7 @@ def render_jack_page(app):
             s.grid(row=1, column=1, sticky="nw", pady=(0, 8), padx=(0, 10))
 
             def enter(_e, c=card):
-                c.configure(border_color="#a855f7", fg_color=_blend(colors["bg_medium"], "#a855f7", 0.12))
+                c.configure(border_color=HUD_CYAN, fg_color=_blend(colors["bg_medium"], HUD_CYAN, 0.1))
 
             def leave(_e, c=card):
                 c.configure(border_color=colors["border"], fg_color=colors["bg_medium"])
@@ -1364,12 +1571,11 @@ def render_jack_page(app):
                 state["brain"] = JackBrain()
             providers = state["brain"].settings.get("provider_order", [])
             has_key = bool(state["brain"]._clients("groq"))
-            msg, kind = (("Ready — Groq online", "idle") if has_key else
-                         ("Groq key nahi mili — database mode", "error"))
-            if "groq" not in providers:
-                msg, kind = ("Ready — " + ", ".join(providers), "idle")
+            online = has_key or bool(providers)
+            msg, kind = (("Ready — AI online", "idle") if online else
+                         ("AI offline — database mode", "error"))
             b = state["brain"]
-            pills = [("🧠 Groq AI" if has_key else "🧠 Offline DB", "#a78bfa"),
+            pills = [("🧠 AI online" if online else "🧠 Offline DB", "#a78bfa"),
                      (f"🔧 {len(b.tools.tools)} tools", colors["warning"]),
                      (f"📚 {b.kb.stats().get('phones', 0)} phones", colors["info"]),
                      ("🎙 Voice", colors["success"])]

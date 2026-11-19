@@ -1,0 +1,2276 @@
+{
+  "_version": "1.0",
+  "_description": "Chipset → IC mapping database for mobile repair diagnostics. Sources: MediaTek PCB design manuals, Wikipedia, datasheets, technician input.",
+  "mediatek": {
+    "MT6762": {
+      "marketing_name": "Helio P22 / G25",
+      "cpu": "8x Cortex-A53",
+      "gpu": "PowerVR GE8320",
+      "process": "12nm",
+      "pmic": "MT6357",
+      "charger_ic": "MT6371 / BQ25601 / SGM41511",
+      "wifi_bt": "MT6631",
+      "rf_transceiver": "MT6177",
+      "dram_type": "LPDDR3 / LPDDR4X",
+      "companion_ics": {
+        "MT6357": {
+          "function": "PMIC (Power Management IC)",
+          "i2c_addr": "SPMI",
+          "voltage_rails": [
+            "VPROC",
+            "VCORE",
+            "VMODEM",
+            "VSRAM_PROC",
+            "VSRAM_OTHERS",
+            "VPA",
+            "VDRAM"
+          ]
+        },
+        "MT6371": {
+          "function": "Charger IC + USB-PD",
+          "i2c_addr": "0x34"
+        },
+        "MT6631": {
+          "function": "WiFi/BT/GPS/FM combo",
+          "interface": "SDIO+UART"
+        },
+        "MT6177": {
+          "function": "RF Transceiver",
+          "interface": "DigRF"
+        },
+        "fan53526": {
+          "function": "EMI VDDQ regulator (DRAM signal voltage)",
+          "voltage": "0.6V",
+          "i2c_addr_7bit": "0x60",
+          "actual_ic": "May be MT6691ZXP on some boards"
+        },
+        "RT5738": {
+          "function": "EMI VDD2 regulator (DRAM core voltage)",
+          "voltage": "1.125V",
+          "i2c_addr_7bit": "0x6B"
+        },
+        "hl7593": {
+          "function": "EMI VDD2/VDDQ regulator (Halo Micro)",
+          "voltage": "varies"
+        }
+      },
+      "known_faults": {
+        "logo_stuck_i2c_bus3": {
+          "symptom": "Phone stuck on logo, does not boot to Android",
+          "boot_log_evidence": [
+            "[I2C] id=3,addr: 60, transfer error",
+            "fan53526_vdd2 is not exist",
+            "fan53526_vddq is not exist"
+          ],
+          "root_cause": "MT6691ZXP / fan53526 (EMI VDDQ voltage regulator) IC dead or bad solder",
+          "confidence": 92,
+          "repair_steps": [
+            "Check MT6691ZXP solder joints under microscope",
+            "Measure EMI VDDQ voltage (should be 0.6V)",
+            "Measure EMI VDD2 voltage (should be 1.125V)",
+            "Reball or replace MT6691ZXP",
+            "Check inductor and capacitor around DRAM regulator"
+          ],
+          "difficulty": "expert"
+        }
+      }
+    },
+    "MT6765": {
+      "marketing_name": "Helio P35 / G35",
+      "cpu": "8x Cortex-A53",
+      "gpu": "PowerVR GE8320",
+      "process": "12nm",
+      "pmic": "MT6357",
+      "charger_ic": "MT6371",
+      "wifi_bt": "MT6631",
+      "rf_transceiver": "MT6177",
+      "dram_type": "LPDDR3 / LPDDR4X",
+      "companion_ics": {
+        "MT6357": {
+          "function": "PMIC",
+          "i2c_addr": "SPMI"
+        },
+        "MT6371": {
+          "function": "Charger IC + USB-PD",
+          "i2c_addr": "0x34"
+        },
+        "MT6631": {
+          "function": "WiFi/BT/GPS/FM combo"
+        },
+        "MT6177": {
+          "function": "RF Transceiver"
+        },
+        "fan53526": {
+          "function": "EMI VDDQ regulator",
+          "voltage": "0.6V",
+          "i2c_addr_7bit": "0x60"
+        },
+        "RT5738": {
+          "function": "EMI VDD2 regulator",
+          "voltage": "1.125V",
+          "i2c_addr_7bit": "0x6B"
+        }
+      }
+    },
+    "MT6771": {
+      "marketing_name": "Helio P60 / P70",
+      "cpu": "4x Cortex-A73 + 4x Cortex-A53",
+      "gpu": "Mali-G72 MP3",
+      "process": "12nm",
+      "pmic": "MT6358",
+      "charger_ic": "MT6370",
+      "wifi_bt": "MT6631",
+      "rf_transceiver": "MT6177",
+      "dram_type": "LPDDR4X",
+      "companion_ics": {
+        "MT6358": {
+          "function": "PMIC",
+          "i2c_addr": "SPMI",
+          "voltage_rails": [
+            "VPROC",
+            "VCORE",
+            "VGPU",
+            "VMODEM",
+            "VSRAM"
+          ]
+        },
+        "MT6370": {
+          "function": "Charger IC + LED Flash + Display Bias",
+          "i2c_addr": "0x34"
+        },
+        "MT6631": {
+          "function": "WiFi/BT/GPS/FM combo"
+        },
+        "MT6177": {
+          "function": "RF Transceiver"
+        },
+        "fan53526": {
+          "function": "EMI VDDQ regulator",
+          "voltage": "0.6V",
+          "i2c_addr_7bit": "0x60"
+        },
+        "RT5738": {
+          "function": "EMI VDD2 regulator",
+          "voltage": "1.125V",
+          "i2c_addr_7bit": "0x6B"
+        }
+      }
+    },
+    "MT6768": {
+      "marketing_name": "Helio G85",
+      "cpu": "2x Cortex-A75 + 6x Cortex-A55",
+      "gpu": "Mali-G52 MC2",
+      "process": "12nm",
+      "pmic": "MT6358",
+      "charger_ic": "MT6370",
+      "wifi_bt": "MT6631",
+      "dram_type": "LPDDR4X"
+    },
+    "MT6769": {
+      "marketing_name": "Helio G80 / G90",
+      "cpu": "2x Cortex-A75 + 6x Cortex-A55",
+      "gpu": "Mali-G52 MC2",
+      "process": "12nm",
+      "pmic": "MT6358",
+      "charger_ic": "MT6370"
+    },
+    "MT6785": {
+      "marketing_name": "Helio G95 / G90T",
+      "cpu": "2x Cortex-A76 + 6x Cortex-A55",
+      "gpu": "Mali-G76 MC4",
+      "process": "12nm",
+      "pmic": "MT6359",
+      "charger_ic": "MT6360"
+    },
+    "MT6833": {
+      "marketing_name": "Dimensity 700",
+      "cpu": "2x Cortex-A76 + 6x Cortex-A55",
+      "gpu": "Mali-G57 MC2",
+      "process": "7nm",
+      "pmic": "MT6359P"
+    },
+    "MT6853": {
+      "marketing_name": "Dimensity 720 / 800U",
+      "cpu": "2x Cortex-A76 + 6x Cortex-A55",
+      "gpu": "Mali-G57 MC3",
+      "process": "7nm",
+      "pmic": "MT6359P"
+    },
+    "MT6873": {
+      "marketing_name": "Dimensity 800",
+      "cpu": "4x Cortex-A76 + 4x Cortex-A55",
+      "gpu": "Mali-G57 MC4",
+      "process": "7nm",
+      "pmic": "MT6359P"
+    },
+    "MT6889": {
+      "marketing_name": "Dimensity 1000",
+      "cpu": "4x Cortex-A77 + 4x Cortex-A55",
+      "gpu": "Mali-G77 MC9",
+      "process": "7nm",
+      "pmic": "MT6359P"
+    },
+    "MT6893": {
+      "marketing_name": "Dimensity 1200",
+      "cpu": "1x A78 + 3x A78 + 4x A55",
+      "gpu": "Mali-G77 MC9",
+      "process": "6nm",
+      "pmic": "MT6359P"
+    },
+    "MT6580": {
+      "marketing_name": "MT6580",
+      "cpu": "4x Cortex-A7",
+      "gpu": "Mali-400 MP1",
+      "process": "28nm",
+      "pmic": "MT6328",
+      "dram_type": "LPDDR2/3"
+    },
+    "MT6582": {
+      "marketing_name": "MT6582",
+      "cpu": "4x Cortex-A7",
+      "gpu": "Mali-400 MP2",
+      "process": "28nm",
+      "pmic": "MT6323",
+      "dram_type": "LPDDR2/3"
+    },
+    "MT6735": {
+      "marketing_name": "MT6735",
+      "cpu": "4x Cortex-A53",
+      "gpu": "Mali-T720 MP2",
+      "process": "28nm",
+      "pmic": "MT6328",
+      "dram_type": "LPDDR3"
+    },
+    "MT6737": {
+      "marketing_name": "MT6737",
+      "cpu": "4x Cortex-A53",
+      "gpu": "Mali-T720 MP2",
+      "process": "28nm",
+      "pmic": "MT6351",
+      "dram_type": "LPDDR2/3"
+    },
+    "MT6739": {
+      "marketing_name": "MT6739",
+      "cpu": "4x Cortex-A53",
+      "gpu": "PowerVR GE8100",
+      "process": "28nm",
+      "pmic": "MT6357",
+      "dram_type": "LPDDR3"
+    },
+    "MT6761": {
+      "marketing_name": "Helio A20/A22",
+      "cpu": "4x Cortex-A53",
+      "gpu": "PowerVR GE8300",
+      "process": "12nm",
+      "pmic": "MT6357",
+      "dram_type": "LPDDR3/4X"
+    },
+    "MT6755": {
+      "marketing_name": "Helio P10/P15/P18",
+      "cpu": "8x Cortex-A53",
+      "gpu": "Mali-T860 MP2",
+      "process": "28nm",
+      "pmic": "MT6351",
+      "dram_type": "LPDDR3"
+    },
+    "MT6757": {
+      "marketing_name": "Helio P20/P25",
+      "cpu": "8x Cortex-A53",
+      "gpu": "Mali-T880 MP2",
+      "process": "16nm",
+      "pmic": "MT6355",
+      "dram_type": "LPDDR4X"
+    },
+    "MT6763": {
+      "marketing_name": "Helio P23",
+      "cpu": "8x Cortex-A53",
+      "gpu": "Mali-G71 MP2",
+      "process": "16nm",
+      "pmic": "MT6356",
+      "dram_type": "LPDDR4X"
+    },
+    "MT6758": {
+      "marketing_name": "Helio P30",
+      "cpu": "8x Cortex-A53",
+      "gpu": "Mali-G71 MP2",
+      "process": "16nm",
+      "pmic": "MT6356",
+      "dram_type": "LPDDR4X"
+    },
+    "MT6779": {
+      "marketing_name": "Helio P90/P95",
+      "cpu": "2x A75 + 6x A55",
+      "gpu": "PowerVR GM9446",
+      "process": "12nm",
+      "pmic": "MT6359",
+      "dram_type": "LPDDR4X"
+    },
+    "MT6795": {
+      "marketing_name": "Helio X10",
+      "cpu": "8x Cortex-A53",
+      "gpu": "PowerVR G6200",
+      "process": "28nm",
+      "pmic": "MT6331+MT6332",
+      "dram_type": "LPDDR3"
+    },
+    "MT6797": {
+      "marketing_name": "Helio X20/X25/X27",
+      "cpu": "2x A72 + 4x A53 + 4x A53",
+      "gpu": "Mali-T880 MP4",
+      "process": "20nm",
+      "pmic": "MT6351",
+      "dram_type": "LPDDR3"
+    },
+    "MT6799": {
+      "marketing_name": "Helio X30",
+      "cpu": "2x A73 + 4x A53 + 4x A35",
+      "gpu": "PowerVR 7XTP-MT4",
+      "process": "10nm",
+      "pmic": "MT6355",
+      "dram_type": "LPDDR4X"
+    },
+    "MT6781": {
+      "marketing_name": "Helio G96",
+      "cpu": "2x A76 + 6x A55",
+      "gpu": "Mali-G57 MC2",
+      "process": "12nm",
+      "pmic": "MT6359",
+      "dram_type": "LPDDR4X"
+    },
+    "MT6789": {
+      "marketing_name": "Helio G99/G100/G200",
+      "cpu": "2x A76 + 6x A55",
+      "gpu": "Mali-G57 MC2",
+      "process": "6nm",
+      "pmic": "MT6368",
+      "dram_type": "LPDDR5"
+    },
+    "MT6833P": {
+      "marketing_name": "Dimensity 810/6080",
+      "cpu": "2x A76 + 6x A55",
+      "gpu": "Mali-G57 MC2",
+      "process": "6nm",
+      "pmic": "MT6359P",
+      "dram_type": "LPDDR4X"
+    },
+    "MT6875": {
+      "marketing_name": "Dimensity 820",
+      "cpu": "4x A76 + 4x A55",
+      "gpu": "Mali-G57 MC5",
+      "process": "7nm",
+      "pmic": "MT6359P",
+      "dram_type": "LPDDR4X"
+    },
+    "MT6877": {
+      "marketing_name": "Dimensity 900/920/1050/1080",
+      "cpu": "2x A78 + 6x A55",
+      "gpu": "Mali-G68 MC4",
+      "process": "6nm",
+      "pmic": "MT6365",
+      "dram_type": "LPDDR4X/5"
+    },
+    "MT6855": {
+      "marketing_name": "Dimensity 930/7020/7025",
+      "cpu": "2x A78 + 6x A55",
+      "gpu": "IMG BXM-8-256",
+      "process": "6nm",
+      "pmic": "MT6365",
+      "dram_type": "LPDDR4X/5"
+    },
+    "MT6883": {
+      "marketing_name": "Dimensity 1000C",
+      "cpu": "4x A77 + 4x A55",
+      "gpu": "Mali-G57 MC5",
+      "process": "7nm",
+      "pmic": "MT6359P",
+      "dram_type": "LPDDR4X"
+    },
+    "MT6885": {
+      "marketing_name": "Dimensity 1000L",
+      "cpu": "4x A77 + 4x A55",
+      "gpu": "Mali-G77 MC7",
+      "process": "7nm",
+      "pmic": "MT6359P",
+      "dram_type": "LPDDR4X"
+    },
+    "MT6891": {
+      "marketing_name": "Dimensity 1100/8020",
+      "cpu": "4x A78 + 4x A55",
+      "gpu": "Mali-G77 MC9",
+      "process": "6nm",
+      "pmic": "MT6359P",
+      "dram_type": "LPDDR4X"
+    },
+    "MT6879": {
+      "marketing_name": "Dimensity 1050/7030",
+      "cpu": "2x A78 + 6x A55",
+      "gpu": "Mali-G610 MC3",
+      "process": "6nm",
+      "pmic": "MT6365",
+      "dram_type": "LPDDR4X/5"
+    },
+    "MT6858": {
+      "marketing_name": "Dimensity 7100/7300e",
+      "cpu": "4x A78 + 4x A55",
+      "gpu": "Mali-G610 MC2",
+      "process": "6nm",
+      "pmic": "MT6369",
+      "dram_type": "LPDDR4X/5"
+    },
+    "MT6886": {
+      "marketing_name": "Dimensity 7200/7350",
+      "cpu": "2x A715 + 6x A510",
+      "gpu": "Mali-G610 MC4",
+      "process": "4nm",
+      "pmic": "MT6369",
+      "dram_type": "LPDDR4X/5"
+    },
+    "MT6878": {
+      "marketing_name": "Dimensity 7300/7400",
+      "cpu": "4x A78 + 4x A55",
+      "gpu": "Mali-G615 MC2",
+      "process": "4nm",
+      "pmic": "MT6373",
+      "dram_type": "LPDDR4X/5"
+    },
+    "MT6895": {
+      "marketing_name": "Dimensity 8000",
+      "cpu": "4x A78 + 4x A55",
+      "gpu": "Mali-G610 MC6",
+      "process": "5nm",
+      "pmic": "MT6365",
+      "dram_type": "LPDDR5"
+    },
+    "MT6896": {
+      "marketing_name": "Dimensity 8200/8250",
+      "cpu": "4x A78 + 4x A55",
+      "gpu": "Mali-G610 MC6",
+      "process": "4nm",
+      "pmic": "MT6369",
+      "dram_type": "LPDDR5"
+    },
+    "MT6897": {
+      "marketing_name": "Dimensity 8300/8350",
+      "cpu": "4x A715 + 4x A510",
+      "gpu": "Mali-G615 MC6",
+      "process": "4nm",
+      "pmic": "MT6373",
+      "dram_type": "LPDDR5X"
+    },
+    "MT6899": {
+      "marketing_name": "Dimensity 8400/8450/8500",
+      "cpu": "4x A725 + 4x A725",
+      "gpu": "Mali-G720 MC7",
+      "process": "4nm",
+      "pmic": "MT6377",
+      "dram_type": "LPDDR5X"
+    },
+    "MT6983": {
+      "marketing_name": "Dimensity 9000/9000+",
+      "cpu": "1x X2 + 3x A710 + 4x A510",
+      "gpu": "Mali-G710 MC10",
+      "process": "4nm",
+      "pmic": "MT6373",
+      "dram_type": "LPDDR5/5X"
+    },
+    "MT6985": {
+      "marketing_name": "Dimensity 9200/9200+",
+      "cpu": "1x X3 + 3x A715 + 4x A510",
+      "gpu": "Immortalis-G715 MC11",
+      "process": "4nm",
+      "pmic": "MT6377",
+      "dram_type": "LPDDR5X"
+    },
+    "MT6989": {
+      "marketing_name": "Dimensity 9300/9300+",
+      "cpu": "1x X4 + 3x X4 + 4x A720",
+      "gpu": "Immortalis-G720 MC12",
+      "process": "4nm",
+      "pmic": "MT6377",
+      "dram_type": "LPDDR5X"
+    },
+    "MT6991": {
+      "marketing_name": "Dimensity 9400/9400+",
+      "cpu": "1x X925 + 3x X4 + 4x A720",
+      "gpu": "Immortalis-G925 MC12",
+      "process": "3nm",
+      "pmic": "MT6379",
+      "dram_type": "LPDDR5X"
+    },
+    "MT6993": {
+      "marketing_name": "Dimensity 9500",
+      "cpu": "1x C1-Ultra + 3x C1-Premium + 4x C1-Pro",
+      "gpu": "Mali G1-Ultra MC12",
+      "process": "3nm",
+      "pmic": "MT6379",
+      "dram_type": "LPDDR5X"
+    }
+  },
+  "qualcomm": {
+    "SM4350": {
+      "marketing_name": "Snapdragon 480/480+",
+      "cpu": "2x A76 + 6x A55",
+      "gpu": "Adreno 619",
+      "process": "8nm",
+      "pmic": "PM4250",
+      "wifi_bt": "WCN3950",
+      "dram_type": "LPDDR4X"
+    },
+    "SM4375": {
+      "marketing_name": "Snapdragon 4 Gen 1",
+      "cpu": "2x A78 + 6x A55",
+      "gpu": "Adreno 619",
+      "process": "6nm",
+      "pmic": "PM4250",
+      "dram_type": "LPDDR4X"
+    },
+    "SM4450": {
+      "marketing_name": "Snapdragon 4 Gen 2",
+      "cpu": "2x A78 + 6x A55",
+      "gpu": "Adreno 613",
+      "process": "4nm",
+      "pmic": "PM4550",
+      "dram_type": "LPDDR4X"
+    },
+    "SM6115": {
+      "marketing_name": "Snapdragon 662",
+      "cpu": "4x Kryo 260 Gold + 4x Kryo 260 Silver",
+      "gpu": "Adreno 610",
+      "process": "11nm",
+      "pmic": "PM6125",
+      "charger_ic": "SMB1390 / SMB1355",
+      "wifi_bt": "WCN3990"
+    },
+    "SM6125": {
+      "marketing_name": "Snapdragon 665",
+      "cpu": "4x Kryo 260 Gold + 4x Silver",
+      "gpu": "Adreno 610",
+      "process": "11nm",
+      "pmic": "PM6125"
+    },
+    "SM6150": {
+      "marketing_name": "Snapdragon 675/678",
+      "cpu": "2x A76 + 6x A55",
+      "gpu": "Adreno 612",
+      "process": "11nm",
+      "pmic": "PM6150",
+      "wifi_bt": "WCN3990"
+    },
+    "SM6225": {
+      "marketing_name": "Snapdragon 680/685",
+      "cpu": "4x A73 + 4x A53",
+      "gpu": "Adreno 610",
+      "process": "6nm",
+      "pmic": "PM6125",
+      "wifi_bt": "WCN3988",
+      "dram_type": "LPDDR4X"
+    },
+    "SM6350": {
+      "marketing_name": "Snapdragon 690",
+      "cpu": "2x A77 + 6x A55",
+      "gpu": "Adreno 619L",
+      "process": "8nm",
+      "pmic": "PM6350",
+      "wifi_bt": "WCN3998"
+    },
+    "SM6375": {
+      "marketing_name": "Snapdragon 695",
+      "cpu": "2x A78 + 6x A55",
+      "gpu": "Adreno 619",
+      "process": "6nm",
+      "pmic": "PM6125",
+      "wifi_bt": "WCN6750",
+      "dram_type": "LPDDR4X"
+    },
+    "SM7125": {
+      "marketing_name": "Snapdragon 720G",
+      "cpu": "2x Kryo 465 Gold + 6x Silver",
+      "gpu": "Adreno 618",
+      "process": "8nm",
+      "pmic": "PM7150"
+    },
+    "SM7225": {
+      "marketing_name": "Snapdragon 750G",
+      "cpu": "2x A77 + 6x A55",
+      "gpu": "Adreno 619",
+      "process": "8nm",
+      "pmic": "PM7150",
+      "wifi_bt": "WCN3998"
+    },
+    "SM7325": {
+      "marketing_name": "Snapdragon 778G/778G+",
+      "cpu": "1x A78 + 3x A78 + 4x A55",
+      "gpu": "Adreno 642L",
+      "process": "6nm",
+      "pmic": "PM7325",
+      "wifi_bt": "WCN6855"
+    },
+    "SM7450": {
+      "marketing_name": "Snapdragon 7 Gen 1",
+      "cpu": "4x A710 + 4x A510",
+      "gpu": "Adreno 644",
+      "process": "4nm",
+      "pmic": "PM7450",
+      "wifi_bt": "WCN6855"
+    },
+    "SM7475": {
+      "marketing_name": "Snapdragon 7+ Gen 2",
+      "cpu": "1x X2 + 3x A710 + 4x A510",
+      "gpu": "Adreno 725",
+      "process": "4nm",
+      "pmic": "PM7550",
+      "wifi_bt": "WCN7850"
+    },
+    "SM7550": {
+      "marketing_name": "Snapdragon 7 Gen 3",
+      "cpu": "1x A715 + 3x A715 + 4x A510",
+      "gpu": "Adreno 720",
+      "process": "4nm",
+      "pmic": "PM7550",
+      "wifi_bt": "WCN7850"
+    },
+    "SM7675": {
+      "marketing_name": "Snapdragon 7+ Gen 3",
+      "cpu": "1x X4 + 4x A720 + 3x A520",
+      "gpu": "Adreno 732",
+      "process": "4nm",
+      "pmic": "PM7550"
+    },
+    "SM8150": {
+      "marketing_name": "Snapdragon 855/855+",
+      "cpu": "1x Prime + 3x Gold + 4x Silver",
+      "gpu": "Adreno 640",
+      "process": "7nm",
+      "pmic": "PM8150 + PM8150B + PM8150L",
+      "charger_ic": "SMB1390",
+      "wifi_bt": "WCN3998",
+      "audio_codec": "WCD9340",
+      "companion_ics": {
+        "PM8150": {
+          "function": "Main PMIC",
+          "interface": "SPMI"
+        },
+        "PM8150B": {
+          "function": "Secondary PMIC (charging + flash)",
+          "interface": "SPMI"
+        },
+        "PM8150L": {
+          "function": "Peripheral PMIC (display bias, camera)",
+          "interface": "SPMI"
+        },
+        "SMB1390": {
+          "function": "Flash charger IC",
+          "interface": "SPMI"
+        },
+        "WCN3998": {
+          "function": "WiFi 802.11ac + BT 5.0"
+        },
+        "WCD9340": {
+          "function": "Audio codec"
+        },
+        "SDR845": {
+          "function": "RF Transceiver"
+        }
+      }
+    },
+    "SM8250": {
+      "marketing_name": "Snapdragon 865/865+",
+      "cpu": "1x A77 + 3x A77 + 4x A55",
+      "gpu": "Adreno 650",
+      "process": "7nm",
+      "pmic": "PM8150 + PM8250",
+      "wifi_bt": "WCN6856 (WiFi 6)",
+      "audio_codec": "WCD9380"
+    },
+    "SM8350": {
+      "marketing_name": "Snapdragon 888/888+",
+      "cpu": "1x X1 + 3x A78 + 4x A55",
+      "gpu": "Adreno 660",
+      "process": "5nm",
+      "pmic": "PM8350 + PMK8350 + PMR735A",
+      "wifi_bt": "WCN6856",
+      "audio_codec": "WCD9380 / WCD9385"
+    },
+    "SM8450": {
+      "marketing_name": "Snapdragon 8 Gen 1",
+      "cpu": "1x X2 + 3x A710 + 4x A510",
+      "gpu": "Adreno 730",
+      "process": "4nm",
+      "pmic": "PM8450 + PM8350 + PM8350C + PMK8450 + PMR735A + PMR735B + PM8010x2",
+      "charger_ic": "SMB1396 / SMB1393",
+      "wifi_bt": "WCN6855 / WCN6856 (WiFi 6E)",
+      "audio_codec": "WCD9380 / WCD9385",
+      "speaker_amp": "WSA8830 / WSA8835",
+      "rf_transceiver": "SDR735",
+      "companion_ics": {
+        "PM8450": {
+          "function": "Main PMIC",
+          "interface": "SPMI"
+        },
+        "PM8350": {
+          "function": "Secondary PMIC",
+          "interface": "SPMI"
+        },
+        "PM8350C": {
+          "function": "Camera/Display PMIC",
+          "interface": "SPMI"
+        },
+        "PMK8450": {
+          "function": "Clock/Reset PMIC",
+          "interface": "SPMI"
+        },
+        "PMR735A": {
+          "function": "RF PMIC",
+          "interface": "SPMI"
+        },
+        "PMR735B": {
+          "function": "RF PMIC 2",
+          "interface": "SPMI"
+        },
+        "PM8010": {
+          "function": "Camera PMIC (x2)",
+          "interface": "I2C"
+        },
+        "SMB1396": {
+          "function": "Flash charger IC"
+        },
+        "SMB1393": {
+          "function": "Parallel charger IC"
+        },
+        "WCN6855": {
+          "function": "WiFi 6E + BT 5.2"
+        },
+        "WCD9380": {
+          "function": "Audio codec"
+        },
+        "WSA8835": {
+          "function": "Smart speaker amplifier"
+        },
+        "SDR735": {
+          "function": "4G/Sub-6/GNSS RF transceiver"
+        }
+      }
+    },
+    "SM8475": {
+      "marketing_name": "Snapdragon 8+ Gen 1",
+      "cpu": "1x X2 + 3x A710 + 4x A510",
+      "gpu": "Adreno 730",
+      "process": "4nm TSMC",
+      "pmic": "PM8450 + PM8350",
+      "wifi_bt": "WCN6855"
+    },
+    "SM8550": {
+      "marketing_name": "Snapdragon 8 Gen 2",
+      "cpu": "1x X3 + 2x A715 + 2x A710 + 4x A510",
+      "gpu": "Adreno 740",
+      "process": "4nm",
+      "pmic": "PM8550 + PMK8550",
+      "wifi_bt": "WCN7850 (WiFi 7)"
+    },
+    "SM8635": {
+      "marketing_name": "Snapdragon 8s Gen 3",
+      "cpu": "1x X4 + 4x A720 + 3x A520",
+      "gpu": "Adreno 735",
+      "process": "4nm"
+    },
+    "SM8650": {
+      "marketing_name": "Snapdragon 8 Gen 3",
+      "cpu": "1x X4 + 3x A720 + 2x A720 + 2x A520",
+      "gpu": "Adreno 750",
+      "process": "4nm",
+      "pmic": "PM8650 + PMK8650",
+      "wifi_bt": "WCN7850 (WiFi 7)"
+    },
+    "SM8750": {
+      "marketing_name": "Snapdragon 8 Elite / 8 Gen 4",
+      "cpu": "2x Oryon + 6x Oryon",
+      "gpu": "Adreno 830",
+      "process": "3nm",
+      "pmic": "PM8750"
+    }
+  },
+  "common_ics": {
+    "pmic": {
+      "MT6323": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6582"
+        ]
+      },
+      "MT6328": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6580",
+          "MT6735",
+          "MT6795"
+        ]
+      },
+      "MT6331": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6795"
+        ],
+        "notes": "Paired with MT6332"
+      },
+      "MT6351": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6737",
+          "MT6755",
+          "MT6797"
+        ]
+      },
+      "MT6355": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6757",
+          "MT6799"
+        ]
+      },
+      "MT6356": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6763",
+          "MT6758"
+        ]
+      },
+      "MT6357": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6739",
+          "MT6761",
+          "MT6762",
+          "MT6765"
+        ],
+        "voltage_rails": [
+          "VPROC",
+          "VCORE",
+          "VMODEM",
+          "VSRAM_PROC",
+          "VSRAM_OTHERS",
+          "VPA",
+          "VDRAM"
+        ]
+      },
+      "MT6358": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6771",
+          "MT6768",
+          "MT6769"
+        ]
+      },
+      "MT6359": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6779",
+          "MT6781",
+          "MT6785"
+        ]
+      },
+      "MT6359P": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6833",
+          "MT6833P",
+          "MT6853",
+          "MT6873",
+          "MT6875",
+          "MT6883",
+          "MT6885",
+          "MT6889",
+          "MT6891",
+          "MT6893"
+        ]
+      },
+      "MT6365": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6855",
+          "MT6877",
+          "MT6879",
+          "MT6895"
+        ]
+      },
+      "MT6368": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6789"
+        ]
+      },
+      "MT6369": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6858",
+          "MT6886",
+          "MT6896"
+        ]
+      },
+      "MT6373": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6878",
+          "MT6897",
+          "MT6983"
+        ]
+      },
+      "MT6377": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6899",
+          "MT6985",
+          "MT6989"
+        ]
+      },
+      "MT6379": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6991",
+          "MT6993"
+        ]
+      },
+      "PM6125": {
+        "manufacturer": "Qualcomm",
+        "used_with": [
+          "SM6115",
+          "SM6125"
+        ]
+      },
+      "PM8150": {
+        "manufacturer": "Qualcomm",
+        "used_with": [
+          "SM8150"
+        ]
+      },
+      "PM8350": {
+        "manufacturer": "Qualcomm",
+        "used_with": [
+          "SM8350"
+        ]
+      }
+    },
+    "charger_ic": {
+      "MT6371": {
+        "manufacturer": "MediaTek",
+        "function": "Charger + USB-PD",
+        "i2c_addr": "0x34"
+      },
+      "MT6370": {
+        "manufacturer": "MediaTek",
+        "function": "Charger + LED Flash + Display Bias",
+        "i2c_addr": "0x34"
+      },
+      "MT6360": {
+        "manufacturer": "MediaTek",
+        "function": "Charger + PMIC sub + Display Bias"
+      },
+      "BQ25601": {
+        "manufacturer": "TI",
+        "function": "Switching charger",
+        "i2c_addr": "0x6B"
+      },
+      "BQ25890": {
+        "manufacturer": "TI",
+        "function": "Fast charger",
+        "i2c_addr": "0x6A"
+      },
+      "SGM41511": {
+        "manufacturer": "SG Micro",
+        "function": "Switching charger",
+        "i2c_addr": "0x6B"
+      },
+      "SGM41512": {
+        "manufacturer": "SG Micro",
+        "function": "Switching charger",
+        "i2c_addr": "0x6B"
+      },
+      "RT9471": {
+        "manufacturer": "Richtek",
+        "function": "Switching charger",
+        "i2c_addr": "0x53"
+      },
+      "SMB1390": {
+        "manufacturer": "Qualcomm",
+        "function": "Flash charger",
+        "i2c_addr": "SPMI"
+      }
+    },
+    "dram_voltage_regulator": {
+      "fan53526": {
+        "manufacturer": "Fairchild/ON Semi",
+        "function": "EMI VDDQ (DRAM signal voltage)",
+        "voltage": "0.6V",
+        "i2c_addr_7bit": "0x60",
+        "i2c_write": "0xC0",
+        "i2c_read": "0xC1",
+        "notes": "Often replaced by MT6691ZXP on board"
+      },
+      "MT6691ZXP": {
+        "manufacturer": "MediaTek",
+        "function": "EMI VDDQ (DRAM signal voltage)",
+        "voltage": "0.6V",
+        "i2c_addr_7bit": "0x50",
+        "i2c_write": "0xA0",
+        "i2c_read": "0xA1",
+        "notes": "Board-level replacement for fan53526. Driver probes as fan53526 at 0x60"
+      },
+      "RT5738": {
+        "manufacturer": "Richtek",
+        "function": "EMI VDD2 (DRAM core voltage)",
+        "voltage": "1.125V",
+        "i2c_addr_7bit": "0x6B",
+        "i2c_write": "0xD6",
+        "i2c_read": "0xD7"
+      },
+      "hl7593": {
+        "manufacturer": "Halo Micro",
+        "function": "EMI VDD2/VDDQ regulator",
+        "notes": "Alternative to RT5738/fan53526"
+      }
+    },
+    "wifi_bt": {
+      "MT6631": {
+        "manufacturer": "MediaTek",
+        "function": "WiFi 802.11ac + BT 5.0 + GPS + FM"
+      },
+      "WCN3990": {
+        "manufacturer": "Qualcomm",
+        "function": "WiFi 802.11ac + BT 5.0"
+      },
+      "WCN6855": {
+        "manufacturer": "Qualcomm",
+        "function": "WiFi 6E + BT 5.2"
+      }
+    },
+    "audio_amplifier": {
+      "AW88261": {
+        "manufacturer": "Awinic",
+        "function": "Smart PA speaker amp",
+        "i2c_addr": "0x34/0x36"
+      },
+      "TFA9874": {
+        "manufacturer": "NXP",
+        "function": "Smart PA speaker amp",
+        "i2c_addr": "0x34"
+      },
+      "TFA9895": {
+        "manufacturer": "NXP",
+        "function": "Smart PA speaker amp",
+        "i2c_addr": "0x34"
+      }
+    },
+    "touch_ic": {
+      "FT5x06": {
+        "manufacturer": "Focaltech",
+        "i2c_addr": "0x38"
+      },
+      "GT9xx": {
+        "manufacturer": "Goodix",
+        "i2c_addr": "0x5D/0x14"
+      },
+      "GT1x": {
+        "manufacturer": "Goodix",
+        "i2c_addr": "0x5D"
+      }
+    },
+    "sensor": {
+      "BMI160": {
+        "manufacturer": "Bosch",
+        "function": "Accelerometer + Gyroscope",
+        "i2c_addr": "0x68/0x69"
+      },
+      "AKM09918": {
+        "manufacturer": "AKM",
+        "function": "Magnetometer",
+        "i2c_addr": "0x0D"
+      },
+      "APDS9960": {
+        "manufacturer": "Broadcom",
+        "function": "Ambient light + Proximity",
+        "i2c_addr": "0x39"
+      },
+      "VL53L0X": {
+        "manufacturer": "ST",
+        "function": "Laser ToF proximity",
+        "i2c_addr": "0x29"
+      }
+    },
+    "nfc": {
+      "PN553": {
+        "manufacturer": "NXP",
+        "function": "NFC controller",
+        "i2c_addr": "0x28"
+      },
+      "SN100": {
+        "manufacturer": "NXP",
+        "function": "NFC controller",
+        "i2c_addr": "0x28"
+      },
+      "ST21NFC": {
+        "manufacturer": "ST",
+        "function": "NFC controller",
+        "i2c_addr": "0x08"
+      }
+    }
+  },
+  "samsung_exynos": {
+    "Exynos850": {
+      "marketing_name": "Exynos 850",
+      "code": "S5E3830",
+      "cpu": "8x A55",
+      "gpu": "Mali-G52 MP1",
+      "process": "8nm",
+      "pmic": "S2MPU13",
+      "dram_type": "LPDDR4X"
+    },
+    "Exynos880": {
+      "marketing_name": "Exynos 880",
+      "code": "S5E8805",
+      "cpu": "2x A77 + 6x A55",
+      "gpu": "Mali-G76 MP5",
+      "process": "8nm",
+      "pmic": "S2MPS19",
+      "dram_type": "LPDDR4X"
+    },
+    "Exynos980": {
+      "marketing_name": "Exynos 980",
+      "code": "S5E9630",
+      "cpu": "2x A77 + 6x A55",
+      "gpu": "Mali-G76 MP5",
+      "process": "8nm",
+      "pmic": "S2MPS19",
+      "dram_type": "LPDDR4X"
+    },
+    "Exynos990": {
+      "marketing_name": "Exynos 990",
+      "code": "S5E9830",
+      "cpu": "2x M5 + 2x A76 + 4x A55",
+      "gpu": "Mali-G77 MP11",
+      "process": "7nm",
+      "pmic": "S2MPS21",
+      "dram_type": "LPDDR5"
+    },
+    "Exynos1080": {
+      "marketing_name": "Exynos 1080",
+      "code": "S5E9815",
+      "cpu": "1x A78 + 3x A78 + 4x A55",
+      "gpu": "Mali-G78 MP10",
+      "process": "5nm",
+      "pmic": "S2MPS23",
+      "dram_type": "LPDDR4X/5"
+    },
+    "Exynos1280": {
+      "marketing_name": "Exynos 1280",
+      "code": "S5E8825",
+      "cpu": "2x A78 + 6x A55",
+      "gpu": "Mali-G68 MP4",
+      "process": "6nm",
+      "pmic": "S2MPU14",
+      "dram_type": "LPDDR4X"
+    },
+    "Exynos1330": {
+      "marketing_name": "Exynos 1330",
+      "code": "S5E8535",
+      "cpu": "2x A78 + 6x A55",
+      "gpu": "Mali-G68 MP2",
+      "process": "6nm",
+      "pmic": "S2MPU14",
+      "dram_type": "LPDDR4X/5"
+    },
+    "Exynos1380": {
+      "marketing_name": "Exynos 1380",
+      "code": "S5E8835",
+      "cpu": "4x A78 + 4x A55",
+      "gpu": "Mali-G68 MP5",
+      "process": "5nm",
+      "pmic": "S2MPU15",
+      "dram_type": "LPDDR4X"
+    },
+    "Exynos1480": {
+      "marketing_name": "Exynos 1480",
+      "code": "S5E8845",
+      "cpu": "4x A78 + 4x A55",
+      "gpu": "Xclipse 530 (RDNA2)",
+      "process": "4nm",
+      "pmic": "S2MPS26",
+      "dram_type": "LPDDR5"
+    },
+    "Exynos1580": {
+      "marketing_name": "Exynos 1580",
+      "code": "S5E8855",
+      "cpu": "1x A720 + 3x A720 + 4x A520",
+      "gpu": "Xclipse 540 (RDNA3)",
+      "process": "4nm",
+      "pmic": "S2MPS28",
+      "dram_type": "LPDDR5"
+    },
+    "Exynos2100": {
+      "marketing_name": "Exynos 2100 (Galaxy S21)",
+      "code": "S5E9840",
+      "cpu": "1x X1 + 3x A78 + 4x A55",
+      "gpu": "Mali-G78 MP14",
+      "process": "5nm",
+      "pmic": "S2MPS23",
+      "dram_type": "LPDDR5"
+    },
+    "Exynos2200": {
+      "marketing_name": "Exynos 2200 (Galaxy S22)",
+      "code": "S5E9925",
+      "cpu": "1x X2 + 3x A710 + 4x A510",
+      "gpu": "Xclipse 920 (RDNA2)",
+      "process": "4nm",
+      "pmic": "S2MPS25",
+      "dram_type": "LPDDR5"
+    },
+    "Exynos2400": {
+      "marketing_name": "Exynos 2400 (Galaxy S24)",
+      "code": "S5E9945",
+      "cpu": "1x X4 + 2x A720 + 3x A720 + 4x A520",
+      "gpu": "Xclipse 940 (RDNA3)",
+      "process": "4nm",
+      "pmic": "S2MPS28",
+      "dram_type": "LPDDR5X"
+    },
+    "Exynos9610": {
+      "marketing_name": "Exynos 9610",
+      "cpu": "4x A73 + 4x A53",
+      "gpu": "Mali-G72 MP3",
+      "process": "10nm",
+      "pmic": "S2MPS18",
+      "dram_type": "LPDDR4X"
+    },
+    "Exynos9611": {
+      "marketing_name": "Exynos 9611",
+      "cpu": "4x A73 + 4x A53",
+      "gpu": "Mali-G72 MP3",
+      "process": "10nm",
+      "pmic": "S2MPS18",
+      "dram_type": "LPDDR4X"
+    },
+    "Exynos9810": {
+      "marketing_name": "Exynos 9810 (Galaxy S9)",
+      "code": "S5E9810",
+      "cpu": "4x M3 + 4x A55",
+      "gpu": "Mali-G72 MP18",
+      "process": "10nm",
+      "pmic": "S2MPS18",
+      "dram_type": "LPDDR4X"
+    },
+    "Exynos9820": {
+      "marketing_name": "Exynos 9820 (Galaxy S10)",
+      "code": "S5E9820",
+      "cpu": "2x M4 + 2x A75 + 4x A55",
+      "gpu": "Mali-G76 MP12",
+      "process": "8nm",
+      "pmic": "S2MPS19",
+      "dram_type": "LPDDR4X"
+    },
+    "Exynos9825": {
+      "marketing_name": "Exynos 9825 (Galaxy Note 10)",
+      "code": "S5E9825",
+      "cpu": "2x M4 + 2x A75 + 4x A55",
+      "gpu": "Mali-G76 MP12",
+      "process": "7nm",
+      "pmic": "S2MPS19",
+      "dram_type": "LPDDR4X"
+    }
+  },
+  "unisoc": {
+    "SC9863A": {
+      "marketing_name": "SC9863A",
+      "cpu": "8x A55",
+      "gpu": "PowerVR GE8322",
+      "process": "28nm",
+      "dram_type": "LPDDR3/4X"
+    },
+    "T310": {
+      "marketing_name": "Tiger T310",
+      "cpu": "1x A75 + 3x A55",
+      "gpu": "PowerVR GE8300",
+      "process": "12nm",
+      "dram_type": "LPDDR3/4X"
+    },
+    "T606": {
+      "marketing_name": "Tiger T606",
+      "cpu": "2x A75 + 6x A55",
+      "gpu": "Mali-G57 MC1",
+      "process": "12nm",
+      "dram_type": "LPDDR4X"
+    },
+    "T610": {
+      "marketing_name": "Tiger T610",
+      "cpu": "2x A75 + 6x A55",
+      "gpu": "Mali-G52 MC2",
+      "process": "12nm",
+      "dram_type": "LPDDR3/4X"
+    },
+    "T612": {
+      "marketing_name": "Tiger T612",
+      "cpu": "2x A75 + 6x A55",
+      "gpu": "Mali-G57 MC1",
+      "process": "12nm",
+      "dram_type": "LPDDR3/4X"
+    },
+    "T616": {
+      "marketing_name": "Tiger T616",
+      "cpu": "2x A75 + 6x A55",
+      "gpu": "Mali-G57 MC1",
+      "process": "12nm",
+      "dram_type": "LPDDR4X"
+    },
+    "T618": {
+      "marketing_name": "Tiger T618",
+      "cpu": "2x A75 + 6x A55",
+      "gpu": "Mali-G52 MC2",
+      "process": "12nm",
+      "dram_type": "LPDDR3/4X"
+    },
+    "T619": {
+      "marketing_name": "Tiger T619",
+      "cpu": "2x A75 + 6x A55",
+      "gpu": "Mali-G57 MC1",
+      "process": "12nm",
+      "dram_type": "LPDDR4X"
+    },
+    "T620": {
+      "marketing_name": "Tiger T620",
+      "cpu": "2x A75 + 6x A55",
+      "gpu": "Mali-G57",
+      "process": "12nm"
+    },
+    "T700": {
+      "marketing_name": "Tiger T700",
+      "cpu": "2x A75 + 6x A55",
+      "gpu": "Mali-G52 MC2",
+      "process": "12nm",
+      "dram_type": "LPDDR4X"
+    },
+    "T710": {
+      "marketing_name": "Tiger T710",
+      "cpu": "4x A75 + 4x A55",
+      "gpu": "PowerVR GM9446",
+      "process": "12nm",
+      "dram_type": "LPDDR4X"
+    },
+    "T7300": {
+      "marketing_name": "Tiger T7300",
+      "cpu": "2x A78 + 6x A55",
+      "gpu": "Mali-G57 MC2",
+      "process": "6nm",
+      "dram_type": "LPDDR4X"
+    },
+    "T740": {
+      "marketing_name": "Tanggula T740 (5G)",
+      "cpu": "4x A75 + 4x A55",
+      "gpu": "PowerVR GM9446",
+      "process": "12nm",
+      "dram_type": "LPDDR4X"
+    },
+    "T750": {
+      "marketing_name": "Tanggula T750 (5G)",
+      "cpu": "2x A76 + 6x A55",
+      "gpu": "Mali-G57 MP2",
+      "process": "6nm",
+      "dram_type": "LPDDR4X"
+    },
+    "T760": {
+      "marketing_name": "Tanggula T760 (5G)",
+      "cpu": "4x A76 + 4x A55",
+      "gpu": "Mali-G57 MP4",
+      "process": "6nm",
+      "dram_type": "LPDDR4X"
+    },
+    "T765": {
+      "marketing_name": "Tanggula T765 (5G)",
+      "cpu": "2x A76 + 6x A55",
+      "gpu": "Mali-G57 MC2",
+      "process": "6nm",
+      "dram_type": "LPDDR4X"
+    },
+    "T770": {
+      "marketing_name": "Tanggula T770 (5G)",
+      "cpu": "4x A76 + 4x A55",
+      "gpu": "Mali-G57 MP4",
+      "process": "6nm",
+      "dram_type": "LPDDR4X"
+    },
+    "T820": {
+      "marketing_name": "Tanggula T820 (5G)",
+      "cpu": "4x A76 + 4x A55",
+      "gpu": "Mali-G57",
+      "process": "6nm"
+    }
+  },
+  "phone_teardowns": {
+    "Galaxy_S23_Ultra": {
+      "phone": "Samsung Galaxy S23 Ultra",
+      "chipset": "SM8550 (Snapdragon 8 Gen 2)",
+      "source": "iFixit teardown",
+      "ics": {
+        "SM8550": "Snapdragon 8 Gen 2 SoC",
+        "PM8550VE": "Main PMIC",
+        "PM8550VS": "Secondary PMIC",
+        "PMK8550": "Clock generator PMIC",
+        "S2MPBA3": "Samsung sub-PMIC",
+        "S2MPB02": "Samsung camera PMIC",
+        "MAX77705C": "Analog Devices PMIC (USB-C + charging)",
+        "PCA9481UK": "NXP battery charger IC",
+        "SM3080I": "Silicon Mitus PMIC",
+        "WCN7851": "Qualcomm WiFi 7 + BT 5.3",
+        "SDR735": "Qualcomm 4G/Sub-6/GNSS RF transceiver",
+        "SMR546": "Qualcomm RF transceiver",
+        "CS35L42": "Cirrus Logic audio amplifier (x2)",
+        "CS40L26": "Cirrus Logic haptic driver",
+        "SN220U": "NXP NFC controller",
+        "SR200T": "NXP ultra-wideband (UWB)",
+        "TMD4913": "AMS color/proximity sensor",
+        "LSM6DSO": "ST accelerometer/gyroscope",
+        "LPS22HH": "ST pressure sensor",
+        "AK09918C": "AKM electronic compass",
+        "QFS2630": "Qualcomm ultrasonic fingerprint sensor",
+        "QBT2600": "Qualcomm fingerprint controller",
+        "CPS4038": "ConvenientPower wireless charging (40W RX / 10W TX)",
+        "WEZ02": "Wacom digitizer controller (S-Pen)",
+        "STM32G051": "ST microcontroller",
+        "NVT4557HK": "NXP SIM level translator",
+        "ET9902": "ETEK overvoltage protection"
+      }
+    }
+  },
+  "i2c_address_map": {
+    "0x08": "ST21NFC (NFC controller)",
+    "0x0D": "AKM09918 (magnetometer)",
+    "0x14": "Goodix GT9xx alt (touch IC)",
+    "0x20": "TPS65132 (LCD bias voltage IC)",
+    "0x28": "PN553/SN100 (NFC controller)",
+    "0x29": "VL53L0X (laser proximity/ToF)",
+    "0x34": "MT6370/MT6371/TFA9874 (charger or audio PA)",
+    "0x35": "SGM41511 (charging IC)",
+    "0x36": "BQ25890/AW88261 (charger or audio PA)",
+    "0x38": "FT5x06 (Focaltech touch IC)",
+    "0x39": "APDS9960 (ambient light + proximity)",
+    "0x48": "Temperature sensor / NTC",
+    "0x49": "NCP6924 / sub-PMIC",
+    "0x50": "MT6691ZXP alt addr / EEPROM / Camera OTP",
+    "0x51": "EEPROM / Camera OTP",
+    "0x52": "EEPROM / Camera OTP",
+    "0x53": "RT9471 (charging IC) / LIS2DW12 (accelerometer)",
+    "0x5D": "Goodix GT9xx/GT1x (touch IC)",
+    "0x60": "MT6691ZXP / fan53526 (EMI VDDQ 0.6V)",
+    "0x61": "RT5738 / fan53528 (EMI VDD2 1.125V)",
+    "0x62": "Goodix GT1x alt (touch IC)",
+    "0x68": "BMI160/ICM20600 (accel+gyro IMU)",
+    "0x69": "BMI160 alt (accel+gyro IMU)",
+    "0x6A": "BQ25890 (fast charger IC)",
+    "0x6B": "RT5738 alt / BQ25601 / SGM41511 (VDD2 or charger)"
+  },
+  "fault_patterns": {
+    "dead_phone_no_power": {
+      "symptom": "Phone completely dead, no response to power button or charging",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "No UART output at all",
+        "No data received on serial port",
+        "Battery voltage < 3.0V or 0V"
+      ],
+      "possible_causes": [
+        {
+          "ic": "PMIC",
+          "reason": "PMIC dead or shorted — no power distribution",
+          "check": "Measure PMIC input voltage (VBAT pin)",
+          "confidence": 85
+        },
+        {
+          "ic": "Battery",
+          "reason": "Battery completely dead or disconnected",
+          "check": "Measure battery voltage with multimeter (should be 3.7-4.2V)",
+          "confidence": 90
+        },
+        {
+          "ic": "CPU/SoC",
+          "reason": "CPU dead — no boot attempt",
+          "check": "Check CPU power rails (VPROC, VCORE) with multimeter",
+          "confidence": 70
+        },
+        {
+          "ic": "Short circuit",
+          "reason": "PCB short draining all power",
+          "check": "Connect DC power supply — if current > 500mA immediately = short. Use thermal camera to find hot spot",
+          "confidence": 80
+        }
+      ],
+      "repair_steps": [
+        "Check battery voltage (3.7-4.2V normal, <3V dead)",
+        "Connect DC power supply, check current draw",
+        "If high current = find short with thermal camera",
+        "If no current = check PMIC, replace if dead",
+        "If battery dead = charge externally or replace"
+      ],
+      "difficulty": "medium",
+      "test_points": [
+        {
+          "ic": "PMIC input",
+          "nets": [
+            "VBAT",
+            "VBAT_TEST",
+            "VBATT"
+          ],
+          "volts": 3.8
+        },
+        {
+          "ic": "PMIC output",
+          "nets": [
+            "VSYS",
+            "VDD18",
+            "VDD_1V2"
+          ],
+          "volts": null
+        }
+      ]
+    },
+    "logo_stuck_boot_loop": {
+      "symptom": "Phone shows logo but does not boot to Android, stuck on logo or keeps restarting",
+      "boot_log_evidence": [
+        "fan53526_vdd2 is not exist",
+        "fan53526_vddq is not exist",
+        "[I2C] id=3,addr: 60, transfer error",
+        "kernel panic",
+        "init: Service.*exited"
+      ],
+      "dmesg_evidence": [
+        "PVRSRVDeviceOpen.*Driver already in bad state",
+        "vendor.gralloc.*exited with status"
+      ],
+      "indicators": [
+        "Kernel boots but Android init fails",
+        "Boot stage reaches Kernel but not Zygote/SystemServer"
+      ],
+      "possible_causes": [
+        {
+          "ic": "DRAM voltage regulator (fan53526/MT6691ZXP/RT5738)",
+          "reason": "RAM voltage unstable — Android crashes during heavy RAM usage",
+          "check": "Check I2C bus 3 errors in boot log, measure EMI VDDQ (0.6V) and VDD2 (1.125V)",
+          "confidence": 92
+        },
+        {
+          "ic": "eMMC/UFS",
+          "reason": "Storage corrupted or failing",
+          "check": "Check storage init in boot log, try flashing firmware",
+          "confidence": 60
+        },
+        {
+          "ic": "CPU/SoC",
+          "reason": "CPU solder joint broken — intermittent connection",
+          "check": "Check CPU temperature during boot, look for random crashes",
+          "confidence": 50
+        },
+        {
+          "ic": "Software/firmware",
+          "reason": "Corrupted system partition",
+          "check": "Try factory reset or flash stock firmware",
+          "confidence": 55
+        }
+      ],
+      "repair_steps": [
+        "Check boot log for I2C errors and IC probe failures",
+        "Measure DRAM voltage rails (VDDQ=0.6V, VDD2=1.125V)",
+        "If I2C error on bus 3 addr 0x60 = reball/replace MT6691ZXP",
+        "If storage errors = try firmware flash first",
+        "If CPU overheats during boot = reball CPU"
+      ],
+      "difficulty": "expert",
+      "test_points": [
+        {
+          "ic": "DRAM regulator",
+          "nets": [
+            "VDD_DRAM",
+            "VDD2",
+            "VDDQ"
+          ],
+          "volts": 1.1
+        },
+        {
+          "ic": "Storage/SoC",
+          "nets": [
+            "VDD_1V2",
+            "VDD18",
+            "VSYS"
+          ],
+          "volts": null
+        }
+      ]
+    },
+    "no_charging": {
+      "symptom": "Phone does not charge, no charging indicator, or charges very slowly",
+      "boot_log_evidence": [
+        "PD_HW_FAIL",
+        "get_ibus.*failed",
+        "charger.*fail"
+      ],
+      "dmesg_evidence": [
+        "get_ibus: get ibus failed",
+        "_pd_notifier_call.*PD_HW_FAIL",
+        "_pd_stop_algo.*PD_HW_FAIL"
+      ],
+      "indicators": [
+        "Charging current 0mA or very low",
+        "USB-PD hardware failure"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Charging IC (MT6370/MT6371/BQ25601)",
+          "reason": "Charging controller IC dead",
+          "check": "Measure charging IC I2C communication, check VBUS voltage",
+          "confidence": 80
+        },
+        {
+          "ic": "USB-C port",
+          "reason": "Charging port damaged or corroded",
+          "check": "Visual inspection, check CC line resistance",
+          "confidence": 85
+        },
+        {
+          "ic": "Battery connector",
+          "reason": "Battery connector loose or corroded",
+          "check": "Check battery connector pins, measure VBAT",
+          "confidence": 70
+        },
+        {
+          "ic": "PMIC charging path",
+          "reason": "PMIC internal charging MOSFET damaged",
+          "check": "Check PMIC charging registers, measure VSYS",
+          "confidence": 60
+        }
+      ],
+      "repair_steps": [
+        "Check USB-C port for physical damage",
+        "Measure VBUS voltage (should be 5V from charger)",
+        "Check charging IC communication (I2C addr 0x34)",
+        "If PD_HW_FAIL = replace USB-C port or PD controller",
+        "If get_ibus failed = charging IC faulty, replace"
+      ],
+      "difficulty": "medium",
+      "test_points": [
+        {
+          "ic": "Charging IC",
+          "nets": [
+            "VBUS",
+            "CHG",
+            "PD"
+          ],
+          "volts": 5.0
+        },
+        {
+          "ic": "Battery path",
+          "nets": [
+            "VBAT",
+            "VSYS"
+          ],
+          "volts": null
+        }
+      ]
+    },
+    "no_network_signal": {
+      "symptom": "No network signal, SIM not detected, no service, or frequent call drops",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [
+        "ccci.*error",
+        "ccci.*timeout",
+        "modem.*crash",
+        "baseband.*fail"
+      ],
+      "indicators": [
+        "Baseband version empty in ADB",
+        "IMEI missing or null",
+        "SIM state ABSENT"
+      ],
+      "possible_causes": [
+        {
+          "ic": "RF Transceiver (MT6177/WCN3990)",
+          "reason": "RF IC dead or solder joint broken",
+          "check": "Check RF IC power supply, antenna connection",
+          "confidence": 75
+        },
+        {
+          "ic": "Modem/Baseband",
+          "reason": "Baseband processor crash or dead",
+          "check": "Check baseband version via ADB, check CCCI status in dmesg",
+          "confidence": 80
+        },
+        {
+          "ic": "SIM card reader",
+          "reason": "SIM slot damaged or corroded",
+          "check": "Try another SIM card, check SIM connector pins",
+          "confidence": 70
+        },
+        {
+          "ic": "Antenna",
+          "reason": "Antenna disconnected or damaged",
+          "check": "Check antenna connector, measure antenna impedance",
+          "confidence": 65
+        }
+      ],
+      "repair_steps": [
+        "Check SIM card and slot physically",
+        "Check baseband version (empty = modem dead)",
+        "Check antenna connections",
+        "If baseband empty = reball/replace modem IC",
+        "If SIM not detected = check SIM reader connector"
+      ],
+      "difficulty": "hard",
+      "test_points": [
+        {
+          "ic": "RF / PA",
+          "nets": [
+            "VDD_PA",
+            "PA",
+            "RF"
+          ],
+          "volts": 3.3
+        },
+        {
+          "ic": "Baseband/modem",
+          "nets": [
+            "VSYS",
+            "VBAT",
+            "VDD18"
+          ],
+          "volts": null
+        },
+        {
+          "ic": "SIM reader",
+          "nets": [
+            "SIM",
+            "VIO"
+          ],
+          "volts": 1.8
+        }
+      ]
+    },
+    "no_display": {
+      "symptom": "Phone turns on (vibrates, plays sound) but screen is black or no display",
+      "boot_log_evidence": [
+        "dsi.*error",
+        "dsi.*timeout",
+        "panel.*fail",
+        "lcm.*error",
+        "backlight.*fail"
+      ],
+      "dmesg_evidence": [
+        "display.*error",
+        "disp.*fail",
+        "mdss.*error"
+      ],
+      "indicators": [
+        "Phone responds to calls/notifications but no screen"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Display connector",
+          "reason": "Display flex cable loose or damaged",
+          "check": "Reseat display connector, try known-good display",
+          "confidence": 90
+        },
+        {
+          "ic": "Display driver IC",
+          "reason": "Display IC on motherboard dead",
+          "check": "Check DSI data lines voltage, check display IC power",
+          "confidence": 70
+        },
+        {
+          "ic": "Backlight IC",
+          "reason": "Backlight driver dead — screen works but no light",
+          "check": "Shine flashlight on screen — if you see faint image, backlight IC dead",
+          "confidence": 85
+        },
+        {
+          "ic": "LCD bias IC (TPS65132)",
+          "reason": "LCD positive/negative voltage IC dead",
+          "check": "Measure AVDD/AVEE voltages (typically +5.5V/-5.5V)",
+          "confidence": 75
+        }
+      ],
+      "repair_steps": [
+        "Reseat display connector first",
+        "Try known-good display to rule out display panel",
+        "Check backlight — flashlight test",
+        "If backlight dead = check/replace backlight IC",
+        "If DSI error in log = check display IC solder joints"
+      ],
+      "difficulty": "medium",
+      "test_points": [
+        {
+          "ic": "Display connector",
+          "nets": [
+            "LCD",
+            "DSI",
+            "MIPI",
+            "BL",
+            "BACKLIGHT"
+          ],
+          "volts": null
+        },
+        {
+          "ic": "Display rail",
+          "nets": [
+            "VDD18",
+            "VDD28",
+            "VIO"
+          ],
+          "volts": 1.8
+        }
+      ]
+    },
+    "no_wifi_bluetooth": {
+      "symptom": "WiFi or Bluetooth not working, cannot turn on WiFi, no networks found",
+      "boot_log_evidence": [
+        "wlan.*fail",
+        "wmt.*fail",
+        "conninfra.*fail",
+        "wifi.*fail"
+      ],
+      "dmesg_evidence": [
+        "wlan.*error",
+        "bt.*error",
+        "WMT.*fail"
+      ],
+      "indicators": [
+        "WiFi MAC address 02:00:00:00:00:00 or empty",
+        "Bluetooth MAC empty"
+      ],
+      "possible_causes": [
+        {
+          "ic": "WiFi/BT combo IC (MT6631/WCN3990)",
+          "reason": "Combo IC dead or solder issue",
+          "check": "Check WiFi IC power supply, antenna connection",
+          "confidence": 80
+        },
+        {
+          "ic": "WiFi antenna",
+          "reason": "Antenna cable disconnected",
+          "check": "Check antenna connector on motherboard",
+          "confidence": 75
+        },
+        {
+          "ic": "Software/firmware",
+          "reason": "WiFi firmware corrupted",
+          "check": "Try factory reset, flash stock firmware",
+          "confidence": 50
+        }
+      ],
+      "repair_steps": [
+        "Check WiFi/BT antenna connection",
+        "If MAC 02:00:00:00:00:00 = IC dead, reball/replace",
+        "Try factory reset first (rules out software)",
+        "Reball WiFi/BT combo IC",
+        "Replace combo IC if reball fails"
+      ],
+      "difficulty": "hard",
+      "test_points": [
+        {
+          "ic": "WiFi/BT combo",
+          "nets": [
+            "WIFI",
+            "BT",
+            "WL",
+            "VDD_PA"
+          ],
+          "volts": 3.3
+        },
+        {
+          "ic": "WiFi rail",
+          "nets": [
+            "VDD18",
+            "VIO"
+          ],
+          "volts": 1.8
+        }
+      ]
+    },
+    "no_audio": {
+      "symptom": "No sound from speaker, earpiece, or microphone not working",
+      "boot_log_evidence": [
+        "codec.*error",
+        "audio.*fail",
+        "wcd.*error"
+      ],
+      "dmesg_evidence": [
+        "AudioError",
+        "speaker.*error",
+        "codec.*fail"
+      ],
+      "indicators": [
+        "Audio service errors in dmesg",
+        "No audio devices detected in dumpsys"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Audio codec IC",
+          "reason": "Audio codec dead or solder issue",
+          "check": "Check audio IC power supply and I2C communication",
+          "confidence": 75
+        },
+        {
+          "ic": "Speaker amplifier (TFA9874/AW88261)",
+          "reason": "Smart PA IC dead",
+          "check": "Check PA IC I2C (addr 0x34/0x36), measure speaker output",
+          "confidence": 70
+        },
+        {
+          "ic": "Speaker/mic module",
+          "reason": "Speaker or microphone physically damaged",
+          "check": "Test with known-good speaker, measure speaker impedance (4-8 ohm)",
+          "confidence": 80
+        }
+      ],
+      "repair_steps": [
+        "Test with known-good speaker/mic first",
+        "Check audio codec IC power and communication",
+        "If AudioError in log = check audio PA IC",
+        "Measure speaker impedance (should be 4-8 ohm)",
+        "Replace audio IC if communication fails"
+      ],
+      "difficulty": "medium",
+      "test_points": [
+        {
+          "ic": "Audio codec",
+          "nets": [
+            "AU",
+            "HPH",
+            "MIC",
+            "SPK",
+            "AMP"
+          ],
+          "volts": null
+        },
+        {
+          "ic": "Audio rail",
+          "nets": [
+            "VDD18",
+            "VIO"
+          ],
+          "volts": 1.8
+        }
+      ]
+    },
+    "overheating": {
+      "symptom": "Phone gets very hot during use or while charging",
+      "boot_log_evidence": [
+        "thermal.*shutdown",
+        "thermal.*critical",
+        "THERMALSTATUS.*non-zero"
+      ],
+      "dmesg_evidence": [
+        "thermal.*trip",
+        "cpu.*throttling",
+        "PMIC.*thermal"
+      ],
+      "indicators": [
+        "PMIC THERMALSTATUS non-zero",
+        "CPU temperature > 65C",
+        "Battery temperature > 45C"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Short circuit on PCB",
+          "reason": "Half-short causing constant current drain",
+          "check": "Connect DC power supply — check current draw at idle (normal < 100mA)",
+          "confidence": 85
+        },
+        {
+          "ic": "CPU/SoC",
+          "reason": "CPU overworking due to software or solder issue",
+          "check": "Check CPU temperature zones, check if specific process uses high CPU",
+          "confidence": 60
+        },
+        {
+          "ic": "Charging IC",
+          "reason": "Charging IC faulty causing overcurrent",
+          "check": "Check charging current (should be < rated max)",
+          "confidence": 70
+        },
+        {
+          "ic": "Battery",
+          "reason": "Battery internal short or swollen",
+          "check": "Visual battery inspection, check temperature during idle",
+          "confidence": 75
+        }
+      ],
+      "repair_steps": [
+        "Connect DC power supply and check idle current (< 100mA normal)",
+        "Use thermal camera to find hot spot on PCB",
+        "If capacitor area hot = find and remove shorted capacitor",
+        "If PMIC hot = check PMIC power rails for shorts",
+        "If battery hot = replace battery immediately"
+      ],
+      "difficulty": "medium",
+      "test_points": [
+        {
+          "ic": "Main rail",
+          "nets": [
+            "VSYS",
+            "VBAT"
+          ],
+          "volts": null
+        },
+        {
+          "ic": "Charging path",
+          "nets": [
+            "VBUS",
+            "CHG"
+          ],
+          "volts": 5.0
+        }
+      ]
+    },
+    "camera_not_working": {
+      "symptom": "Camera app crashes, black screen in camera, or camera not detected",
+      "boot_log_evidence": [
+        "camera.*fail",
+        "cci.*error",
+        "sensor.*probe.*fail",
+        "cam.*power.*fail"
+      ],
+      "dmesg_evidence": [
+        "imgsensor.*fail",
+        "camera.*error"
+      ],
+      "indicators": [
+        "Camera info empty in dumpsys",
+        "Camera driver probe failure"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Camera module",
+          "reason": "Camera module dead or connector loose",
+          "check": "Reseat camera connector, try known-good camera",
+          "confidence": 85
+        },
+        {
+          "ic": "Camera PMIC",
+          "reason": "Camera power supply IC dead",
+          "check": "Measure camera voltage rails (VANA, VDIG, VIO)",
+          "confidence": 70
+        },
+        {
+          "ic": "Camera connector",
+          "reason": "FPC connector damaged",
+          "check": "Visual inspection under microscope",
+          "confidence": 75
+        }
+      ],
+      "repair_steps": [
+        "Reseat camera FPC connector first",
+        "Try known-good camera module",
+        "Check camera voltage rails with multimeter",
+        "If connector damaged = replace connector",
+        "If power IC dead = replace camera PMIC"
+      ],
+      "difficulty": "easy",
+      "test_points": [
+        {
+          "ic": "Camera PMIC",
+          "nets": [
+            "AVDD",
+            "DVDD",
+            "DOVDD",
+            "VCAMD"
+          ],
+          "volts": 2.8
+        },
+        {
+          "ic": "Camera connector",
+          "nets": [
+            "CAM_CLK",
+            "MCLK",
+            "CAM_RST",
+            "SCL",
+            "SDA"
+          ],
+          "volts": null
+        },
+        {
+          "ic": "Camera module",
+          "nets": [
+            "VIO28",
+            "VDD28"
+          ],
+          "volts": 1.8
+        }
+      ]
+    },
+    "touch_not_working": {
+      "symptom": "Touchscreen not responding, ghost touches, or partial touch failure",
+      "boot_log_evidence": [
+        "touch.*fail",
+        "touch.*error",
+        "i2c.*error.*touch",
+        "goodix.*fail",
+        "focaltech.*fail"
+      ],
+      "dmesg_evidence": [
+        "touch.*error",
+        "tp.*error"
+      ],
+      "indicators": [
+        "Touch IC I2C errors",
+        "Touch device not detected"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Touch IC (Goodix/Focaltech/Synaptics)",
+          "reason": "Touch controller IC dead",
+          "check": "Check I2C communication (addr 0x38/0x5D), check touch IC power",
+          "confidence": 80
+        },
+        {
+          "ic": "Display/digitizer",
+          "reason": "Digitizer layer damaged",
+          "check": "Try known-good display with digitizer",
+          "confidence": 85
+        },
+        {
+          "ic": "Touch FPC connector",
+          "reason": "Touch flex cable damaged or connector loose",
+          "check": "Reseat touch connector, visual inspection",
+          "confidence": 75
+        }
+      ],
+      "repair_steps": [
+        "Reseat touch connector",
+        "Try known-good display+digitizer",
+        "Check touch IC I2C (addr 0x38 or 0x5D)",
+        "If ghost touches = check for water damage around touch IC",
+        "If partial touch = digitizer damaged, replace display"
+      ],
+      "difficulty": "easy",
+      "test_points": [
+        {
+          "ic": "Touch IC",
+          "nets": [
+            "TP",
+            "TOUCH",
+            "I2C"
+          ],
+          "volts": null
+        },
+        {
+          "ic": "Touch rail",
+          "nets": [
+            "VDD18",
+            "VIO28"
+          ],
+          "volts": 1.8
+        }
+      ]
+    },
+    "fast_battery_drain": {
+      "symptom": "Battery drains very fast, phone dies within hours even with light use",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [
+        "wakelock",
+        "partial_wake",
+        "suspend.*abort"
+      ],
+      "indicators": [
+        "Battery wear > 20%",
+        "High idle current (> 50mA)",
+        "Wakelock holding device awake"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Battery",
+          "reason": "Battery degraded, actual capacity much lower than rated",
+          "check": "Check battery health in dumpsys, compare design vs current capacity",
+          "confidence": 85
+        },
+        {
+          "ic": "Half-short on PCB",
+          "reason": "Leakage current through damaged component",
+          "check": "Measure idle current with DC power supply (should be < 20mA in sleep)",
+          "confidence": 70
+        },
+        {
+          "ic": "Software",
+          "reason": "App or service keeping device awake",
+          "check": "Check wakelocks in dumpsys power",
+          "confidence": 60
+        }
+      ],
+      "repair_steps": [
+        "Check battery health percentage",
+        "Measure idle current (< 20mA normal in deep sleep)",
+        "If high idle current = find leaky component with thermal camera",
+        "If battery wear > 20% = replace battery",
+        "If software wakelock = identify and disable problematic app"
+      ],
+      "difficulty": "easy",
+      "test_points": [
+        {
+          "ic": "Battery path",
+          "nets": [
+            "VBAT",
+            "VSYS"
+          ],
+          "volts": null
+        }
+      ]
+    },
+    "fingerprint_not_working": {
+      "symptom": "Fingerprint sensor not detecting, cannot enroll, or slow recognition",
+      "boot_log_evidence": [
+        "fpc.*fail",
+        "goodix_fp.*fail",
+        "fingerprint.*fail"
+      ],
+      "dmesg_evidence": [
+        "fingerprint.*error",
+        "fps.*fail"
+      ],
+      "indicators": [
+        "Fingerprint service not available in dumpsys"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Fingerprint sensor module",
+          "reason": "Sensor dead or connector loose",
+          "check": "Reseat fingerprint connector, try known-good sensor",
+          "confidence": 80
+        },
+        {
+          "ic": "Fingerprint IC on motherboard",
+          "reason": "Controller IC dead",
+          "check": "Check fingerprint IC power and SPI/I2C communication",
+          "confidence": 65
+        }
+      ],
+      "repair_steps": [
+        "Reseat fingerprint FPC connector",
+        "Try known-good fingerprint sensor",
+        "Check fingerprint IC power supply",
+        "If sensor works on another board = motherboard IC issue"
+      ],
+      "difficulty": "easy",
+      "test_points": [
+        {
+          "ic": "Fingerprint IC",
+          "nets": [
+            "FPC",
+            "FP",
+            "I2C"
+          ],
+          "volts": null
+        },
+        {
+          "ic": "Fingerprint rail",
+          "nets": [
+            "VDD18",
+            "VIO"
+          ],
+          "volts": 1.8
+        }
+      ]
+    }
+  }
+}

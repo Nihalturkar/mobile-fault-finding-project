@@ -271,10 +271,46 @@ def render_adb_detect(app):
         except Exception:
             pass
 
-    ctk.CTkButton(btn_frame, text="🔍 Start ADB Detection", width=250, height=46,
+    def deep_info_scan():
+        """Deeper ADB specs + battery/storage HEALTH verdict (software-only)."""
+        if running["value"]:
+            return
+        running["value"] = True
+        summary_label.configure(text="🔬 Deep info nikal raha hoon…", text_color=colors["info"])
+        progress.set(0)
+        _append_live("")
+        _append_live("🔬 Deep device info (ADB)…")
+
+        def _progress(p, m):
+            app.content.after(0, lambda: (progress.set(p),
+                                          summary_label.configure(text=f"🔬 {m}")))
+
+        def work():
+            info = {"error": "unknown"}
+            try:
+                from app.hardware.deep_info import collect_deep_info, format_deep_report
+                info = collect_deep_info(callback=_progress)
+                report = format_deep_report(info)
+            except Exception as e:
+                report = f"❌ Deep info error: {e}"
+            ok = "error" not in info
+            app.content.after(0, lambda: _append_live_lines(report.split("\n")))
+            app.content.after(0, lambda: (progress.set(1.0), summary_label.configure(
+                text="🔬 Deep info ready" if ok else "⚠ Deep info — phone ADB me nahi",
+                text_color=colors["success"] if ok else colors["warning"])))
+            running["value"] = False
+
+        threading.Thread(target=work, daemon=True).start()
+
+    ctk.CTkButton(btn_frame, text="🔍 Start ADB Detection", width=230, height=46,
                   fg_color=colors["accent"], hover_color=colors["accent_hover"],
                   font=("Segoe UI", 15, "bold"), corner_radius=10,
                   command=start_detection).pack(side="left", padx=(0, 10))
+
+    ctk.CTkButton(btn_frame, text="🔬 Deep Info", width=150, height=46,
+                  fg_color=colors["secondary"], hover_color=colors["accent"],
+                  font=("Segoe UI", 13, "bold"), corner_radius=10,
+                  command=deep_info_scan).pack(side="left", padx=(0, 10))
 
     ctk.CTkButton(btn_frame, text="🧠 Explain with AI", width=170, height=46,
                   fg_color=colors["info"], hover_color=colors["accent"],

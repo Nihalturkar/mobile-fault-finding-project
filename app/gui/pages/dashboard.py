@@ -3,6 +3,8 @@ import json
 from collections import Counter
 from pathlib import Path
 
+from app.gui.ui_utils import TechBanner, HudGauge
+
 
 def render_dashboard(app):
     """Render the main dashboard page with REAL data from detection history."""
@@ -29,14 +31,11 @@ def render_dashboard(app):
     except Exception:
         pass
 
-    # Page title
-    ctk.CTkLabel(app.content, text="📊 Dashboard",
-                 font=("Segoe UI", 24, "bold"),
-                 text_color=colors["text"]).pack(anchor="w", padx=20, pady=(20, 5))
-    ctk.CTkLabel(app.content,
-                 text="Live overview — detection history, device stats, and quick actions",
-                 font=("Segoe UI", 13),
-                 text_color=colors["text_dim"]).pack(anchor="w", padx=20, pady=(0, 20))
+    # Page title — animated robotics circuit banner
+    _banner = TechBanner(app.content, bg=colors["bg_dark"], accent=colors.get("hud", "#22d3ee"),
+                         title="📊  DASHBOARD",
+                         subtitle="NEURAL FAULT ENGINE · live telemetry, device stats & quick actions")
+    _banner.canvas.pack(fill="x", padx=20, pady=(16, 14))
 
     # ── Live Connection Status ──
     conn_frame = ctk.CTkFrame(app.content, fg_color=colors["bg_card"], corner_radius=12)
@@ -184,6 +183,31 @@ def render_dashboard(app):
                      text_color=color).pack()
         ctk.CTkLabel(card, text=label, font=("Segoe UI", 12),
                      text_color=colors["text_dim"]).pack()
+
+    # ── System Vitals — robotics gauge dials ──
+    vitals = ctk.CTkFrame(app.content, fg_color=colors["bg_card"], corner_radius=12)
+    vitals.pack(fill="x", padx=20, pady=10)
+    ctk.CTkLabel(vitals, text="◢ SYSTEM VITALS", font=("Consolas", 13, "bold"),
+                 text_color=colors.get("hud", "#22d3ee")).pack(anchor="w", padx=20, pady=(14, 4))
+    gauge_row = ctk.CTkFrame(vitals, fg_color="transparent")
+    gauge_row.pack(fill="x", padx=20, pady=(0, 14))
+
+    clean = sum(1 for d in detections if d.get("faults_count", 0) == 0)
+    health_ratio = (clean / total_scans) if total_scans else 1.0
+    health_col = (colors["success"] if health_ratio >= 0.8 else
+                  colors["warning"] if health_ratio >= 0.5 else "#e74c3c")
+    cap = max(1, total_faults + total_warnings)
+    gauges = [
+        ("SYSTEM HEALTH", health_ratio, f"{int(health_ratio * 100)}%", health_col),
+        ("FAULTS", min(1.0, total_faults / cap), str(total_faults), "#e74c3c"),
+        ("WARNINGS", min(1.0, total_warnings / cap), str(total_warnings), colors["warning"]),
+        ("SCANS LOGGED", min(1.0, total_scans / max(20, total_scans)), str(total_scans), colors["info"]),
+    ]
+    for label, val, text, col in gauges:
+        cell = ctk.CTkFrame(gauge_row, fg_color="transparent")
+        cell.pack(side="left", fill="both", expand=True)
+        HudGauge(cell, bg=colors["bg_card"], label=label, value=val,
+                 text=text, color=col, size=140).canvas.pack()
 
     # ── Scan Type Breakdown ──
     scan_section = ctk.CTkFrame(app.content, fg_color=colors["bg_card"], corner_radius=12)

@@ -947,6 +947,68 @@
         "used_with": [
           "SM8350"
         ]
+      },
+      "MT6360": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6785",
+          "MT6853"
+        ],
+        "notes": "PMIC + charger + flash LED combo"
+      },
+      "MT6366": {
+        "manufacturer": "MediaTek",
+        "used_with": [
+          "MT6789"
+        ],
+        "notes": "Helio G99 PMIC"
+      },
+      "PM6150": {
+        "manufacturer": "Qualcomm",
+        "used_with": [
+          "SM6115",
+          "SM4250",
+          "SM6125"
+        ]
+      },
+      "PM7250B": {
+        "manufacturer": "Qualcomm",
+        "used_with": [
+          "SM7225",
+          "SM7325"
+        ]
+      },
+      "PMI632": {
+        "manufacturer": "Qualcomm",
+        "used_with": [
+          "SM6115",
+          "SM4250"
+        ],
+        "notes": "Charger PMIC"
+      },
+      "SC2730": {
+        "manufacturer": "Unisoc",
+        "used_with": [
+          "T606",
+          "T612",
+          "T616",
+          "T618"
+        ]
+      },
+      "S2MPS19": {
+        "manufacturer": "Samsung",
+        "used_with": [
+          "Exynos9825",
+          "Exynos990"
+        ]
+      },
+      "S2MU106": {
+        "manufacturer": "Samsung",
+        "used_with": [
+          "Exynos850",
+          "Exynos9611"
+        ],
+        "notes": "Charger/fuel-gauge PMIC"
       }
     },
     "charger_ic": {
@@ -993,6 +1055,22 @@
         "manufacturer": "Qualcomm",
         "function": "Flash charger",
         "i2c_addr": "SPMI"
+      },
+      "SY6970": {
+        "manufacturer": "Silergy",
+        "notes": "Charger + boost"
+      },
+      "MT6375": {
+        "manufacturer": "MediaTek",
+        "notes": "PMIC + Type-C PD charger (Dimensity)"
+      },
+      "SMB1360": {
+        "manufacturer": "Qualcomm",
+        "notes": "Parallel/stand-alone charger"
+      },
+      "UP9616": {
+        "manufacturer": "uPI",
+        "notes": "Charger IC (Xiaomi)"
       }
     },
     "dram_voltage_regulator": {
@@ -1040,6 +1118,34 @@
       "WCN6855": {
         "manufacturer": "Qualcomm",
         "function": "WiFi 6E + BT 5.2"
+      },
+      "MT6635": {
+        "manufacturer": "MediaTek",
+        "notes": "WiFi/BT combo (WiFi 5/6)"
+      },
+      "MT7921": {
+        "manufacturer": "MediaTek",
+        "notes": "WiFi 6 combo"
+      },
+      "WCN3660": {
+        "manufacturer": "Qualcomm",
+        "notes": "WiFi/BT combo"
+      },
+      "WCN3980": {
+        "manufacturer": "Qualcomm",
+        "notes": "WiFi 5 combo"
+      },
+      "WCN3988": {
+        "manufacturer": "Qualcomm",
+        "notes": "WiFi combo"
+      },
+      "WCN6750": {
+        "manufacturer": "Qualcomm",
+        "notes": "WiFi 6E combo"
+      },
+      "UWE5622": {
+        "manufacturer": "Unisoc",
+        "notes": "WiFi/BT combo"
       }
     },
     "audio_amplifier": {
@@ -1057,6 +1163,30 @@
         "manufacturer": "NXP",
         "function": "Smart PA speaker amp",
         "i2c_addr": "0x34"
+      },
+      "NXP TFA9874": {
+        "manufacturer": "NXP",
+        "notes": "Smart PA (loudspeaker)"
+      },
+      "NXP TFA9873": {
+        "manufacturer": "NXP",
+        "notes": "Smart PA"
+      },
+      "AW8898": {
+        "manufacturer": "Awinic",
+        "notes": "Smart PA, common in Xiaomi/Realme"
+      },
+      "CS35L41": {
+        "manufacturer": "Cirrus Logic",
+        "notes": "Boosted smart amp"
+      },
+      "FS1512": {
+        "manufacturer": "Foursemi",
+        "notes": "Smart PA"
+      },
+      "AON1": {
+        "manufacturer": "AAC/Generic",
+        "notes": "Smart PA (varies)"
       }
     },
     "touch_ic": {
@@ -1071,6 +1201,37 @@
       "GT1x": {
         "manufacturer": "Goodix",
         "i2c_addr": "0x5D"
+      },
+      "FT5436": {
+        "manufacturer": "FocalTech",
+        "notes": "Capacitive touch controller"
+      },
+      "FT8719": {
+        "manufacturer": "FocalTech",
+        "notes": "In-cell touch+display driver"
+      },
+      "GT9886": {
+        "manufacturer": "Goodix",
+        "notes": "Touch controller"
+      },
+      "GT9896": {
+        "manufacturer": "Goodix"
+      },
+      "NT36672": {
+        "manufacturer": "Novatek",
+        "notes": "TDDI touch+display driver"
+      },
+      "HX83112": {
+        "manufacturer": "Himax",
+        "notes": "TDDI driver"
+      },
+      "S3706": {
+        "manufacturer": "Synaptics",
+        "notes": "AMOLED touch controller"
+      },
+      "CHSC5": {
+        "manufacturer": "Chipsemi",
+        "notes": "Low-cost touch IC"
       }
     },
     "sensor": {
@@ -1093,6 +1254,26 @@
         "manufacturer": "ST",
         "function": "Laser ToF proximity",
         "i2c_addr": "0x29"
+      },
+      "STK3x": {
+        "manufacturer": "Sensortek",
+        "notes": "Proximity + ambient light sensor"
+      },
+      "TMD2755": {
+        "manufacturer": "AMS",
+        "notes": "Prox/ALS"
+      },
+      "LSM6DS": {
+        "manufacturer": "STMicro",
+        "notes": "Accel + gyro (6-axis)"
+      },
+      "AK09918": {
+        "manufacturer": "AKM",
+        "notes": "Magnetometer (compass)"
+      },
+      "GT9xx-FP": {
+        "manufacturer": "Goodix",
+        "notes": "Under-display fingerprint"
       }
     },
     "nfc": {
@@ -1110,6 +1291,10 @@
         "manufacturer": "ST",
         "function": "NFC controller",
         "i2c_addr": "0x08"
+      },
+      "SN110": {
+        "manufacturer": "NXP",
+        "notes": "NFC + secure element"
       }
     }
   },
@@ -2270,6 +2455,845 @@
           ],
           "volts": 1.8
         }
+      ]
+    },
+    "water_liquid_damage": {
+      "symptom": "Phone water/liquid damage ke baad band ya galat chal raha hai (corrosion)",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Board pe corrosion/green-white residue",
+        "Liquid indicator red",
+        "Random faults after wetting"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Corrosion",
+          "reason": "Pani se board pe short/corrosion",
+          "check": "Board ko alcohol + ultrasonic se clean karo, corrosion dhoondo",
+          "confidence": 85
+        },
+        {
+          "ic": "PMIC",
+          "reason": "Pani se PMIC ke pins short",
+          "check": "PMIC area visual + diode mode se short check",
+          "confidence": 70
+        },
+        {
+          "ic": "Charging IC",
+          "reason": "USB/charging section corroded",
+          "check": "Charging port + IC area clean aur check",
+          "confidence": 65
+        }
+      ],
+      "repair_steps": [
+        "Phone turant band karo, battery disconnect",
+        "Isopropyl alcohol (99%) + ultrasonic cleaner se board wash",
+        "Corrosion wale pins/components inspect aur reflow/replace",
+        "Dry karke step-by-step power-up test"
+      ],
+      "difficulty": "medium",
+      "test_points": [
+        "PMIC VBAT pins",
+        "Charging IC input",
+        "Main board ground"
+      ]
+    },
+    "sim_not_detected": {
+      "symptom": "SIM card detect nahi ho raha / 'No SIM' aa raha hai",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "No SIM in settings",
+        "Dono slots me SIM nahi padh raha",
+        "IMEI null ho sakta hai"
+      ],
+      "possible_causes": [
+        {
+          "ic": "SIM connector",
+          "reason": "SIM tray/connector ke pins bend ya dirty",
+          "check": "SIM connector pins visual + clean",
+          "confidence": 70
+        },
+        {
+          "ic": "SIM IC / eSIM",
+          "reason": "SIM reader IC fault",
+          "check": "SIM IC area reflow/replace",
+          "confidence": 60
+        },
+        {
+          "ic": "PMIC (SIM rail)",
+          "reason": "SIM ko power dene wali rail (VSIM) missing",
+          "check": "VSIM voltage (~1.8/2.9V) measure",
+          "confidence": 65
+        },
+        {
+          "ic": "Software/Baseband",
+          "reason": "Baseband/EFS corrupt",
+          "check": "getprop baseband check, software/modem repair",
+          "confidence": 50
+        }
+      ],
+      "repair_steps": [
+        "SIM tray + connector pins check aur clean",
+        "VSIM rail voltage measure (1.8V/2.9V)",
+        "SIM IC reflow ya replace",
+        "Baseband/EFS software check"
+      ],
+      "difficulty": "medium",
+      "test_points": [
+        "VSIM rail",
+        "SIM connector pins",
+        "SIM IC"
+      ]
+    },
+    "random_reboot_restart": {
+      "symptom": "Phone apne aap random restart/reboot hota rehta hai",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Use ke beech achanak reboot",
+        "Garm hone pe reboot",
+        "Load pe reboot"
+      ],
+      "possible_causes": [
+        {
+          "ic": "PMIC",
+          "reason": "Power rail unstable/weak PMIC",
+          "check": "Rails ripple/drop measure load pe",
+          "confidence": 65
+        },
+        {
+          "ic": "RAM/Storage",
+          "reason": "RAM ya eMMC/UFS unstable",
+          "check": "Storage health (pre-eol) + memory test",
+          "confidence": 60
+        },
+        {
+          "ic": "Battery",
+          "reason": "Battery weak, load pe voltage gir jaata",
+          "check": "Battery health + voltage under load",
+          "confidence": 55
+        },
+        {
+          "ic": "Software",
+          "reason": "OS/kernel instability",
+          "check": "Logcat/dmesg crash dekho, factory reset/flash",
+          "confidence": 50
+        }
+      ],
+      "repair_steps": [
+        "Battery health check (Deep Info)",
+        "Garmi me reboot ho to thermal/short dekho",
+        "Storage pre-eol + RAM check",
+        "Software clean flash last resort"
+      ],
+      "difficulty": "medium",
+      "test_points": [
+        "Main power rails",
+        "Battery connector"
+      ]
+    },
+    "ghost_touch": {
+      "symptom": "Screen apne aap touch hota hai (ghost touch), galat clicks",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Bina chhue clicks",
+        "Charging pe zyada ghost touch",
+        "Edge se random input"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Touch IC / Digitizer",
+          "reason": "Touch panel ya touch IC fault",
+          "check": "Doosri known-good screen se test",
+          "confidence": 75
+        },
+        {
+          "ic": "Charger (noise)",
+          "reason": "Local/duplicate charger se noise",
+          "check": "Original charger se test, cheap charger hatao",
+          "confidence": 70
+        },
+        {
+          "ic": "Display connector",
+          "reason": "FPC connector loose/dirty",
+          "check": "Connector reseat + clean",
+          "confidence": 55
+        }
+      ],
+      "repair_steps": [
+        "Original charger se test (duplicate charger ghost touch deta hai)",
+        "Screen/digitizer replace se confirm",
+        "Display FPC connector reseat",
+        "Ground/shielding check"
+      ],
+      "difficulty": "easy",
+      "test_points": [
+        "Touch FPC connector",
+        "Charging ground"
+      ]
+    },
+    "no_backlight_dark_display": {
+      "symptom": "Display on hai (image faint dikhti torch se) par backlight nahi — screen kaali",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Torch se halki image dikhti hai",
+        "Backlight nahi jalti",
+        "Sound/touch chalu rehta hai"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Backlight driver / Boost",
+          "reason": "Backlight boost circuit ya BL driver fail",
+          "check": "Backlight voltage (~15-20V) measure connector pe",
+          "confidence": 80
+        },
+        {
+          "ic": "Backlight filter/coil/diode",
+          "reason": "BL fuse/coil/diode blown",
+          "check": "BL coil/diode continuity check",
+          "confidence": 70
+        },
+        {
+          "ic": "Display connector",
+          "reason": "Connector loose",
+          "check": "Connector reseat",
+          "confidence": 50
+        }
+      ],
+      "repair_steps": [
+        "Backlight voltage connector pe measure (~15-20V)",
+        "BL coil/diode/filter continuity check aur replace",
+        "Backlight boost section inspect",
+        "Display replace agar panel LED fail"
+      ],
+      "difficulty": "medium",
+      "test_points": [
+        "Backlight output (LED+ / LED-)",
+        "BL boost coil/diode"
+      ]
+    },
+    "half_display_lines": {
+      "symptom": "Display adha kaala / lines aa rahi hain / colour galat",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Vertical/horizontal lines",
+        "Adhi screen black",
+        "Pink/green tint ya flicker"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Display panel",
+          "reason": "LCD/AMOLED panel damaged",
+          "check": "Known-good screen se test",
+          "confidence": 80
+        },
+        {
+          "ic": "Display connector",
+          "reason": "FPC connector damaged/loose",
+          "check": "Connector reseat + clean",
+          "confidence": 65
+        },
+        {
+          "ic": "Display IC / DDIC",
+          "reason": "Display driver IC fault (board side)",
+          "check": "DDIC area reflow (advanced)",
+          "confidence": 45
+        }
+      ],
+      "repair_steps": [
+        "Display FPC connector reseat + clean",
+        "Doosri screen se test (panel vs board confirm)",
+        "Panel replace",
+        "Board-side display rail/connector check"
+      ],
+      "difficulty": "easy",
+      "test_points": [
+        "Display FPC connector",
+        "Display rails (VSP/VSN)"
+      ]
+    },
+    "microphone_not_working": {
+      "symptom": "Mic kaam nahi kar raha — call me saamne wale ko awaaz nahi jaati",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Voice recorder me awaaz nahi",
+        "Call me mic dead",
+        "Sirf speaker/handsfree mic chalta"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Mic (MEMS)",
+          "reason": "Primary mic module dead",
+          "check": "Mic replace ya known-good se test",
+          "confidence": 70
+        },
+        {
+          "ic": "Audio codec",
+          "reason": "Codec ke mic input fault",
+          "check": "Codec mic bias voltage measure",
+          "confidence": 55
+        },
+        {
+          "ic": "Mic traces/connector",
+          "reason": "Mic ki line/connector break",
+          "check": "Continuity mic se codec tak",
+          "confidence": 50
+        }
+      ],
+      "repair_steps": [
+        "Recorder se konsा mic kharab confirm",
+        "Mic module replace",
+        "Mic bias voltage check",
+        "Codec reflow last resort"
+      ],
+      "difficulty": "medium",
+      "test_points": [
+        "Mic bias (codec)",
+        "Mic pads"
+      ]
+    },
+    "speaker_distorted_low": {
+      "symptom": "Loudspeaker se awaaz kharab/phati/dheemi",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Crackling/distorted sound",
+        "Bahut dheemi awaaz",
+        "Ek speaker dead"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Speaker",
+          "reason": "Speaker coil damaged/old",
+          "check": "Speaker replace se test",
+          "confidence": 70
+        },
+        {
+          "ic": "Audio amplifier (Smart PA)",
+          "reason": "Audio PA IC fault",
+          "check": "Smart PA reflow/replace",
+          "confidence": 60
+        },
+        {
+          "ic": "Audio codec",
+          "reason": "Codec output fault",
+          "check": "Codec section check",
+          "confidence": 45
+        }
+      ],
+      "repair_steps": [
+        "Speaker module replace (sasta first step)",
+        "Audio amplifier (NXP/AW) reflow/replace",
+        "Speaker connector/pads clean",
+        "Codec check last"
+      ],
+      "difficulty": "easy",
+      "test_points": [
+        "Speaker pads",
+        "Smart-PA output"
+      ]
+    },
+    "vibration_not_working": {
+      "symptom": "Vibration/haptic kaam nahi kar raha",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Koi vibration nahi",
+        "Haptic feedback band"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Vibrator motor",
+          "reason": "Motor/linear actuator dead",
+          "check": "Motor replace se test",
+          "confidence": 70
+        },
+        {
+          "ic": "Vibrator driver",
+          "reason": "Haptic driver IC / transistor fault",
+          "check": "Driver output measure",
+          "confidence": 55
+        },
+        {
+          "ic": "Software",
+          "reason": "Haptics software off",
+          "check": "Settings/software check",
+          "confidence": 40
+        }
+      ],
+      "repair_steps": [
+        "Settings me vibration on confirm",
+        "Vibrator motor replace",
+        "Haptic driver/line check"
+      ],
+      "difficulty": "easy",
+      "test_points": [
+        "Vibrator pads",
+        "Haptic driver output"
+      ]
+    },
+    "proximity_sensor_fault": {
+      "symptom": "Call ke time screen off nahi hoti / proximity galat (ya auto-brightness fault)",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Call me screen chalu reh jaati, kaan se dab jaati",
+        "Proximity test fail"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Proximity/ALS sensor",
+          "reason": "Sensor module fault ya dhool",
+          "check": "Sensor flex clean/replace",
+          "confidence": 70
+        },
+        {
+          "ic": "Front glass/mesh",
+          "reason": "Earpiece mesh/glass dust sensor block",
+          "check": "Sensor window clean",
+          "confidence": 55
+        },
+        {
+          "ic": "Software/calibration",
+          "reason": "Sensor calibration off",
+          "check": "Recalibrate/software",
+          "confidence": 45
+        }
+      ],
+      "repair_steps": [
+        "Sensor window + earpiece mesh clean",
+        "Sensor flex replace",
+        "Software recalibration"
+      ],
+      "difficulty": "easy",
+      "test_points": [
+        "Proximity sensor flex"
+      ]
+    },
+    "gps_not_working": {
+      "symptom": "GPS location fix nahi hota / maps me location galat",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "No GPS fix outdoor",
+        "Location drift",
+        "Satellites 0"
+      ],
+      "possible_causes": [
+        {
+          "ic": "GPS antenna",
+          "reason": "GPS antenna/connector loose",
+          "check": "Antenna connector + contact check",
+          "confidence": 65
+        },
+        {
+          "ic": "Combo IC (WiFi/BT/GPS)",
+          "reason": "Combo IC GPS section fault",
+          "check": "Combo IC reflow",
+          "confidence": 55
+        },
+        {
+          "ic": "Software",
+          "reason": "Location services/AGPS",
+          "check": "Settings + AGPS reset",
+          "confidence": 45
+        }
+      ],
+      "repair_steps": [
+        "Khuli jagah test",
+        "GPS antenna + contact point check/clean",
+        "Combo IC reflow last"
+      ],
+      "difficulty": "medium",
+      "test_points": [
+        "GPS antenna contact"
+      ]
+    },
+    "slow_mobile_data": {
+      "symptom": "Mobile data slow / data nahi chal raha (signal hote hue bhi)",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Full signal par data slow/dead",
+        "Data drop baar-baar"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Antenna / antenna switch",
+          "reason": "Main/diversity antenna ya switch fault",
+          "check": "Antenna contacts + switch check",
+          "confidence": 60
+        },
+        {
+          "ic": "PA / RF front-end",
+          "reason": "Power amplifier/RF module fault",
+          "check": "RF section reflow (advanced)",
+          "confidence": 55
+        },
+        {
+          "ic": "Software/APN",
+          "reason": "APN/modem config",
+          "check": "APN reset, modem software",
+          "confidence": 50
+        }
+      ],
+      "repair_steps": [
+        "APN settings reset",
+        "Antenna contact points check/clean",
+        "RF/PA section inspect (advanced)"
+      ],
+      "difficulty": "hard",
+      "test_points": [
+        "Antenna contacts",
+        "RF front-end"
+      ]
+    },
+    "overheat_while_charging": {
+      "symptom": "Charging ke time phone bahut garm ho jaata hai",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Charging pe heat",
+        "Charging slow + heat",
+        "USB area garm"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Charging IC",
+          "reason": "Charger IC fault/leakage",
+          "check": "Charging IC temp + current measure",
+          "confidence": 70
+        },
+        {
+          "ic": "Battery",
+          "reason": "Battery weak/swollen",
+          "check": "Battery health + swelling check",
+          "confidence": 65
+        },
+        {
+          "ic": "USB/charging port",
+          "reason": "Port me carbon/short",
+          "check": "Port clean/replace",
+          "confidence": 55
+        }
+      ],
+      "repair_steps": [
+        "Battery swelling + health check",
+        "Charging IC temp dekho (thermal)",
+        "USB port clean/replace",
+        "Original charger se test"
+      ],
+      "difficulty": "medium",
+      "test_points": [
+        "Charging IC",
+        "Battery connector"
+      ]
+    },
+    "slow_charging": {
+      "symptom": "Charging bahut slow / fast charging nahi ho rahi",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Slow charge",
+        "Fast charge trigger nahi hota",
+        "Current kam"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Charging IC",
+          "reason": "Charger IC negotiation fault",
+          "check": "Charging current measure (Deep Info)",
+          "confidence": 65
+        },
+        {
+          "ic": "USB port",
+          "reason": "Port dirty/worn, data pins",
+          "check": "Port clean/replace",
+          "confidence": 70
+        },
+        {
+          "ic": "Cable/charger",
+          "reason": "Duplicate cable/charger",
+          "check": "Original cable se test",
+          "confidence": 60
+        }
+      ],
+      "repair_steps": [
+        "Original charger+cable se test",
+        "USB port clean/replace",
+        "Charging IC + PD check"
+      ],
+      "difficulty": "easy",
+      "test_points": [
+        "USB port",
+        "Charging IC input"
+      ]
+    },
+    "battery_drain_while_off": {
+      "symptom": "Phone off/standby me bhi battery jaldi khatam",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Overnight bada drain",
+        "Off me bhi battery girti",
+        "Idle current high"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Leakage/short (small)",
+          "reason": "Board pe leakage current",
+          "check": "Idle current draw measure (should be low mA)",
+          "confidence": 65
+        },
+        {
+          "ic": "Battery",
+          "reason": "Battery high self-discharge",
+          "check": "Battery health/replace",
+          "confidence": 55
+        },
+        {
+          "ic": "Software",
+          "reason": "Wakelock/app drain",
+          "check": "Battery stats, factory reset",
+          "confidence": 55
+        }
+      ],
+      "repair_steps": [
+        "Idle current draw measure",
+        "Battery health check",
+        "Software wakelock/app audit",
+        "Leakage component dhoondo"
+      ],
+      "difficulty": "medium",
+      "test_points": [
+        "Battery current path"
+      ]
+    },
+    "storage_emmc_failure": {
+      "symptom": "Phone hang/boot nahi / storage corrupt (eMMC/UFS fail)",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Bootloop after some use",
+        "Storage read/write error",
+        "pre-eol urgent"
+      ],
+      "possible_causes": [
+        {
+          "ic": "eMMC/UFS",
+          "reason": "Storage IC worn/failed",
+          "check": "Storage health pre-eol/life_time (Deep Info)",
+          "confidence": 75
+        },
+        {
+          "ic": "Storage solder",
+          "reason": "BGA solder crack",
+          "check": "Reball/reflow storage",
+          "confidence": 50
+        },
+        {
+          "ic": "Software",
+          "reason": "Partition/filesystem corrupt",
+          "check": "Reflash firmware",
+          "confidence": 55
+        }
+      ],
+      "repair_steps": [
+        "Storage health (pre-eol/life_time) check",
+        "Firmware reflash try",
+        "eMMC/UFS replace+reball agar EOL"
+      ],
+      "difficulty": "hard",
+      "test_points": [
+        "Storage BGA"
+      ]
+    },
+    "bootloop_after_update": {
+      "symptom": "Software update/flash ke baad bootloop ya recovery me atka",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Update ke baad logo loop",
+        "Recovery/fastboot pe atka",
+        "Boot incomplete"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Software/partition",
+          "reason": "Flash incomplete ya galat firmware",
+          "check": "Sahi firmware clean flash",
+          "confidence": 75
+        },
+        {
+          "ic": "Storage",
+          "reason": "Storage write fail during update",
+          "check": "Storage health check",
+          "confidence": 45
+        }
+      ],
+      "repair_steps": [
+        "Sahi/model-matching firmware clean flash",
+        "Wipe + flash",
+        "Storage health confirm"
+      ],
+      "difficulty": "medium",
+      "test_points": []
+    },
+    "auto_power_off": {
+      "symptom": "Phone chalte-chalte apne aap band ho jaata (shutdown)",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Achanak off",
+        "Load/garmi pe off",
+        "Battery % hote hue off"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Battery",
+          "reason": "Weak battery, load pe cutoff",
+          "check": "Battery health + voltage under load",
+          "confidence": 65
+        },
+        {
+          "ic": "PMIC",
+          "reason": "PMIC thermal/over-current shutdown",
+          "check": "Rails + PMIC temp check",
+          "confidence": 55
+        },
+        {
+          "ic": "Short/leakage",
+          "reason": "Partial short",
+          "check": "Current draw monitor",
+          "confidence": 50
+        }
+      ],
+      "repair_steps": [
+        "Battery health/voltage under load",
+        "PMIC + rails check",
+        "Current draw monitor for short"
+      ],
+      "difficulty": "medium",
+      "test_points": [
+        "Battery connector",
+        "PMIC"
+      ]
+    },
+    "earpiece_no_sound": {
+      "symptom": "Call me earpiece se awaaz nahi (handsfree/speaker chalta hai)",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Earpiece dead in call",
+        "Loudspeaker theek",
+        "Volume full par kuch nahi"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Earpiece speaker",
+          "reason": "Earpiece module dead",
+          "check": "Earpiece replace/known-good test",
+          "confidence": 70
+        },
+        {
+          "ic": "Audio codec",
+          "reason": "Earpiece output path fault",
+          "check": "Codec earpiece output measure",
+          "confidence": 50
+        },
+        {
+          "ic": "Earpiece connector/pads",
+          "reason": "Pads dirty/broken trace",
+          "check": "Pads clean + continuity",
+          "confidence": 55
+        }
+      ],
+      "repair_steps": [
+        "Earpiece pads clean",
+        "Earpiece module replace",
+        "Codec earpiece path check"
+      ],
+      "difficulty": "easy",
+      "test_points": [
+        "Earpiece pads"
+      ]
+    },
+    "green_line_amoled": {
+      "symptom": "AMOLED screen pe vertical green/pink line",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Green vertical line",
+        "Pink line",
+        "Line after drop/pressure/heat"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Display panel",
+          "reason": "AMOLED panel/flex damaged",
+          "check": "Panel replace",
+          "confidence": 85
+        },
+        {
+          "ic": "Display connector",
+          "reason": "Flex connector issue",
+          "check": "Connector reseat (rarely fixes)",
+          "confidence": 30
+        }
+      ],
+      "repair_steps": [
+        "Connector reseat (shayad hi theek ho)",
+        "AMOLED panel replace (ye panel-level fault hai)"
+      ],
+      "difficulty": "easy",
+      "test_points": [
+        "Display FPC connector"
+      ]
+    },
+    "face_unlock_front_cam_fault": {
+      "symptom": "Front camera / face unlock kaam nahi kar raha",
+      "boot_log_evidence": [],
+      "dmesg_evidence": [],
+      "indicators": [
+        "Front cam black/error",
+        "Face unlock fail",
+        "Camera app crash on front"
+      ],
+      "possible_causes": [
+        {
+          "ic": "Front camera module",
+          "reason": "Camera module dead",
+          "check": "Module replace/known-good",
+          "confidence": 70
+        },
+        {
+          "ic": "Camera connector",
+          "reason": "FPC loose/dirty",
+          "check": "Connector reseat + clean",
+          "confidence": 60
+        },
+        {
+          "ic": "Camera power rail",
+          "reason": "AVDD/DVDD rail missing",
+          "check": "Camera rails measure",
+          "confidence": 50
+        }
+      ],
+      "repair_steps": [
+        "Camera FPC reseat + clean",
+        "Front camera module replace",
+        "Camera power rails check"
+      ],
+      "difficulty": "easy",
+      "test_points": [
+        "Front camera FPC",
+        "Camera AVDD/DVDD"
       ]
     }
   }

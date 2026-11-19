@@ -32,6 +32,39 @@ SERIAL_TIMEOUT = 1.0
 MTK_BROM_HANDOFF = b"Jump to BL"   # last BROM line before preloader takes over
 MTK_PRELOADER_BAUD = 921600         # MediaTek preloader / LK UART baud
 
+# ── Adaptive auto-baud (vendor-agnostic) ──
+# Whenever the live stream turns into sustained garbage (baud mismatch),
+# the capture loop probes these rates and locks onto whichever reads as
+# text again. Order = most common on phone UARTs first.
+AUTO_BAUD_CANDIDATES = [115200, 921600, 460800, 230400, 1500000, 57600, 3000000]
+GARBAGE_SCORE_MIN = 32        # bytes accumulated before a readability score is taken
+# Real boot-log text is ~99% printable; wrong-baud garbage still lands
+# 40-70% printable (framing artifacts produce lots of ASCII). So we detect
+# CLEAN TEXT, and everything below this ratio counts as garbage.
+TEXT_GOOD_RATIO = 0.80
+# Small: some kernels emit only a short burst at the wrong baud before
+# going quiet (observed ~600 bytes/cycle on a bootlooping MTK device),
+# and the probe must fire while that burst is still fresh.
+GARBAGE_TRIGGER_BYTES = 256   # consecutive non-text bytes that trigger a baud probe
+# When a probe finds no readable text anywhere (device went silent), park
+# on the most likely hidden console rate so late output — e.g. a kernel
+# panic right before a watchdog reset — lands on the right baud.
+PARK_BAUDS = (115200, 921600)
+PROBE_SECONDS = 8.0           # total time budget for one auto-baud probe
+PROBE_SLICE = 0.5             # listen slice per candidate per rotation
+PROBE_MIN_BYTES = 96          # bytes needed before a candidate can be judged
+PROBE_LOCK_RATIO = 0.85       # candidate wins immediately at/above this ratio
+PROBE_ACCEPT_RATIO = 0.70     # best candidate accepted at/above this ratio
+REPROBE_COOLDOWN = 1.0        # seconds before garbage may trigger the next probe
+
+
+def _printable_ratio(data: bytes) -> float:
+    """Fraction of bytes that are printable ASCII / tab / CR / LF."""
+    if not data:
+        return 0.0
+    ok = sum(1 for b in data if 0x20 <= b <= 0x7E or b in (0x09, 0x0A, 0x0D))
+    return ok / len(data)
+
 
 @dataclass
 class DetectionResult:
@@ -265,100 +298,212 @@ class DeviceAutoDetector:
 
     def _read_multi_baud(self, duration: float = 30.0, callback=None) -> Dict[int, bytes]:
         """
-        Listen on multiple baud rates to capture full boot sequence.
+        Adaptive capture that follows the device across baud changes.
 
-        Strategy: use the user-selected baud rate (self.baud) for the primary
-        capture.  If the captured data is mostly binary (< 5% printable ASCII),
-        the baud rate is likely wrong — retry with the other common rate.
+        Vendor-agnostic: whenever the incoming stream turns into sustained
+        garbage (baud mismatch), the loop probes AUTO_BAUD_CANDIDATES on the
+        open port and locks onto whichever rate reads as text again. This
+        handles any switch pattern in either direction — BROM→preloader,
+        LK→kernel, kernel back to preloader on a reboot loop — for MediaTek,
+        Qualcomm, Unisoc or anything else, with no device-specific markers
+        required. The MTK "Jump to BL" marker is kept only as an instant
+        fast-path when starting at 115200.
 
-        MediaTek: BROM=115200 → Preloader/LK/Kernel=921600
-        Qualcomm: typically 115200 or 1500000
+        Returns {baud: bytes} (chronological concatenation per rate, for
+        backward compatibility). Ordered segments are stored in
+        self._baud_segments as [(baud, bytes), ...] and human-readable switch
+        events in self._baud_switches.
         """
-        all_data = {}
-
-        # Primary baud = whatever the user/caller selected
-        primary_baud = self.baud
-        # Fallback bauds to try if primary yields unreadable data
-        common_bauds = [115200, 921600, 460800, 1500000]
-        fallback_bauds = [b for b in common_bauds if b != primary_baud]
-
-        global_start = time.time()
+        all_data: Dict[int, bytes] = {}
+        self._baud_segments: List[tuple] = []   # [(baud, bytes)] in time order
+        self._baud_switches: List[str] = []     # human-readable switch log
         self._mtk_baud_switched = False
 
-        # ── Phase 1: capture at the primary baud rate ──
-        # MediaTek BROM talks at 115200, then the preloader switches to 921600
-        # right after "Jump to BL". Switch the open port's baud the moment that
-        # marker arrives (no reopen / buffer reset, so preloader bytes are kept).
+        global_start = time.time()
+        deadline = global_start + duration
+        current_baud = self.baud
+
+        def _close_segment(seg: bytearray) -> None:
+            if seg:
+                self._baud_segments.append((current_baud, bytes(seg)))
+
+        def _emit_progress() -> None:
+            if callback:
+                elapsed = time.time() - global_start
+                total = sum(len(s) for _, s in self._baud_segments) + len(seg)
+                callback(min(elapsed, duration), total, current_baud)
+
         try:
             self._close_serial()
-            if self._open_serial(primary_baud):
-                current_baud = primary_baud
-                all_data[current_baud] = b""
-                phase_start = time.time()
-                while time.time() - phase_start < duration:
-                    if self._serial.in_waiting > 0:
-                        chunk = self._serial.read(self._serial.in_waiting)
-                        all_data[current_baud] += chunk
-                        buf = all_data[current_baud]
-                        marker = buf.find(MTK_BROM_HANDOFF)
-                        if (current_baud == 115200 and not self._mtk_baud_switched
-                                and marker != -1):
-                            # Drop bytes after the marker: they are preloader
-                            # output mis-read at 115200.
-                            all_data[current_baud] = buf[:marker + len(MTK_BROM_HANDOFF)] + b"\n"
+            if not self._open_serial(current_baud):
+                return all_data
+
+            seg = bytearray()       # bytes captured at current_baud (open segment)
+            pending = bytearray()   # unscored bytes for garbage detection
+            garbage_run = 0         # consecutive garbage bytes at current_baud
+            last_probe_end = 0.0
+
+            while time.time() < deadline:
+                if self._serial.in_waiting > 0:
+                    chunk = self._serial.read(self._serial.in_waiting)
+                    seg += chunk
+                    pending += chunk
+
+                    # MTK fast-path: BROM (115200) announces the preloader
+                    # handoff; switch instantly instead of waiting for the
+                    # garbage detector to notice. Runs on EVERY cycle — a
+                    # bootlooping device passes through BROM again and again
+                    # (seg is fresh after each switch, so no re-matching).
+                    if current_baud == 115200:
+                        marker = seg.find(MTK_BROM_HANDOFF)
+                        if marker != -1:
+                            # Bytes after the marker are preloader output
+                            # mis-read at 115200 — drop them.
+                            del seg[marker + len(MTK_BROM_HANDOFF):]
+                            seg += b"\n"
+                            _close_segment(seg)
+                            self._baud_switches.append(
+                                f"+{time.time() - global_start:.1f}s: 115200 -> "
+                                f"{MTK_PRELOADER_BAUD} (MTK 'Jump to BL' marker)")
                             self._serial.baudrate = MTK_PRELOADER_BAUD
                             current_baud = MTK_PRELOADER_BAUD
-                            all_data[current_baud] = b""
                             self._mtk_baud_switched = True
-                    if callback:
-                        elapsed = time.time() - global_start
-                        total_bytes = sum(len(d) for d in all_data.values())
-                        callback(min(elapsed, duration), total_bytes, current_baud)
-                    time.sleep(0.02)
+                            seg = bytearray()
+                            pending.clear()
+                            garbage_run = 0
+
+                    # Readability scoring for sustained-garbage detection.
+                    # Anything that does not read as clean log text counts as
+                    # garbage — wrong-baud output is often 40-70% printable.
+                    if len(pending) >= GARBAGE_SCORE_MIN:
+                        if _printable_ratio(bytes(pending)) < TEXT_GOOD_RATIO:
+                            garbage_run += len(pending)
+                        else:
+                            garbage_run = 0
+                        pending.clear()
+
+                # Sustained garbage → the device moved to another baud rate.
+                now = time.time()
+                if (garbage_run >= GARBAGE_TRIGGER_BYTES
+                        and now - last_probe_end > REPROBE_COOLDOWN
+                        and deadline - now > 1.0):
+                    _close_segment(seg)
+                    new_baud, probe_bytes, reason = self._probe_bauds(current_baud, deadline)
+                    if new_baud is not None and new_baud != current_baud:
+                        self._baud_switches.append(
+                            f"+{time.time() - global_start:.1f}s: {current_baud} -> "
+                            f"{new_baud} ({reason})")
+                        current_baud = new_baud
+                        seg = bytearray(probe_bytes)  # probe bytes are real data
+                    else:
+                        # Nothing readable and no park candidate — stay put.
+                        try:
+                            self._serial.baudrate = current_baud
+                            self._serial.reset_input_buffer()
+                        except Exception:
+                            pass
+                        seg = bytearray()
+                    pending.clear()
+                    garbage_run = 0
+                    last_probe_end = time.time()
+
+                _emit_progress()
+                time.sleep(0.02)
+
+            _close_segment(seg)
         except Exception:
             pass
-
-        if self._mtk_baud_switched:
-            # Full boot captured across both rates; no fallback probing needed.
+        finally:
             self._close_serial()
-            return all_data
 
-        # ── Phase 2: check if data looks readable ──
-        primary_data = all_data.get(primary_baud, b"")
-        if len(primary_data) > 100:
-            printable = sum(1 for b in primary_data[:4096] if 0x20 <= b <= 0x7E or b in (0x0A, 0x0D, 0x09))
-            sample = min(len(primary_data), 4096)
-            printable_pct = printable / sample * 100
-
-            # If less than 5% printable, the baud rate is likely wrong
-            if printable_pct < 5:
-                # Try each fallback baud for a short listen to find readable data
-                for fb_baud in fallback_bauds:
-                    try:
-                        self._close_serial()
-                        if not self._open_serial(fb_baud):
-                            continue
-                        fb_data = b""
-                        fb_start = time.time()
-                        # Short probe — 8 seconds to check if this baud produces text
-                        while time.time() - fb_start < 8:
-                            if self._serial.in_waiting > 0:
-                                chunk = self._serial.read(self._serial.in_waiting)
-                                fb_data += chunk
-                            time.sleep(0.05)
-
-                        if len(fb_data) > 50:
-                            fb_printable = sum(1 for b in fb_data[:2048] if 0x20 <= b <= 0x7E or b in (0x0A, 0x0D, 0x09))
-                            fb_pct = fb_printable / min(len(fb_data), 2048) * 100
-                            if fb_pct > 20:
-                                # This baud produces readable data — keep it
-                                all_data[fb_baud] = fb_data
-                                break
-                    except Exception:
-                        continue
-
-        self._close_serial()
+        for baud, data in self._baud_segments:
+            all_data[baud] = all_data.get(baud, b"") + data
         return all_data
+
+    def _probe_bauds(self, current_baud: int, deadline: float):
+        """Try each candidate baud on the open port; return (baud, bytes,
+        reason) for the first one that reads as text, or the best acceptable
+        one. When nothing qualifies (device silent), returns a PARK baud so
+        late output — e.g. a kernel panic — lands on a likely console rate."""
+        # Rotate FAST through candidates in short slices, visiting the two
+        # most likely console rates (PARK_BAUDS) every rotation. A slow
+        # one-pass probe can eat a short real-output burst (e.g. a 1-2s
+        # kernel panic) while sitting on the wrong candidate; fast rotation
+        # guarantees the likely rates get sampled during any such burst.
+        primary = [b for b in PARK_BAUDS if b != current_baud]
+        others = [b for b in AUTO_BAUD_CANDIDATES
+                  if b != current_baud and b not in primary]
+        best: tuple = (None, b"", 0.0)  # (baud, data, ratio)
+        probe_deadline = min(deadline, time.time() + PROBE_SECONDS)
+        oi = 0
+        rotations = 0
+
+        while time.time() < probe_deadline:
+            rotation = list(primary)
+            if others:
+                rotation.append(others[oi % len(others)])
+                oi += 1
+            rotation_bytes = 0
+
+            for cand in rotation:
+                if time.time() >= probe_deadline:
+                    break
+                try:
+                    self._serial.baudrate = cand
+                    self._serial.reset_input_buffer()
+                except Exception:
+                    continue
+                data = bytearray()
+                s_start = time.time()
+                while (time.time() - s_start < PROBE_SLICE
+                        and time.time() < probe_deadline and len(data) < 512):
+                    try:
+                        if self._serial.in_waiting > 0:
+                            data += self._serial.read(self._serial.in_waiting)
+                        elif not data and time.time() - s_start > 0.25:
+                            break  # silent slice — move on quickly
+                    except Exception:
+                        break
+                    time.sleep(0.02)
+
+                rotation_bytes += len(data)
+                if len(data) < PROBE_MIN_BYTES:
+                    continue
+                ratio = _printable_ratio(bytes(data))
+                # Real log text also has line structure; garbage rarely does.
+                has_lines = b"\n" in data or b"\r" in data
+                if ratio >= PROBE_LOCK_RATIO and has_lines:
+                    return cand, bytes(data), "readable text found, auto-baud probe"
+                if has_lines and ratio > best[2]:
+                    best = (cand, bytes(data), ratio)
+
+            rotations += 1
+            if rotation_bytes == 0:
+                break  # device is silent — park below instead of burning time
+            if best[0] is not None and best[2] >= PROBE_ACCEPT_RATIO and rotations >= 2:
+                break
+
+        def _set_port(baud: int) -> None:
+            # The loop leaves the port at the last candidate tried; move it
+            # to the baud we are actually returning.
+            try:
+                self._serial.baudrate = baud
+                self._serial.reset_input_buffer()
+            except Exception:
+                pass
+
+        if best[0] is not None and best[2] >= PROBE_ACCEPT_RATIO:
+            _set_port(best[0])
+            return best[0], best[1], "best readable candidate, auto-baud probe"
+
+        # Device went silent mid-probe: park on the most likely hidden
+        # console rate so any late burst (panic before watchdog reset)
+        # is captured readable instead of as garbage.
+        for park in PARK_BAUDS:
+            if park != current_baud:
+                _set_port(park)
+                return park, b"", "no output anywhere, parked for late kernel output"
+        return None, b"", "no candidate"
 
     @staticmethod
     def _load_ic_database():
@@ -3100,40 +3245,46 @@ class DeviceAutoDetector:
 
         baud_data = self._read_multi_baud(duration=listen_duration, callback=multi_callback)
 
-        # Combine all data — prefer the baud rate with most readable content
+        # Combine all data — chronological segments from the adaptive capture
         for baud, data in sorted(baud_data.items()):
             if data:
                 result.uart_log.append(f"  Baud {baud}: {len(data)} bytes captured")
                 result.raw_responses[f"data_baud_{baud}"] = f"{len(data)} bytes"
 
-        # Pick best baud: highest printable ASCII percentage wins
-        best_baud = None
-        best_pct = -1
-        for baud, data in baud_data.items():
-            if not data:
-                continue
-            sample = data[:4096]
-            printable = sum(1 for b in sample if 0x20 <= b <= 0x7E or b in (0x0A, 0x0D, 0x09))
-            pct = printable / len(sample) * 100 if sample else 0
-            result.uart_log.append(f"    Baud {baud}: {pct:.0f}% printable ASCII")
-            if pct > best_pct:
-                best_pct = pct
-                best_baud = baud
+        segments = getattr(self, "_baud_segments", []) or []
+        switches = getattr(self, "_baud_switches", []) or []
+        for sw in switches:
+            result.uart_log.append(f"  AUTO-BAUD switch: {sw}")
+        if switches:
+            result.raw_responses["auto_baud_switches"] = "; ".join(switches)
 
-        # Use the best baud's data; fall back to concatenating all if only one
-        if getattr(self, "_mtk_baud_switched", False):
-            # BROM log (115200) followed by preloader log (921600)
-            raw_data = baud_data.get(115200, b"") + baud_data.get(MTK_PRELOADER_BAUD, b"")
-            result.uart_log.append(
-                f"  MediaTek: switched 115200 → {MTK_PRELOADER_BAUD} after 'Jump to BL'")
-        elif best_baud is not None and best_pct > 15:
-            raw_data = baud_data[best_baud]
-            result.uart_log.append(f"  Using baud {best_baud} data ({best_pct:.0f}% readable)")
+        if segments:
+            # Preserve the real boot timeline across every baud change.
+            raw_data = b"".join(data for _, data in segments)
+            if len(segments) > 1:
+                result.uart_log.append(
+                    f"  Combined {len(segments)} segments across "
+                    f"{len({b for b, _ in segments})} baud rate(s), in boot order")
         else:
-            raw_data = b""
-            for baud, data in sorted(baud_data.items()):
-                if data:
-                    raw_data += data
+            # Fallback (old captures / no segment info): best readable baud wins
+            best_baud = None
+            best_pct = -1
+            for baud, data in baud_data.items():
+                if not data:
+                    continue
+                pct = _printable_ratio(data[:4096]) * 100
+                result.uart_log.append(f"    Baud {baud}: {pct:.0f}% printable ASCII")
+                if pct > best_pct:
+                    best_pct = pct
+                    best_baud = baud
+            if best_baud is not None and best_pct > 15:
+                raw_data = baud_data[best_baud]
+                result.uart_log.append(f"  Using baud {best_baud} data ({best_pct:.0f}% readable)")
+            else:
+                raw_data = b""
+                for baud, data in sorted(baud_data.items()):
+                    if data:
+                        raw_data += data
 
         total_bytes = len(raw_data)
         # Store as hex string to preserve original binary data losslessly.
@@ -3158,7 +3309,7 @@ class DeviceAutoDetector:
             result.detected = False
             result.error = (
                 f"Data received ({total_bytes} bytes) but no readable text — "
-                f"likely WRONG BAUD RATE. Try 115200 instead of {self._baud}, or vice versa. "
+                f"likely WRONG BAUD RATE. Try 115200 instead of {self.baud}, or vice versa. "
                 f"Also check TX/RX are not swapped."
             )
             result.uart_log.append(f"⚠️ Baud mismatch: {printable_ratio*100:.1f}% printable (need >5%)")
