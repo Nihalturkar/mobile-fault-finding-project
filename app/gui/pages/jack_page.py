@@ -232,6 +232,8 @@ class JackOrb:
         self.level = 0.0            # 0..1 — mic level while listening (set from any thread)
         self._lvl = 0.0             # smoothed
         self._col = STATE_COLORS["idle"]
+        self.talking = False        # True while Jack speaks / types a reply → robot face
+        self._blink = 0.0
         self.hover = False
         self.canvas.bind("<Enter>", lambda e: setattr(self, "hover", True))
         self.canvas.bind("<Leave>", lambda e: setattr(self, "hover", False))
@@ -246,6 +248,74 @@ class JackOrb:
             a = rot + 2 * math.pi * k / sides
             pts += [cx + r * math.cos(a), cy + r * math.sin(a)]
         return pts
+
+    def _draw_robot_face(self, c, cx, cy, core, pulse):
+        """A stylised humanoid-robot head with glowing eyes (that blink) and a
+        mouth of audio bars that lip-sync while Jack talks."""
+        acc = HUD_CYAN
+        p = self.phase
+        hud = _blend(self.bg, acc, 0.5)
+        hud_dim = _blend(self.bg, acc, 0.22)
+
+        # soft HUD targeting brackets around the head
+        br = 54
+        for sx, sy in ((-1, -1), (1, -1), (-1, 1), (1, 1)):
+            x, y = cx + sx * br, cy + sy * br
+            c.create_line(x, y, x - sx * 12, y, fill=hud_dim, width=2)
+            c.create_line(x, y, x, y - sy * 12, fill=hud_dim, width=2)
+
+        # head / helmet
+        hw, ht, hb = 44, 50, 46
+        c.create_oval(cx - hw, cy - ht, cx + hw, cy + hb, outline=hud, width=2)
+        c.create_oval(cx - hw * 0.82, cy - ht * 0.82, cx + hw * 0.82, cy + hb * 0.8,
+                      outline=hud_dim, width=1)
+        # side "ear" pods
+        for sx in (-1, 1):
+            c.create_oval(cx + sx * hw - 5, cy - 8, cx + sx * hw + 5, cy + 10,
+                          fill=_blend(self.bg, acc, 0.3), outline=hud_dim)
+        # antenna
+        c.create_line(cx, cy - ht, cx, cy - ht - 12, fill=hud, width=2)
+        ap = 0.4 + 0.6 * ((math.sin(p * 2) + 1) / 2)
+        c.create_oval(cx - 3.5, cy - ht - 16, cx + 3.5, cy - ht - 9,
+                      fill=_blend(core, "#ffffff", 0.3 + 0.4 * ap), outline="")
+
+        # brow panel line
+        c.create_line(cx - 30, cy - 22, cx + 30, cy - 22, fill=hud_dim, width=1)
+
+        # eyes (with occasional blink)
+        self._blink = max(0.0, self._blink - 0.12)
+        if self._blink <= 0 and (p % 5.0) < 0.12:
+            self._blink = 1.0
+        open_amt = 1.0 - 0.85 * self._blink
+        for sx in (-1, 1):
+            ex, ey = cx + sx * 19, cy - 9
+            # eye glow
+            c.create_oval(ex - 11, ey - 9, ex + 11, ey + 9,
+                          fill=_blend(self.bg, core, 0.25 + 0.2 * pulse), outline="")
+            ew, eh = 8, 7 * open_amt + 0.5
+            c.create_oval(ex - ew, ey - eh, ex + ew, ey + eh,
+                          fill=_blend(core, "#ffffff", 0.55), outline=_blend(core, "#ffffff", 0.3))
+            if open_amt > 0.4:
+                c.create_oval(ex - 2.5, ey - 2.5, ex + 2.5, ey + 2.5, fill="#ffffff", outline="")
+
+        # cheek vents
+        for sx in (-1, 1):
+            for k in range(3):
+                vy = cy + 6 + k * 4
+                c.create_line(cx + sx * 30, vy, cx + sx * 37, vy, fill=hud_dim, width=1)
+
+        # mouth — a row of lip-sync audio bars
+        lvl = self._lvl if self._lvl > 0.05 else 0.5
+        nb, bw, gap = 7, 4, 3
+        total = nb * bw + (nb - 1) * gap
+        mx, my = cx - total / 2, cy + 26
+        c.create_line(mx - 4, my, mx + total + 4, my, fill=hud_dim, width=1)
+        for k in range(nb):
+            wob = abs(math.sin(p * 6 + k * 0.9) * math.cos(p * 2.3 + k))
+            hgt = 2 + 10 * wob * (0.45 + 0.9 * lvl)
+            x = mx + k * (bw + gap)
+            c.create_rectangle(x, my - hgt, x + bw, my + hgt,
+                               fill=_blend(core, "#ffffff", 0.35), outline="")
 
     def _tick(self):
         try:
@@ -281,6 +351,12 @@ class JackOrb:
             r = 24 + i * 5 + pulse * 3 + self._lvl * 8
             col = _blend(self.bg, core, 0.06 + (7 - i) * 0.05 * (0.6 + 0.4 * pulse))
             c.create_oval(cx - r, cy - r, cx + r, cy + r, fill=col, outline="")
+
+        # ── talking robot head — shown while Jack speaks or types its reply ──
+        if self.state == "speaking" or self.talking:
+            self._draw_robot_face(c, cx, cy, core, pulse)
+            c.after(40, self._tick)
+            return
 
         R = ORB_SIZE / 2 - 4
         hud = _blend(self.bg, hud_base, 0.6 if self.hover else 0.4)
@@ -680,10 +756,15 @@ def render_jack_page(app):
         total = sum(len(t) for t, _ in runs) or 1
         step = max(2, total // 80)
         idx, n = [0, 0], [0]
+        try:
+            orb.talking = True            # header orb becomes a talking robot head
+        except Exception:
+            pass
 
         def tick():
             try:
                 if not tb.winfo_exists():
+                    orb.talking = False
                     return
             except Exception:
                 return
@@ -708,6 +789,10 @@ def render_jack_page(app):
             else:
                 _fit(tb)
                 scroll_bottom()
+                try:
+                    orb.talking = False       # reply finished → orb returns to reactor
+                except Exception:
+                    pass
                 if done:
                     done()
         tick()

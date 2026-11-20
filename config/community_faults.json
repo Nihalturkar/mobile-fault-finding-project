@@ -435,10 +435,10 @@
       ],
       "difficulty": "expert",
       "repair_time_min": 150,
-      "success_rate": 80,
+      "success_rate": 70,
       "submitted_date": "2026-07-01 09:00:00",
-      "confirmed_fix_count": 12,
-      "failed_fix_count": 3,
+      "confirmed_fix_count": 14,
+      "failed_fix_count": 6,
       "tech_notes": [],
       "source": "builtin",
       "tags": [
